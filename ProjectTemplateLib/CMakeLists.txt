@@ -4,11 +4,13 @@ cmake_minimum_required (VERSION 3.8)
 add_library(ProjectTemplate SHARED
   "include/ProjectTemplate.h"
   "include/ProjectTemplate/Core/EventController.h"
+  "include/ProjectTemplate/Core/Ship.h"
   "include/ProjectTemplate/Core/TemplateRegion.h"
   "include/ProjectTemplate/Core/TerminalRegion.h" 
   "include/ProjectTemplate/Utils/DllUtils.h"
   
   "source/Core/EventController.cpp"
+  "source/Core/Ship.cpp"
   "source/ProjectTemplate.cpp"
   "source/Core/TerminalRegion.cpp"
 )
