@@ -6,6 +6,34 @@
 
 using namespace PT;
 
+void TerminalRegion::update(sf::Int64 elapsedTime)
+{
+	if (isLoggedIn)
+	{
+		// showPuzzle();
+	}
+	else
+	{
+		// awaitKeyInput();
+	}
+}
+
+void  TerminalRegion::LogIn()
+{
+	// Display Log In Message for a certain amount of time
+
+	// Set the "isLoggedIn" flag to true
+	isLoggedIn = true;
+}
+
+void  TerminalRegion::LogOut()
+{
+	// Display Log Out Message for a certain amount of time
+	
+	// Set the "isLoggedIn" flag to false
+	isLoggedIn = false;
+}
+
 GB::KeyboardGestureBind TerminalRegion::GeneratePasscode()
 {
 	static std::vector<sf::Keyboard::Key> keyMapping
@@ -24,7 +52,6 @@ GB::KeyboardGestureBind TerminalRegion::GeneratePasscode()
 
 	GB::RandGen generator;
 	std::vector<sf::Event> bindKeys;
-
 	for (int ii = 0; ii < 4; ii++)
 	{
 		// Randomly generate a number from 0-9
@@ -38,7 +65,7 @@ GB::KeyboardGestureBind TerminalRegion::GeneratePasscode()
 		bindKeys.push_back(eventForKey);
 	}
 
-	std::function<void()> action = []() {/*unlockConsole*/};
+	std::function<void()> action = []() {TerminalRegion::LogIn()};
 	std::string name = "Passcode";
 	sf::Int64 maxTimeBetweenInputs = 1000;
 	GB::KeyboardGestureBind::EndType endType = GB::KeyboardGestureBind::EndType::Block;
