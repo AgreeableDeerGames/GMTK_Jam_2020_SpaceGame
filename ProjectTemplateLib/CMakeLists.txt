@@ -17,8 +17,9 @@ set_target_properties(ProjectTemplate PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POS
 # ProjectTemplate still needs to find SFML for GB to link against though.
 find_package(SFML 2 COMPONENTS network audio graphics window system)
 
-find_package(GameBackbone 0.4.1 REQUIRED) 
+find_package(GameBackbone 0.4.1 REQUIRED)
 target_link_libraries(ProjectTemplate PUBLIC GameBackbone) 
+target_link_libraries(ProjectTemplate PUBLIC SelbaWard) 
 
 message("current source dir: ${CMAKE_CURRENT_SOURCE_DIR}")
 

@@ -22,5 +22,6 @@ if(NOT CMAKE_DEBUG_POSTFIX)
   set(CMAKE_DEBUG_POSTFIX -d)
 endif()
 
+add_subdirectory("SelbaWard")
 add_subdirectory("ProjectTemplateExe")
 add_subdirectory("ProjectTemplateLib")
