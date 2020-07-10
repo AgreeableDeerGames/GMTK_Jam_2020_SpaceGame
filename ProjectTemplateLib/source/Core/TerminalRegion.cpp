@@ -65,7 +65,7 @@ GB::KeyboardGestureBind TerminalRegion::GeneratePasscode()
 		bindKeys.push_back(eventForKey);
 	}
 
-	std::function<void()> action = []() {TerminalRegion::LogIn()};
+	std::function<void()> action = [this]() {LogIn(); };
 	std::string name = "Passcode";
 	sf::Int64 maxTimeBetweenInputs = 1000;
 	GB::KeyboardGestureBind::EndType endType = GB::KeyboardGestureBind::EndType::Block;
