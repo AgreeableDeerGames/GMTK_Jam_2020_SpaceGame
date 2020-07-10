@@ -2,9 +2,9 @@
 
 #include <ProjectTemplate/Utils/DllUtils.h>
 #include <ProjectTemplate/Core/TemplateRegion.h>
+#include <ProjectTemplate/Core/TerminalRegion.h>
 
 #include <GameBackbone/Core/CoreEventController.h>
-
 
 namespace PT
 {
@@ -20,6 +20,6 @@ namespace PT
 		virtual ~EventController() = default;
 
 	private:
-		TemplateRegion mainRegion;
+		TerminalRegion mainRegion;
 	};
 }
