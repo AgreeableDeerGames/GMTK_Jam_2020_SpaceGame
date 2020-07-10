@@ -25,3 +25,5 @@ endif()
 add_subdirectory("SelbaWard")
 add_subdirectory("ProjectTemplateExe")
 add_subdirectory("ProjectTemplateLib")
+
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/Resources/Textures DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
