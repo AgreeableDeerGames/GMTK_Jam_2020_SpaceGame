@@ -12,3 +12,14 @@ EventController::EventController() : CoreEventController(APP_NAME),
 {
 	setActiveRegion(&mainRegion);
 }
+
+void PT::EventController::draw()
+{
+	GB::CoreEventController::draw();
+	PostDraw();
+}
+
+void PT::EventController::PostDraw()
+{
+	static_cast<TemplateRegion*>(getActiveRegion())->m_gui.draw();
+}

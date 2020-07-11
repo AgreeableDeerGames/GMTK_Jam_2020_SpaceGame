@@ -11,8 +11,11 @@
 
 #include <SFML/System/Clock.hpp>
 
-#include <vector>
+#include <functional>
+#include <map>
 #include <memory>
+#include <string>
+#include <vector>
 
 namespace PT
 {
@@ -29,6 +32,8 @@ namespace PT
 
     protected:
 
+        virtual void InitGui();
+
         bool m_isInRecordState;
         std::function<void()> m_nextActionToBind;
         std::string m_nextActionNameToBind;
@@ -37,5 +42,6 @@ namespace PT
         Terminal m_terminal;
 
         std::shared_ptr<Ship> m_ship;
+        std::map<std::string, std::reference_wrapper<double>> m_visibleShipBars;
     };
 }

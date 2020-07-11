@@ -22,6 +22,8 @@ TerminalRegion::TerminalRegion(sf::RenderWindow& window, std::shared_ptr<Ship> s
 
 bool TerminalRegion::handleEvent(sf::Int64 elapsedTime, const sf::Event& event)
 {
+	m_gui.handleEvent(event);
+
 	if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter)
 	{
 		if (m_isInRecordState)
@@ -46,4 +48,8 @@ void TerminalRegion::update(sf::Int64 elapsedTime)
 	m_terminal.update(elapsedTime);
 
 	m_ship->update(elapsedTime);
+}
+
+void PT::TerminalRegion::InitGui()
+{
 }
