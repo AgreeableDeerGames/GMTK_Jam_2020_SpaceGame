@@ -3,6 +3,8 @@
 #include <ProjectTemplate/Core/TerminalRegion.h>
 #include <ProjectTemplate/Utils/DllUtils.h>
 
+#include <ProjectTemplate/Utils/GestureBindUtils.h>
+
 namespace PT
 {
 	class libProjectTemplate TerminalOne : public TerminalRegion
