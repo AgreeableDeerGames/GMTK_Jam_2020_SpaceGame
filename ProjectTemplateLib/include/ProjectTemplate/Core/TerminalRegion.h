@@ -27,7 +27,7 @@ namespace PT
 
         void update(sf::Int64 elapsedTime) override;
 
-    private:
+    protected:
 
         bool m_isInRecordState;
         std::function<void()> m_nextActionToBind;
