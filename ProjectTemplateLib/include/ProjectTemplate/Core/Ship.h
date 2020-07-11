@@ -5,6 +5,7 @@
 #include <GameBackbone/Core/Updatable.h>
 
 #include <map>
+#include <string>
 
 namespace PT
 {
@@ -40,6 +41,7 @@ namespace PT
         Ship();
 
         void update(sf::Int64 elapsedTime) override;
+        std::string GetStatName(Ship::Stat);
 
         bool m_isHullBeingRepaired;
         bool m_isHeatingOn;

@@ -6,7 +6,7 @@
 using namespace PT;
 
 TerminalOne::TerminalOne(sf::RenderWindow& window, std::shared_ptr<Ship> ship) : 
-	TerminalRegion(window, ship, {Ship::Stat::water, Ship::Stat::fires}), 
+	TerminalRegion(window, ship, {Ship::Stat::water, Ship::Stat::fires, Ship::Stat::oxygen}), 
 	m_isInitialized(false), m_fireInitialized(false)
 {
 	//m_terminal.AddBind()

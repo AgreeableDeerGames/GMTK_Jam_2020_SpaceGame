@@ -1,6 +1,7 @@
 #include <ProjectTemplate/Core/Ship.h>
 
 #include <iostream>
+#include <unordered_map>
 
 using namespace PT;
 
@@ -17,7 +18,7 @@ double heatGainedFromHeating = 0.5;
 double heatLostFromCooling = 0.5;
 
 double fireSpread = 0.1;
-double firePutOutBySprinklers = 0.1;
+double firePutOutBySprinklers = 0.5;
 
 double waterGenerated = 0.1;
 double waterLostBySprinklers = 0.5;
@@ -48,7 +49,7 @@ void Ship::update(sf::Int64 elapsedTime)
     //PrintToTerminal();
 }
 
-void PT::Ship::PrintToTerminal() const
+void Ship::PrintToTerminal() const
 {
     std::cout << m_stats.at(Stat::oxygen) << std::endl;
     std::cout << m_stats.at(Stat::hullIntegrity) << std::endl;
@@ -77,7 +78,7 @@ void Ship::UpdateWater(sf::Int64 elapsedTime)
 
 void Ship::UpdateFire(sf::Int64 elapsedTime)
 {
-    const double fireSpreadPerSecond = m_stats[Stat::fires] * fireSpread * elapsedTime * 0.000001;
+    const double fireSpreadPerSecond = m_areSprinklersOn ? 0.0 : m_stats[Stat::fires] * fireSpread * elapsedTime * 0.000001;
     const double firePutOutPerSecond = (int)m_areSprinklersOn * firePutOutBySprinklers * elapsedTime * 0.000001;
 
     m_stats[Stat::fires] = m_stats[Stat::fires] + fireSpreadPerSecond - firePutOutPerSecond;
@@ -111,4 +112,18 @@ void Ship::UpdateOxygen(sf::Int64 elapsedTime)
 void Ship::UpdateTemperature(sf::Int64 elapsedTime)
 {
     m_stats[Stat::temperature] = m_stats[Stat::temperature] + (heatGainedFromFires * m_stats[Stat::fires]) - (heatLostFromHoles * m_stats[Stat::hullIntegrity]) + ((int)m_isHeatingOn * heatGainedFromHeating) - ((int)m_isCoolingOn * heatLostFromCooling);
+}
+
+std::string Ship::GetStatName(Ship::Stat stat)
+{
+	static std::unordered_map<Ship::Stat, std::string> statMapping
+	{
+		{ Ship::Stat::oxygen, "Oxygen" },
+		{ Ship::Stat::hullIntegrity, "Hull Integrity" },
+		{ Ship::Stat::temperature, "Temperature" },
+		{ Ship::Stat::fires, "Fire" },
+		{ Ship::Stat::water, "Water Reservers" }
+	};
+
+    return statMapping[stat];
 }

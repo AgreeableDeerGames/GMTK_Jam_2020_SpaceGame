@@ -175,12 +175,12 @@ bool Terminal::IsLoggedIn()
 	return m_isLoggedIn;
 }
 
-tgui::Gui& PT::Terminal::GetGui()
+tgui::Gui& Terminal::GetGui()
 {
 	return m_gui;
 }
 
-void PT::Terminal::InitGui(const std::vector<Ship::Stat>& trackedStats)
+void Terminal::InitGui(const std::vector<Ship::Stat>& trackedStats)
 {
 	m_gui.removeAllWidgets();
 
@@ -193,18 +193,28 @@ void PT::Terminal::InitGui(const std::vector<Ship::Stat>& trackedStats)
 	// Add progress bars for stats
 	for (std::size_t i = 0; i < trackedStats.size(); ++i)
 	{
-		auto progressBar = tgui::ProgressBar::create();
 		tgui::Layout progressBarWidth = windowWidth / 3;
-		tgui::Layout progressBarHeight = windowHeight / 20;
+		tgui::Layout progressBarHeight = windowHeight / 25;
+
+		auto label =  tgui::Label::create();
+		label->setRenderer(theme.getRenderer("Label"));
+		label->setSize({ progressBarWidth, progressBarHeight });
+		label->setPosition(1.25* windowWidth / 25, (progressBarHeight / 2) + progressBarHeight * (1.75 * i));
+		label->setText(m_ship->GetStatName(trackedStats[i]));
+		m_gui.add(label);
+
+
+		auto progressBar = tgui::ProgressBar::create();
 		progressBar->setRenderer(theme.getRenderer("ProgressBar"));
 		progressBar->setSize({ progressBarWidth, progressBarHeight });
 		progressBar->setValue(50);
-		progressBar->setPosition(windowWidth / 25, (progressBarHeight / 2) + progressBarHeight * (1.25 * i));
+		progressBar->setPosition(windowWidth / 25, 2 * (progressBarHeight / 2) + progressBarHeight * (1.75 * i));
 		m_gui.add(progressBar);
 
 		m_visibleShipBars[trackedStats[i]] = progressBar;
 	}
 
+	// TODO: Center this.
 	m_displayedTerminal = tgui::TextBox::create();
 	m_displayedTerminal->setEnabled(false);
 	m_displayedTerminal->setSize(windowWidth * 0.9, windowHeight * 0.25);
