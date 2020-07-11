@@ -8,6 +8,7 @@ add_library(ProjectTemplate SHARED
   "include/ProjectTemplate/Core/Ship.h"
   "include/ProjectTemplate/Core/TemplateRegion.h"
   "include/ProjectTemplate/Core/Terminal.h" 
+  "include/ProjectTemplate/Core/TerminalOne.h" 
   "include/ProjectTemplate/Core/TerminalRegion.h" 
   "include/ProjectTemplate/Utils/DllUtils.h"
   
@@ -16,6 +17,7 @@ add_library(ProjectTemplate SHARED
   "source/Core/Ship.cpp"
   "source/ProjectTemplate.cpp"
   "source/Core/Terminal.cpp"
+  "source/Core/TerminalOne.cpp"
   "source/Core/TerminalRegion.cpp"
   )
 set_target_properties(ProjectTemplate PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
