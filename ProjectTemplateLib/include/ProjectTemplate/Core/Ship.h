@@ -18,6 +18,8 @@ namespace PT
         bool m_isCoolingOn;
         bool m_areSprinklersOn;
 
+        void PrintToTerminal() const;
+
     private:
 
         // Oxygen - Higher Oxygen spreads fires quickly

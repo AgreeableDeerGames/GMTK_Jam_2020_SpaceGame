@@ -3,7 +3,12 @@
 #include <GameBackbone/Util/RandGen.h>
 
 PT::Terminal::Terminal() :
-	m_screen({ 25, 20 })
+	m_isLoggedIn(false),
+	m_screen({ 25, 20 }),
+	m_screenTexture(),
+	m_passcode(GeneratePasscode()),
+	m_bindVec(),
+	m_controls()
 {
 	m_screenTexture.loadFromFile("Textures/resources/WindowsConsoleASCII.png");
 	m_screen.setTexture(m_screenTexture, 16, { 8, 12 }); // texture, number of tiles per row, tile size

@@ -27,5 +27,5 @@ GB::KeyboardGestureBind InputRecorder::GetCompletedBind(std::function<void()> ac
 	// Clear the internal state
 	m_bindKeys.clear();
 
-	return returnBind
+	return returnBind;
 }

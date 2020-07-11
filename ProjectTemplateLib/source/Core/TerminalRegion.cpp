@@ -1,13 +1,15 @@
 #include <ProjectTemplate/Core/TerminalRegion.h>
+#include <ProjectTemplate/Core/Ship.h>
 
 #include <ProjectTemplate/Core/InputRecorder.h>
 
-
+#include <memory>
 #include <vector>
 
 using namespace PT;
 
-TerminalRegion::TerminalRegion() :
+TerminalRegion::TerminalRegion(std::shared_ptr<Ship> ship) :
+	m_ship(std::move(ship)),
 	m_terminals()
 {
 	m_terminals.emplace_back();
@@ -31,11 +33,11 @@ bool TerminalRegion::handleEvent(sf::Int64 elapsedTime, const sf::Event& event)
 
 	if (m_isInRecordState)
 	{
-		m_recorder.handleEvent(elapsedTime, event);
+		return m_recorder.handleEvent(elapsedTime, event);
 	}
 	else
 	{
-
+		return true;
 	}
 }
 
@@ -46,4 +48,6 @@ void TerminalRegion::update(sf::Int64 elapsedTime)
 	{
 		terminal.update(elapsedTime);
 	}
+
+	m_ship->update(elapsedTime);
 }

@@ -3,6 +3,7 @@
 #include <ProjectTemplate/Core/TemplateRegion.h>
 #include <ProjectTemplate/Core/InputRecorder.h>
 #include <ProjectTemplate/Core/Terminal.h>
+#include <ProjectTemplate/Core/Ship.h>
 #include <ProjectTemplate/Utils/DllUtils.h>
 
 #include <GameBackbone/Core/GameRegion.h>
@@ -18,7 +19,7 @@ namespace PT
     class libProjectTemplate TerminalRegion : public PT::TemplateRegion
     {
     public:
-        TerminalRegion();
+        TerminalRegion(std::shared_ptr<Ship> ship);
         TerminalRegion(const TerminalRegion&) = delete;
         TerminalRegion& operator=(const TerminalRegion&) = delete;
 
@@ -33,5 +34,7 @@ namespace PT
         InputRecorder m_recorder;
 
         std::vector<Terminal> m_terminals;
+
+        std::shared_ptr<Ship> m_ship;
     };
 }
