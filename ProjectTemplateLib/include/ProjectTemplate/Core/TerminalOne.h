@@ -12,10 +12,14 @@ namespace PT
 		TerminalOne(const TerminalOne&) = delete;
 		TerminalOne& operator=(const TerminalOne&) = delete;
 
-		// Press 1 Key
+		void update(sf::Int64 elapsedTime) override;
+
+		// Function to Bind to Interact with the Sprinklers
 		void TurnOnSprinklers();
 
+
 	private:
+		bool m_isInitialized;
 
 	};
 }

@@ -45,6 +45,7 @@ namespace PT
 
 		// void ReplaceBind()
 
+		bool IsLoggedIn();
 
 	protected:
 		void draw(sf::RenderTarget& target, sf::RenderStates states) const override;

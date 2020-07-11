@@ -172,3 +172,7 @@ void PT::Terminal::RegenerateControls()
 	m_controls = std::move(newControls);
 }
 
+bool PT::Terminal::IsLoggedIn()
+{
+	return m_isLoggedIn;
+}

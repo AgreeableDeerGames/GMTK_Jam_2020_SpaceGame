@@ -2,7 +2,7 @@
 
 using namespace PT;
 
-TerminalOne::TerminalOne(std::shared_ptr<Ship> ship) : TerminalRegion(ship)
+TerminalOne::TerminalOne(std::shared_ptr<Ship> ship) : m_isInitialized(false), TerminalRegion(ship)
 {
 	// Put us in a state of binding.
 	m_isInRecordState = true;
@@ -10,6 +10,7 @@ TerminalOne::TerminalOne(std::shared_ptr<Ship> ship) : TerminalRegion(ship)
 	m_nextActionNameToBind = "Sprinkler Bind";
 
 
+	// Example of how to force a particular bind.
 	// Add sprinkler bind to the vector of binds.
 	/*std::vector<sf::Event> bindKeys;
 
@@ -33,6 +34,33 @@ TerminalOne::TerminalOne(std::shared_ptr<Ship> ship) : TerminalRegion(ship)
 
 	m_terminal.AddBind(returnBind);*/
 }
+
+void TerminalOne::update(sf::Int64 elapsedTime)
+{
+	if (!m_isInitialized)
+	{
+		// Teach the user how to Log Into the first console
+		
+		if (m_terminal.IsLoggedIn())
+		{
+			// Tell the user about the first problem.
+
+			// Teach them how to bind a key
+
+			// Have them use their bound key to fix the problem
+
+			//if (problem is fixed)
+			{
+				// Introduce the concept of switching terminals
+
+				// Have the user bind the old and new terminals to their numpad. repeat
+			}
+		}
+	}
+
+
+}
+
 
 void TerminalOne::TurnOnSprinklers()
 {
