@@ -1,15 +1,14 @@
 #include <ProjectTemplate/Core/TerminalOne.h>
 
+#include <ProjectTemplate/Utils/DisplayText.h>
+#include <ProjectTemplate/Utils/GestureBindUtils.h>
+
 using namespace PT;
 
 TerminalOne::TerminalOne(sf::RenderWindow& window, std::shared_ptr<Ship> ship) : m_isInitialized(false),
 	TerminalRegion(window, ship, {Ship::Stat::water, Ship::Stat::fires})
 {
-	// Put us in a state of binding.
-	m_isInRecordState = true;
-	m_nextActionToBind = [this]() { TurnOnSprinklers(); };
-	m_nextActionNameToBind = "Sprinkler Bind";
-
+	//m_terminal.AddBind()
 
 	// Example of how to force a particular bind.
 	// Add sprinkler bind to the vector of binds.
@@ -23,7 +22,7 @@ TerminalOne::TerminalOne(sf::RenderWindow& window, std::shared_ptr<Ship> ship) :
 	bindKeys.push_back(eventForKey);
 	std::function<void()> action = [this](){ TurnOnSprinklers(); };
 	std::string name = "Sprinkler Bind";
-	sf::Int64 maxTimeBetweenInputs = 1000;
+	sf::Int64 maxTimeBetweenInputs = 1000000;
 	GB::KeyboardGestureBind::EndType endType = GB::KeyboardGestureBind::EndType::Block;
 	GB::KeyboardGestureBind returnBind{
 		bindKeys,
@@ -42,21 +41,52 @@ void TerminalOne::update(sf::Int64 elapsedTime)
 
 	if (!m_isInitialized)
 	{
-		// Teach the user how to Log Into the first console
-		
-		if (m_terminal.IsLoggedIn())
+		if (!m_terminal.IsLoggedIn())
 		{
-			// Tell the user about the first problem.
-
-			// Teach them how to bind a key
-
-			// Have them use their bound key to fix the problem
-
-			//if (problem is fixed)
+			// Teach the user how to Log Into the first console
+			m_terminal.m_displayedTerminal->setText(std::string(terminalOne_Welcome));
+			m_terminal.m_displayedTerminal->addText(StringifyGesture(m_terminal.GetPasscode()));
+			m_terminal.m_displayedTerminal->addText("\n\n");
+			m_terminal.m_displayedTerminal->addText(std::string(terminalOne_LogIn));
+		}
+		else
+		{
+			const NumberGestureBind* bind = m_terminal.GetBindWithName("Sprinkler Bind");
+			if (bind == nullptr)
 			{
-				// Introduce the concept of switching terminals
+				// Tell the user about the first problem.
+				m_terminal.m_displayedTerminal->setText(std::string(logInSuccessful));
+				m_terminal.m_displayedTerminal->addText("\n\n");
 
-				// Have the user bind the old and new terminals to their numpad. repeat
+
+				// Teach them how to bind a key
+				m_terminal.m_displayedTerminal->addText(std::string(terminalOne_FireBind));
+
+				// Have them use their bound key to fix the problem
+				// Put us in a state of binding.
+				m_isInRecordState = true;
+				m_nextActionToBind = [this]() { TurnOnSprinklers(); };
+				m_nextActionNameToBind = "Sprinkler Bind";
+			}
+			else
+			{
+				if (!m_ship->m_areSprinklersOn)
+				{
+					m_terminal.m_displayedTerminal->setText(std::string(terminalOne_FireBound));
+					m_terminal.m_displayedTerminal->addText(StringifyGesture(*bind));
+
+					m_terminal.m_displayedTerminal->addText("\n\n");
+					m_terminal.m_displayedTerminal->addText(std::string(terminalOne_FireRequest));
+				}
+				else
+				{
+					// Congratulate the user on following directions!
+					m_terminal.m_displayedTerminal->setText(std::string(terminalOne_FireOut));
+
+					// Introduce the concept of switching terminals
+
+					// Have the user bind the old and new terminals to their numpad. repeat
+				}
 			}
 		}
 	}

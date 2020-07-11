@@ -19,6 +19,16 @@ bool InputRecorder::handleEvent(sf::Int64 elapsedTime, const sf::Event& event)
 		case sf::Keyboard::Key::Numpad7:
 		case sf::Keyboard::Key::Numpad8:
 		case sf::Keyboard::Key::Numpad9:
+		case sf::Keyboard::Key::Num0:
+		case sf::Keyboard::Key::Num1:
+		case sf::Keyboard::Key::Num2:
+		case sf::Keyboard::Key::Num3:
+		case sf::Keyboard::Key::Num4:
+		case sf::Keyboard::Key::Num5:
+		case sf::Keyboard::Key::Num6:
+		case sf::Keyboard::Key::Num7:
+		case sf::Keyboard::Key::Num8:
+		case sf::Keyboard::Key::Num9:
 		{
 			// Push the event into the vector
 			m_bindKeys.push_back(event);
@@ -34,12 +44,12 @@ bool InputRecorder::handleEvent(sf::Int64 elapsedTime, const sf::Event& event)
 	return false;
 }
 
-GB::KeyboardGestureBind InputRecorder::GetCompletedBind(std::string name, std::function<void()> action)
+NumberGestureBind InputRecorder::GetCompletedBind(std::string name, std::function<void()> action)
 {
 	sf::Int64 maxTimeBetweenInputs = 1000000;
-	GB::KeyboardGestureBind::EndType endType = GB::KeyboardGestureBind::EndType::Block;
+	NumberGestureBind::EndType endType = NumberGestureBind::EndType::Block;
 
-	GB::KeyboardGestureBind returnBind{
+	NumberGestureBind returnBind{
 		m_bindKeys,
 		action,
 		name,

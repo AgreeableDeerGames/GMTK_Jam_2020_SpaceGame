@@ -1,13 +1,12 @@
 #pragma once
 
-#include <ProjectTemplate/Utils/DllUtils.h>
 #include <ProjectTemplate/Core/Ship.h>
+#include <ProjectTemplate/Utils/DllUtils.h>
+#include <ProjectTemplate/Utils/GestureBindUtils.h>
 
 #include <GameBackbone/Core/Updatable.h>
 #include <GameBackbone/UserInput/GestureBind.h>
 #include <GameBackbone/UserInput/ButtonPressGestureHandler.h>
-
-#include <SelbaWard.hpp>
 
 #include <TGUI/TGUI.hpp>
 
@@ -37,17 +36,16 @@ namespace PT
 
 		void update(sf::Int64 elapsedTime) override;
 
-		GB::KeyboardGestureBind& GetPasscode();
+		NumberGestureBind& GetPasscode();
 
 		bool handleEvent(sf::Int64 elapsedTime, const sf::Event& event) override;
 
-		void AddBind(GB::KeyboardGestureBind bind);
-
-		const GB::KeyboardGestureBind& GetBindWithName(const std::string& name);
-
 		void InitGui(const std::vector<Ship::Stat>& trackedStats);
 
-		void ReplaceBind(std::string name, GB::KeyboardGestureBind bind);
+
+		void AddBind(NumberGestureBind bind);
+		const NumberGestureBind* GetBindWithName(const std::string& name);
+		void ReplaceBind(std::string name, NumberGestureBind bind);
 
 		// void ReplaceBind()
 
@@ -55,23 +53,27 @@ namespace PT
 
 		tgui::Gui& GetGui();
 
+		tgui::TextBox::Ptr m_displayedTerminal;
+
+
 	protected:
 		void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 	private:
-		GB::KeyboardGestureBind GeneratePasscode();
+		NumberGestureBind GeneratePasscode();
 		void RegenerateControls();
 
 		bool m_isLoggedIn;
-		GB::KeyboardGestureBind m_passcode;
+
+		NumberGestureBind m_passcode;
 
 		// Dont use this to handle events. We just need this because 
 		// GestureHandler doesn't have a way to change a single bind yet
-		std::vector<GB::KeyboardGestureBind> m_bindVec;
-		GB::KeyboardGestureHandler m_controls;
+		std::vector<NumberGestureBind> m_bindVec;
+		NumberGestureHandler m_controls;
+
 		tgui::Gui m_gui;
 		std::map<Ship::Stat, tgui::ProgressBar::Ptr> m_visibleShipBars;
-		tgui::TextBox::Ptr m_displayedTerminal;
 		std::shared_ptr<Ship> m_ship;
 	};
 }

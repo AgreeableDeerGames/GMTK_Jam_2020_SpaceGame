@@ -1,35 +1,39 @@
 #include <ProjectTemplate/Core/Terminal.h>
+#include <ProjectTemplate/Utils/GestureBindUtils.h>
 
 #include <GameBackbone/Util/RandGen.h>
 
 #include <stdexcept>
+#include <optional>
 
-PT::Terminal::Terminal(sf::RenderWindow& window, const std::vector<Ship::Stat>& trackedSats, std::shared_ptr<Ship> ship) :
+using namespace PT;
+
+Terminal::Terminal(sf::RenderWindow& window, const std::vector<Ship::Stat>& trackedSats, std::shared_ptr<Ship> ship) :
+	m_displayedTerminal(),
 	m_isLoggedIn(false),
 	m_passcode(GeneratePasscode()),
 	m_bindVec(),
 	m_controls(),
 	m_gui(window),
 	m_visibleShipBars(),
-	m_displayedTerminal(),
 	m_ship(std::move(ship))
 {
 	InitGui(trackedSats);
 }
 
-void PT::Terminal::AddBind(GB::KeyboardGestureBind bind)
+void Terminal::AddBind(NumberGestureBind bind)
 {
 	m_bindVec.emplace_back(std::move(bind));
 	RegenerateControls();
 }
 
-void PT::Terminal::ReplaceBind(std::string name, GB::KeyboardGestureBind bind)
+void Terminal::ReplaceBind(std::string name, NumberGestureBind bind)
 {
 	bind.setName(name);
 	auto found = std::find_if(
 		std::begin(m_bindVec),
 		std::end(m_bindVec),
-		[&](const GB::KeyboardGestureBind& value) {return value.getName() == name; });
+		[&](const NumberGestureBind& value) {return value.getName() == name; });
 
 	if (found != std::end(m_bindVec))
 	{
@@ -42,16 +46,20 @@ void PT::Terminal::ReplaceBind(std::string name, GB::KeyboardGestureBind bind)
 	}
 }
 
-const GB::KeyboardGestureBind& PT::Terminal::GetBindWithName(const std::string& name)
+const NumberGestureBind* Terminal::GetBindWithName(const std::string& name)
 {
 	auto found = std::find_if(
 		std::begin(m_bindVec),
 		std::end(m_bindVec),
-		[&](const GB::KeyboardGestureBind& value) {return value.getName() == name; });
-	return* found;
+		[&](const NumberGestureBind& value) {return value.getName() == name; });
+	if (found == std::end(m_bindVec))
+	{
+		return nullptr;
+	}
+	return &(*found);
 }
 
-void PT::Terminal::LogIn()
+void Terminal::LogIn()
 {
 	// Print Logged In
 	std::cout << "Logged In.\n";
@@ -59,7 +67,7 @@ void PT::Terminal::LogIn()
 	m_isLoggedIn = true;
 }
 
-void PT::Terminal::LogOut()
+void Terminal::LogOut()
 {
 	// Print Logged In
 	std::cout << "Logged Out.\n";
@@ -67,11 +75,11 @@ void PT::Terminal::LogOut()
 	m_isLoggedIn = false;
 }
 
-void PT::Terminal::draw(sf::RenderTarget& target, sf::RenderStates states) const
+void Terminal::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 }
 
-void PT::Terminal::update(sf::Int64 elapsedTime)
+void Terminal::update(sf::Int64 elapsedTime)
 {
 	// update gui
 	for (auto& [key, value] : m_visibleShipBars)
@@ -80,7 +88,7 @@ void PT::Terminal::update(sf::Int64 elapsedTime)
 	}
 }
 
-GB::KeyboardGestureBind PT::Terminal::GeneratePasscode()
+NumberGestureBind Terminal::GeneratePasscode()
 {
 	static std::vector<sf::Keyboard::Key> keyMapping
 	{
@@ -116,9 +124,9 @@ GB::KeyboardGestureBind PT::Terminal::GeneratePasscode()
 	std::function<void()> action = [this]() { LogIn(); };
 	std::string name = "Passcode";
 	sf::Int64 maxTimeBetweenInputs = 1000000;
-	GB::KeyboardGestureBind::EndType endType = GB::KeyboardGestureBind::EndType::Block;
+	NumberGestureBind::EndType endType = NumberGestureBind::EndType::Block;
 
-	return GB::KeyboardGestureBind
+	return NumberGestureBind
 	{
 		bindKeys,
 		action,
@@ -128,7 +136,7 @@ GB::KeyboardGestureBind PT::Terminal::GeneratePasscode()
 	};
 }
 
-bool PT::Terminal::handleEvent(sf::Int64 elapsedTime, const sf::Event& event)
+bool Terminal::handleEvent(sf::Int64 elapsedTime, const sf::Event& event)
 {
 	m_gui.handleEvent(event);
 
@@ -152,9 +160,9 @@ bool PT::Terminal::handleEvent(sf::Int64 elapsedTime, const sf::Event& event)
 }
 
 
-void PT::Terminal::RegenerateControls()
+void Terminal::RegenerateControls()
 {
-	GB::KeyboardGestureHandler newControls;
+	NumberGestureHandler newControls;
 	for (const auto& bind : m_bindVec)
 	{
 		newControls.addGesture(bind);
@@ -162,7 +170,7 @@ void PT::Terminal::RegenerateControls()
 	m_controls = std::move(newControls);
 }
 
-bool PT::Terminal::IsLoggedIn()
+bool Terminal::IsLoggedIn()
 {
 	return m_isLoggedIn;
 }
@@ -203,5 +211,9 @@ void PT::Terminal::InitGui(const std::vector<Ship::Stat>& trackedStats)
 	m_displayedTerminal->setPosition(25, 500);
 	m_displayedTerminal->setText("SOME TEXT");
 	m_gui.add(m_displayedTerminal);
+}
 
+NumberGestureBind& Terminal::GetPasscode()
+{
+	return m_passcode;
 }
