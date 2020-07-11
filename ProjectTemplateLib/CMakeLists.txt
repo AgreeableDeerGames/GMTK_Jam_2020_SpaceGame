@@ -5,6 +5,7 @@ add_library(ProjectTemplate SHARED
   "include/ProjectTemplate.h"
   "include/ProjectTemplate/Core/EventController.h"
   "include/ProjectTemplate/Core/InputRecorder.h"
+  "include/ProjectTemplate/Core/MainMenuRegion.h"
   "include/ProjectTemplate/Core/Ship.h"
   "include/ProjectTemplate/Core/TemplateRegion.h"
   "include/ProjectTemplate/Core/Terminal.h" 
@@ -16,6 +17,7 @@ add_library(ProjectTemplate SHARED
   
   "source/Core/EventController.cpp"
   "source/Core/InputRecorder.cpp"
+  "source/Core/MainMenuRegion.cpp"
   "source/Core/Ship.cpp"
   "source/ProjectTemplate.cpp"
   "source/Core/Terminal.cpp"

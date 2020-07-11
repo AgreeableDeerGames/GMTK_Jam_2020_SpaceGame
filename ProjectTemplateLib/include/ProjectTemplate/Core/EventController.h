@@ -1,5 +1,6 @@
 #pragma once
 
+#include <ProjectTemplate/Core/MainMenuRegion.h>
 #include <ProjectTemplate/Core/Ship.h>
 #include <ProjectTemplate/Core/TemplateRegion.h>
 #include <ProjectTemplate/Core/TerminalRegion.h>
@@ -26,8 +27,6 @@ namespace PT
 	private:
 		void PostDraw();
 
-
-		std::shared_ptr<Ship> m_ship;
-		TerminalOne mainRegion;
+		MainMenuRegion m_mainMenuRegion;
 	};
 }
