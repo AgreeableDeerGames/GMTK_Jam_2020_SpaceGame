@@ -21,21 +21,30 @@ TerminalRegion::TerminalRegion(std::shared_ptr<Ship> ship) :
 
 bool TerminalRegion::handleEvent(sf::Int64 elapsedTime, const sf::Event& event)
 {
-	if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter)
+	if (event.type == sf::Event::KeyPressed)
 	{
+		if (event.key.code == sf::Keyboard::Enter)
+		{
+			if (m_isInRecordState)
+			{
+				m_terminal.AddBind(m_recorder.GetCompletedBind(m_nextActionNameToBind, m_nextActionToBind));
+				m_isInRecordState = false;
+				return true;
+			}
+		}
+
 		if (m_isInRecordState)
 		{
-			m_terminal.AddBind(m_recorder.GetCompletedBind(m_nextActionNameToBind, m_nextActionToBind));
+			return m_recorder.handleEvent(elapsedTime, event);
 		}
-	}
-
-	if (m_isInRecordState)
-	{
-		return m_recorder.handleEvent(elapsedTime, event);
+		else
+		{
+			return m_terminal.handleEvent(elapsedTime, event);
+		}
 	}
 	else
 	{
-		m_terminal.handleEvent(elapsedTime, event);
+		return false;
 	}
 }
 

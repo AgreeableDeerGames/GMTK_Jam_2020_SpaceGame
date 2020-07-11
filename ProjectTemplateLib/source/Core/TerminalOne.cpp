@@ -4,9 +4,14 @@ using namespace PT;
 
 TerminalOne::TerminalOne(std::shared_ptr<Ship> ship) : TerminalRegion(ship)
 {
-	// Add sprinkler bind to the vector of binds.
+	// Put us in a state of binding.
+	m_isInRecordState = true;
+	m_nextActionToBind = [this]() { TurnOnSprinklers(); };
+	m_nextActionNameToBind = "Sprinkler Bind";
 
-	std::vector<sf::Event> bindKeys;
+
+	// Add sprinkler bind to the vector of binds.
+	/*std::vector<sf::Event> bindKeys;
 
 	sf::Event eventForKey = {};
 	eventForKey.key = sf::Event::KeyEvent{ sf::Keyboard::Key::Numpad1, false, false, false, false };
@@ -26,7 +31,7 @@ TerminalOne::TerminalOne(std::shared_ptr<Ship> ship) : TerminalRegion(ship)
 		endType
 	};
 
-	m_terminal.AddBind(returnBind);
+	m_terminal.AddBind(returnBind);*/
 }
 
 void TerminalOne::TurnOnSprinklers()

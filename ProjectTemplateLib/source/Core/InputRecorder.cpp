@@ -36,7 +36,7 @@ bool InputRecorder::handleEvent(sf::Int64 elapsedTime, const sf::Event& event)
 
 GB::KeyboardGestureBind InputRecorder::GetCompletedBind(std::string name, std::function<void()> action)
 {
-	sf::Int64 maxTimeBetweenInputs = 1000;
+	sf::Int64 maxTimeBetweenInputs = 1000000;
 	GB::KeyboardGestureBind::EndType endType = GB::KeyboardGestureBind::EndType::Block;
 
 	GB::KeyboardGestureBind returnBind{
