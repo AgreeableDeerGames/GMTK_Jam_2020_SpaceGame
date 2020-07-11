@@ -8,7 +8,7 @@ using namespace PT;
 
 EventController::EventController() : CoreEventController(APP_NAME),
 	m_ship(std::make_shared<Ship>()),
-	mainRegion(m_ship)
+	mainRegion(getWindow(), m_ship)
 {
 	setActiveRegion(&mainRegion);
 }

@@ -8,7 +8,8 @@
 
 using namespace PT;
 
-TerminalRegion::TerminalRegion(std::shared_ptr<Ship> ship) :
+TerminalRegion::TerminalRegion(sf::RenderWindow& window, std::shared_ptr<Ship> ship) :
+	TemplateRegion(window),
 	m_isInRecordState(),
 	m_nextActionToBind(),
     m_nextActionNameToBind(),

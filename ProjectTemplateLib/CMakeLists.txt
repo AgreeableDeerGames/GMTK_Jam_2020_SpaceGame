@@ -31,6 +31,9 @@ find_package(GameBackbone 0.4.1 REQUIRED)
 target_link_libraries(ProjectTemplate PUBLIC GameBackbone) 
 target_link_libraries(ProjectTemplate PUBLIC SelbaWard) 
 
+find_package(TGUI 0.8.2 REQUIRED)
+target_link_libraries(ProjectTemplate PUBLIC tgui)
+
 message("current source dir: ${CMAKE_CURRENT_SOURCE_DIR}")
 
 target_include_directories(ProjectTemplate PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")

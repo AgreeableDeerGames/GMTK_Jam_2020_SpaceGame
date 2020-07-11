@@ -19,7 +19,7 @@ namespace PT
     class libProjectTemplate TerminalRegion : public PT::TemplateRegion
     {
     public:
-        TerminalRegion(std::shared_ptr<Ship> ship);
+        TerminalRegion(sf::RenderWindow& window, std::shared_ptr<Ship> ship);
         TerminalRegion(const TerminalRegion&) = delete;
         TerminalRegion& operator=(const TerminalRegion&) = delete;
 
