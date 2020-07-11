@@ -16,7 +16,7 @@
 
 namespace PT
 {
-	class libProjectTemplate Terminal : public sf::Drawable, public GB::Updatable
+	class libProjectTemplate Terminal : public sf::Drawable, public GB::Updatable, public GB::InputHandler
 	{
 	private:
 		constexpr static inline std::size_t m_allowedBindCount = 9;
@@ -35,12 +35,23 @@ namespace PT
 
 		GB::KeyboardGestureBind& GetPasscode();
 
+		bool handleEvent(sf::Int64 elapsedTime, const sf::Event& event) override;
+
+		void AddBind(GB::KeyboardGestureBind bind);
+
+		const GB::KeyboardGestureBind GetBindWithName(const std::string& name);
+
+		void ReplaceBind(std::string name, GB::KeyboardGestureBind bind);
+
+		// void ReplaceBind()
+
 
 	protected:
 		void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 	private:
 		GB::KeyboardGestureBind GeneratePasscode();
+		void RegenerateControls();
 
 		bool m_isLoggedIn;
 		selbaward::ConsoleScreen m_screen;

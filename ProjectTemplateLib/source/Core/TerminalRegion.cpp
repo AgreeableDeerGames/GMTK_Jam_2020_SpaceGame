@@ -10,14 +10,9 @@ using namespace PT;
 
 TerminalRegion::TerminalRegion(std::shared_ptr<Ship> ship) :
 	m_ship(std::move(ship)),
-	m_terminals()
+	m_terminal()
 {
-	m_terminals.emplace_back();
-
-	for (auto& terminal : m_terminals)
-	{
-		addDrawable(0, terminal);
-	}
+	addDrawable(0, m_terminal);
 }
 
 bool TerminalRegion::handleEvent(sf::Int64 elapsedTime, const sf::Event& event)
@@ -26,8 +21,7 @@ bool TerminalRegion::handleEvent(sf::Int64 elapsedTime, const sf::Event& event)
 	{
 		if (m_isInRecordState)
 		{
-			// m_bindVec.push_back()
-			m_recorder.GetCompletedBind(m_nextActionToBind);
+			m_terminal.AddBind(m_recorder.GetCompletedBind(m_nextActionNameToBind, m_nextActionToBind));
 		}
 	}
 
@@ -37,17 +31,14 @@ bool TerminalRegion::handleEvent(sf::Int64 elapsedTime, const sf::Event& event)
 	}
 	else
 	{
-		return true;
+		m_terminal.handleEvent(elapsedTime, event);
 	}
 }
 
 
 void TerminalRegion::update(sf::Int64 elapsedTime)
 {
-	for (auto& terminal : m_terminals)
-	{
-		terminal.update(elapsedTime);
-	}
+	m_terminal.update(elapsedTime);
 
 	m_ship->update(elapsedTime);
 }

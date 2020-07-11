@@ -12,7 +12,7 @@ namespace PT
 	{
 	public:
 		bool handleEvent(sf::Int64 elapsedTime, const sf::Event& event) override;
-		GB::KeyboardGestureBind GetCompletedBind(std::function<void()> action);
+		GB::KeyboardGestureBind GetCompletedBind(std::string name, std::function<void()> action);
 
 	private:
 		std::vector<sf::Event> m_bindKeys;

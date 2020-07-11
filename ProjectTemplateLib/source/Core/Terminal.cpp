@@ -2,6 +2,8 @@
 
 #include <GameBackbone/Util/RandGen.h>
 
+#include <stdexcept>
+
 PT::Terminal::Terminal() :
 	m_isLoggedIn(false),
 	m_screen({ 25, 20 }),
@@ -14,6 +16,43 @@ PT::Terminal::Terminal() :
 	m_screen.setTexture(m_screenTexture, 16, { 8, 12 }); // texture, number of tiles per row, tile size
 	m_screen.setSize({ 256.0f, 256.0f }); // scaled x2
 	m_screen.setShowCursor(false);
+
+
+
+}
+
+void PT::Terminal::AddBind(GB::KeyboardGestureBind bind)
+{
+	m_bindVec.emplace_back(std::move(bind));
+	RegenerateControls();
+}
+
+void PT::Terminal::ReplaceBind(std::string name, GB::KeyboardGestureBind bind)
+{
+	bind.setName(name);
+	auto found = std::find_if(
+		std::begin(m_bindVec),
+		std::end(m_bindVec),
+		[&](const GB::KeyboardGestureBind& value) {return value.getName() == name; });
+
+	if (found != std::end(m_bindVec))
+	{
+		*found = bind;
+		RegenerateControls();
+	}
+	else
+	{
+		throw std::runtime_error("could not find bind to replace");
+	}
+}
+
+const GB::KeyboardGestureBind PT::Terminal::GetBindWithName(const std::string& name)
+{
+	auto found = std::find_if(
+		std::begin(m_bindVec),
+		std::end(m_bindVec),
+		[&](const GB::KeyboardGestureBind& value) {return value.getName() == name; });
+	return* found;
 }
 
 void PT::Terminal::LogIn()
@@ -78,7 +117,7 @@ GB::KeyboardGestureBind PT::Terminal::GeneratePasscode()
 		bindKeys.push_back(eventForKey);
 	}
 
-	std::function<void()> action = [this]() {LogIn(); };
+	std::function<void()> action = [this]() { LogIn(); };
 	std::string name = "Passcode";
 	sf::Int64 maxTimeBetweenInputs = 1000;
 	GB::KeyboardGestureBind::EndType endType = GB::KeyboardGestureBind::EndType::Block;
@@ -91,5 +130,31 @@ GB::KeyboardGestureBind PT::Terminal::GeneratePasscode()
 		maxTimeBetweenInputs,
 		endType
 	};
+}
+
+bool PT::Terminal::handleEvent(sf::Int64 elapsedTime, const sf::Event& event)
+{
+	if (m_isLoggedIn)
+	{
+		return m_controls.handleEvent(elapsedTime, event);
+	}
+	auto result = m_passcode.processEvent(elapsedTime, event);
+	if (!result.readyForInput)
+	{
+		m_passcode.reset();
+	}
+
+	return result.inputConsumed;
+}
+
+
+void PT::Terminal::RegenerateControls()
+{
+	GB::KeyboardGestureHandler newControls;
+	for (const auto& bind : m_bindVec)
+	{
+		newControls.addGesture(bind);
+	}
+	m_controls = std::move(newControls);
 }
 

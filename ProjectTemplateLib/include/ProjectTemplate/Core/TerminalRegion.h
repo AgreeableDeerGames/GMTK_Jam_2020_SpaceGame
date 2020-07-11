@@ -31,9 +31,10 @@ namespace PT
 
         bool m_isInRecordState;
         std::function<void()> m_nextActionToBind;
+        std::string m_nextActionNameToBind;
         InputRecorder m_recorder;
 
-        std::vector<Terminal> m_terminals;
+        Terminal m_terminal;
 
         std::shared_ptr<Ship> m_ship;
     };
