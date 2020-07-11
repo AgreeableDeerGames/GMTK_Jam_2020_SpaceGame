@@ -4,12 +4,19 @@
 
 #include <GameBackbone/Core/GameRegion.h>
 
+#include <TGUI/Gui.hpp>
 
 namespace PT
 {
     class libProjectTemplate TemplateRegion : public GB::GameRegion
     {
     public:
-        using GB::GameRegion::GameRegion;
+        TemplateRegion(sf::RenderWindow& window) :
+            m_gui(window)
+        {
+        }
+
+        //GUI
+        tgui::Gui m_gui;
     };
 }

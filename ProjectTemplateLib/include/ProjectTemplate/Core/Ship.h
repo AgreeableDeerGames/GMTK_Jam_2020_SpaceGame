@@ -4,11 +4,39 @@
 
 #include <GameBackbone/Core/Updatable.h>
 
+#include <map>
+
 namespace PT
 {
     class libProjectTemplate Ship : GB::Updatable
     {
     public:
+
+        enum class Stat
+        {
+            // Oxygen - Higher Oxygen spreads fires quickly
+            // 0% - 100%. 0% is a lose state
+            oxygen,
+
+            // Hull Integrity - Releases Oxygen
+            // 0% - 100%. 0% is a lose state.
+            hullIntegrity,
+
+            // Temperature - Fires Create more heat, Hull holes reduce heat. There could be some global heating/cooling system
+            // 0C - 100C. Hitting either end is a lose state.
+            temperature,
+
+            // Fires - Consume Oxygen, requires Oxygen
+            // 0% - 100% of Ship.
+            fires,
+
+            // Water Reserve - Puts Out Fires
+            // 0% to 100%. No lose state here, just a resource. Maybe slowly regenerates.
+            water
+        };
+
+        std::map<Stat, double> m_stats;
+
         Ship();
 
         void update(sf::Int64 elapsedTime) override;
@@ -20,27 +48,5 @@ namespace PT
 
         void PrintToTerminal() const;
 
-    private:
-
-        // Oxygen - Higher Oxygen spreads fires quickly
-        // 0% - 100%. 0% is a lose state
-        double m_oxygen;
-
-        // Hull Integrity - Releases Oxygen
-        // 0% - 100%. 0% is a lose state.
-        double m_hullIntegrity;
-
-        // Temperature - Fires Create more heat, Hull holes reduce heat. There could be some global heating/cooling system
-        // 0C - 100C. Hitting either end is a lose state.
-        double m_temperature;
-
-
-        // Fires - Consume Oxygen, requires Oxygen
-        // 0% - 100% of Ship.
-        double m_fires;
-
-        // Water Reserve - Puts Out Fires
-        // 0% to 100%. No lose state here, just a resource. Maybe slowly regenerates.
-        double m_water;
     };
 }

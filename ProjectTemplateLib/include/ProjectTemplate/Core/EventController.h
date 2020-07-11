@@ -21,7 +21,12 @@ namespace PT
 		EventController& operator=(EventController&& other) = default;
 		virtual ~EventController() = default;
 
+		void draw() override;
+
 	private:
+		void PostDraw();
+
+
 		std::shared_ptr<Ship> m_ship;
 		TerminalOne mainRegion;
 	};

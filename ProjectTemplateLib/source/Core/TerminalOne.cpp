@@ -2,7 +2,8 @@
 
 using namespace PT;
 
-TerminalOne::TerminalOne(std::shared_ptr<Ship> ship) : m_isInitialized(false), TerminalRegion(ship)
+TerminalOne::TerminalOne(sf::RenderWindow& window, std::shared_ptr<Ship> ship) : m_isInitialized(false),
+	TerminalRegion(window, ship, {Ship::Stat::water, Ship::Stat::fires})
 {
 	// Put us in a state of binding.
 	m_isInRecordState = true;

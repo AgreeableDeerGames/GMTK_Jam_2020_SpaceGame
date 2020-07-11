@@ -9,17 +9,22 @@
 #include <GameBackbone/Core/GameRegion.h>
 #include <GameBackbone/UserInput/GestureBind.h>
 
+#include <TGUI/TGUI.hpp>
+
 #include <SFML/System/Clock.hpp>
 
-#include <vector>
+#include <functional>
+#include <map>
 #include <memory>
+#include <string>
+#include <vector>
 
 namespace PT
 {
     class libProjectTemplate TerminalRegion : public PT::TemplateRegion
     {
     public:
-        TerminalRegion(std::shared_ptr<Ship> ship);
+        TerminalRegion(sf::RenderWindow& window, std::shared_ptr<Ship> ship, std::vector<Ship::Stat> trackedStats);
         TerminalRegion(const TerminalRegion&) = delete;
         TerminalRegion& operator=(const TerminalRegion&) = delete;
 
@@ -29,6 +34,8 @@ namespace PT
 
     protected:
 
+        virtual void InitGui(const std::vector<Ship::Stat>& trackedStats);
+
         bool m_isInRecordState;
         std::function<void()> m_nextActionToBind;
         std::string m_nextActionNameToBind;
@@ -37,5 +44,7 @@ namespace PT
         Terminal m_terminal;
 
         std::shared_ptr<Ship> m_ship;
+        std::map<Ship::Stat, tgui::ProgressBar::Ptr> m_visibleShipBars;
+        tgui::TextBox::Ptr m_displayedTerminal;
     };
 }
