@@ -58,7 +58,7 @@ const NumberGestureBind* Terminal::GetBindWithName(const std::string& name)
 		[&](const NumberGestureBind& value) {return value.getName() == name; });
 	if (found == std::end(m_bindVec))
 	{
-		nullptr;
+		return nullptr;
 	}
 	return &(*found);
 }

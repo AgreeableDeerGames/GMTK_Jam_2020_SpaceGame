@@ -8,6 +8,8 @@ using namespace PT;
 TerminalOne::TerminalOne(sf::RenderWindow& window, std::shared_ptr<Ship> ship) : m_isInitialized(false),
 	TerminalRegion(window, ship, {Ship::Stat::water, Ship::Stat::fires})
 {
+	//m_terminal.AddBind()
+
 	// Example of how to force a particular bind.
 	// Add sprinkler bind to the vector of binds.
 	/*std::vector<sf::Event> bindKeys;
@@ -20,7 +22,7 @@ TerminalOne::TerminalOne(sf::RenderWindow& window, std::shared_ptr<Ship> ship) :
 	bindKeys.push_back(eventForKey);
 	std::function<void()> action = [this](){ TurnOnSprinklers(); };
 	std::string name = "Sprinkler Bind";
-	sf::Int64 maxTimeBetweenInputs = 1000;
+	sf::Int64 maxTimeBetweenInputs = 1000000;
 	GB::KeyboardGestureBind::EndType endType = GB::KeyboardGestureBind::EndType::Block;
 	GB::KeyboardGestureBind returnBind{
 		bindKeys,
@@ -49,7 +51,8 @@ void TerminalOne::update(sf::Int64 elapsedTime)
 		}
 		else
 		{
-			// if (/*bind does not exist*/)
+			const NumberGestureBind* bind = m_terminal.GetBindWithName("Sprinkler Bind");
+			if (bind == nullptr)
 			{
 				// Tell the user about the first problem.
 				m_displayedTerminal->setText(std::string(logInSuccessful));
@@ -65,15 +68,25 @@ void TerminalOne::update(sf::Int64 elapsedTime)
 				m_nextActionToBind = [this]() { TurnOnSprinklers(); };
 				m_nextActionNameToBind = "Sprinkler Bind";
 			}
-			//else
+			else
 			{
-				m_displayedTerminal->setText(std::string(logInSuccessful));
-			}
-			//if (problem is fixed)
-			{
-				// Introduce the concept of switching terminals
+				if (!m_ship->m_areSprinklersOn)
+				{
+					m_displayedTerminal->setText(std::string(terminalOne_FireBound));
+					m_displayedTerminal->addText(StringifyGesture(*bind));
 
-				// Have the user bind the old and new terminals to their numpad. repeat
+					m_displayedTerminal->addText("\n\n");
+					m_displayedTerminal->addText(std::string(terminalOne_FireRequest));
+				}
+				else
+				{
+					// Congratulate the user on following directions!
+					m_displayedTerminal->setText(std::string(terminalOne_FireOut));
+
+					// Introduce the concept of switching terminals
+
+					// Have the user bind the old and new terminals to their numpad. repeat
+				}
 			}
 		}
 	}
