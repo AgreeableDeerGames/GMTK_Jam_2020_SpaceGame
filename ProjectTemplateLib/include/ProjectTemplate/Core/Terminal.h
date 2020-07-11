@@ -15,6 +15,7 @@
 #include <array>
 #include <functional>
 #include <memory>
+#include <optional>
 
 namespace PT
 {
@@ -41,7 +42,7 @@ namespace PT
 
 		void AddBind(NumberGestureBind bind);
 
-		const NumberGestureBind& GetBindWithName(const std::string& name);
+		const NumberGestureBind* GetBindWithName(const std::string& name);
 
 		void ReplaceBind(std::string name, NumberGestureBind bind);
 

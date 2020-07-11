@@ -4,6 +4,7 @@
 #include <GameBackbone/Util/RandGen.h>
 
 #include <stdexcept>
+#include <optional>
 
 using namespace PT;
 
@@ -49,13 +50,17 @@ void Terminal::ReplaceBind(std::string name, NumberGestureBind bind)
 	}
 }
 
-const NumberGestureBind& Terminal::GetBindWithName(const std::string& name)
+const NumberGestureBind* Terminal::GetBindWithName(const std::string& name)
 {
 	auto found = std::find_if(
 		std::begin(m_bindVec),
 		std::end(m_bindVec),
 		[&](const NumberGestureBind& value) {return value.getName() == name; });
-	return* found;
+	if (found == std::end(m_bindVec))
+	{
+		nullptr;
+	}
+	return &(*found);
 }
 
 void Terminal::LogIn()
