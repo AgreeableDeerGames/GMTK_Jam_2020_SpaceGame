@@ -57,11 +57,17 @@ const GB::KeyboardGestureBind& PT::Terminal::GetBindWithName(const std::string& 
 
 void PT::Terminal::LogIn()
 {
+	// Print Logged In
+	std::cout << "Logged In.\n";
+
 	m_isLoggedIn = true;
 }
 
 void PT::Terminal::LogOut()
 {
+	// Print Logged In
+	std::cout << "Logged Out.\n";
+
 	m_isLoggedIn = false;
 }
 
@@ -90,16 +96,16 @@ GB::KeyboardGestureBind PT::Terminal::GeneratePasscode()
 {
 	static std::vector<sf::Keyboard::Key> keyMapping
 	{
-		sf::Keyboard::Key::Num0,
-		sf::Keyboard::Key::Num1,
-		sf::Keyboard::Key::Num2,
-		sf::Keyboard::Key::Num3,
-		sf::Keyboard::Key::Num4,
-		sf::Keyboard::Key::Num5,
-		sf::Keyboard::Key::Num6,
-		sf::Keyboard::Key::Num7,
-		sf::Keyboard::Key::Num8,
-		sf::Keyboard::Key::Num9
+		sf::Keyboard::Key::Numpad0,
+		sf::Keyboard::Key::Numpad1,
+		sf::Keyboard::Key::Numpad2,
+		sf::Keyboard::Key::Numpad3,
+		sf::Keyboard::Key::Numpad4,
+		sf::Keyboard::Key::Numpad5,
+		sf::Keyboard::Key::Numpad6,
+		sf::Keyboard::Key::Numpad7,
+		sf::Keyboard::Key::Numpad8,
+		sf::Keyboard::Key::Numpad9
 	};
 
 	GB::RandGen generator;
@@ -108,10 +114,12 @@ GB::KeyboardGestureBind PT::Terminal::GeneratePasscode()
 	{
 		// Randomly generate a number from 0-9
 		int randNum = generator.uniDist(0, 10);
+		std::cout << randNum << " ";
 
 		// Get the correct key for the number and create an event
 		sf::Event eventForKey = {};
 		eventForKey.key = sf::Event::KeyEvent{ keyMapping.at(randNum), false, false, false, false };
+		eventForKey.type = sf::Event::KeyPressed;
 
 		// Push the event into the vector
 		bindKeys.push_back(eventForKey);
@@ -119,7 +127,7 @@ GB::KeyboardGestureBind PT::Terminal::GeneratePasscode()
 
 	std::function<void()> action = [this]() { LogIn(); };
 	std::string name = "Passcode";
-	sf::Int64 maxTimeBetweenInputs = 1000;
+	sf::Int64 maxTimeBetweenInputs = 1000000;
 	GB::KeyboardGestureBind::EndType endType = GB::KeyboardGestureBind::EndType::Block;
 
 	return GB::KeyboardGestureBind
@@ -138,13 +146,19 @@ bool PT::Terminal::handleEvent(sf::Int64 elapsedTime, const sf::Event& event)
 	{
 		return m_controls.handleEvent(elapsedTime, event);
 	}
-	auto result = m_passcode.processEvent(elapsedTime, event);
-	if (!result.readyForInput)
-	{
-		m_passcode.reset();
-	}
 
-	return result.inputConsumed;
+	if (event.type == sf::Event::KeyPressed)
+	{
+		auto result = m_passcode.processEvent(elapsedTime, event);
+		if (!result.readyForInput)
+		{
+			std::cout << "Loggin Failed. Resetting Passcode.\n";
+			m_passcode.reset();
+		}
+
+		return result.inputConsumed;
+	}
+	return false;
 }
 
 

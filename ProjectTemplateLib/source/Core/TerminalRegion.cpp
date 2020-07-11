@@ -9,6 +9,10 @@
 using namespace PT;
 
 TerminalRegion::TerminalRegion(std::shared_ptr<Ship> ship) :
+	m_isInRecordState(),
+	m_nextActionToBind(),
+    m_nextActionNameToBind(),
+	m_recorder(),
 	m_ship(std::move(ship)),
 	m_terminal()
 {

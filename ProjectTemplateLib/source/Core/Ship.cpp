@@ -38,7 +38,7 @@ void Ship::update(sf::Int64 elapsedTime)
     m_fires = m_fires + (fireSpread * m_fires) - ((int)m_areSprinklersOn * firePutOutBySprinklers);
     m_water = m_water + waterGenerated - ((int)m_areSprinklersOn * waterLostBySprinklers);
 
-    PrintToTerminal();
+    //PrintToTerminal();
 }
 
 void PT::Ship::PrintToTerminal() const
