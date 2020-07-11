@@ -11,12 +11,8 @@ namespace PT
     class libProjectTemplate TemplateRegion : public GB::GameRegion
     {
     public:
-        TemplateRegion(sf::RenderWindow& window) :
-            m_gui(window)
-        {
-        }
+        using GB::GameRegion::GameRegion;
 
-        //GUI
-        tgui::Gui m_gui;
+        virtual tgui::Gui& GetGui() = 0;
     };
 }

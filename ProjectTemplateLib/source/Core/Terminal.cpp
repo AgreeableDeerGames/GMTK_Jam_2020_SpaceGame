@@ -4,21 +4,17 @@
 
 #include <stdexcept>
 
-PT::Terminal::Terminal() :
+PT::Terminal::Terminal(sf::RenderWindow& window, const std::vector<Ship::Stat>& trackedSats, std::shared_ptr<Ship> ship) :
 	m_isLoggedIn(false),
-	m_screen({ 25, 20 }),
-	m_screenTexture(),
 	m_passcode(GeneratePasscode()),
 	m_bindVec(),
-	m_controls()
+	m_controls(),
+	m_gui(window),
+	m_visibleShipBars(),
+	m_displayedTerminal(),
+	m_ship(std::move(ship))
 {
-	m_screenTexture.loadFromFile("Textures/resources/WindowsConsoleASCII.png");
-	m_screen.setTexture(m_screenTexture, 16, { 8, 12 }); // texture, number of tiles per row, tile size
-	m_screen.setSize({ 256.0f, 256.0f }); // scaled x2
-	m_screen.setShowCursor(false);
-
-
-
+	InitGui(trackedSats);
 }
 
 void PT::Terminal::AddBind(GB::KeyboardGestureBind bind)
@@ -73,23 +69,15 @@ void PT::Terminal::LogOut()
 
 void PT::Terminal::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	target.draw(m_screen, states);
 }
 
 void PT::Terminal::update(sf::Int64 elapsedTime)
 {
-	//stringToPrint.at(m_screen.getCursorValue());
-	std::string stringToPrint = "Test String";
-
-	/*int value = m_screen.getCursorValue();
-	m_screen << Cs::Char(stringToPrint.at(value)) << Cs::Right();*/
-	m_screen.setMappedCursorCommandCharacter('\n', Cs::CursorCommand::Newline);
-	m_screen << Cs::Direct::Begin << Cs::Location(0,0)
-		<<
-		"TEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\n"
-		
-		<<
-		Cs::Direct::End;
+	// update gui
+	for (auto& [key, value] : m_visibleShipBars)
+	{
+		m_visibleShipBars.at(key)->setValue(m_ship->m_stats[key]);
+	}
 }
 
 GB::KeyboardGestureBind PT::Terminal::GeneratePasscode()
@@ -142,6 +130,8 @@ GB::KeyboardGestureBind PT::Terminal::GeneratePasscode()
 
 bool PT::Terminal::handleEvent(sf::Int64 elapsedTime, const sf::Event& event)
 {
+	m_gui.handleEvent(event);
+
 	if (m_isLoggedIn)
 	{
 		return m_controls.handleEvent(elapsedTime, event);
@@ -175,4 +165,43 @@ void PT::Terminal::RegenerateControls()
 bool PT::Terminal::IsLoggedIn()
 {
 	return m_isLoggedIn;
+}
+
+tgui::Gui& PT::Terminal::GetGui()
+{
+	return m_gui;
+}
+
+void PT::Terminal::InitGui(const std::vector<Ship::Stat>& trackedStats)
+{
+	m_gui.removeAllWidgets();
+
+	tgui::Theme theme("TGUI_Widgets/Black.txt");
+	// Get a bound version of the window size
+	// Passing this to setPosition or setSize will make the widget automatically update when the view of the gui changes
+	tgui::Layout windowWidth = tgui::bindWidth(this->m_gui);
+	tgui::Layout windowHeight = tgui::bindHeight(this->m_gui);
+
+	// Add progress bars for stats
+	for (std::size_t i = 0; i < trackedStats.size(); ++i)
+	{
+		auto progressBar = tgui::ProgressBar::create();
+		tgui::Layout progressBarWidth = windowWidth / 3;
+		tgui::Layout progressBarHeight = windowHeight / 20;
+		progressBar->setRenderer(theme.getRenderer("ProgressBar"));
+		progressBar->setSize({ progressBarWidth, progressBarHeight });
+		progressBar->setValue(50);
+		progressBar->setPosition(windowWidth / 25, (progressBarHeight / 2) + progressBarHeight * (1.25 * i));
+		m_gui.add(progressBar);
+
+		m_visibleShipBars[trackedStats[i]] = progressBar;
+	}
+
+	m_displayedTerminal = tgui::TextBox::create();
+	m_displayedTerminal->setEnabled(false);
+	m_displayedTerminal->setSize(windowWidth * 0.9, windowHeight * 0.25);
+	m_displayedTerminal->setPosition(25, 500);
+	m_displayedTerminal->setText("SOME TEXT");
+	m_gui.add(m_displayedTerminal);
+
 }

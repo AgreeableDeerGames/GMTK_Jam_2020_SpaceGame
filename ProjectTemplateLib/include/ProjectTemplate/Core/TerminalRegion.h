@@ -28,23 +28,19 @@ namespace PT
         TerminalRegion(const TerminalRegion&) = delete;
         TerminalRegion& operator=(const TerminalRegion&) = delete;
 
+        tgui::Gui& GetGui() override;
+
         bool handleEvent(sf::Int64 elapsedTime, const sf::Event& event) override;
 
         void update(sf::Int64 elapsedTime) override;
 
     protected:
 
-        virtual void InitGui(const std::vector<Ship::Stat>& trackedStats);
-
         bool m_isInRecordState;
         std::function<void()> m_nextActionToBind;
         std::string m_nextActionNameToBind;
         InputRecorder m_recorder;
-
         Terminal m_terminal;
-
         std::shared_ptr<Ship> m_ship;
-        std::map<Ship::Stat, tgui::ProgressBar::Ptr> m_visibleShipBars;
-        tgui::TextBox::Ptr m_displayedTerminal;
     };
 }

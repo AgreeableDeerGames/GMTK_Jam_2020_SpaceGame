@@ -21,5 +21,5 @@ void PT::EventController::draw()
 
 void PT::EventController::PostDraw()
 {
-	static_cast<TemplateRegion*>(getActiveRegion())->m_gui.draw();
+	static_cast<TemplateRegion*>(getActiveRegion())->GetGui().draw();
 }
