@@ -8,6 +8,7 @@ add_library(ProjectTemplate SHARED
   "include/ProjectTemplate/Core/Ship.h"
   "include/ProjectTemplate/Core/TemplateRegion.h"
   "include/ProjectTemplate/Core/Terminal.h" 
+  "include/ProjectTemplate/Core/TerminalRegion.h" 
   "include/ProjectTemplate/Utils/DllUtils.h"
   
   "source/Core/EventController.cpp"
