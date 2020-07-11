@@ -10,6 +10,7 @@ add_library(ProjectTemplate SHARED
   "include/ProjectTemplate/Core/Terminal.h" 
   "include/ProjectTemplate/Core/TerminalOne.h" 
   "include/ProjectTemplate/Core/TerminalRegion.h" 
+  "include/ProjectTemplate/Utils/DisplayText.h"
   "include/ProjectTemplate/Utils/DllUtils.h"
   
   "source/Core/EventController.cpp"
