@@ -3,19 +3,12 @@
 #include <GameBackbone/Util/RandGen.h>
 
 PT::Terminal::Terminal() :
-	m_screen()
+	m_screen({ 25, 20 })
 {
-	m_screenTexture.loadFromFile("Textures/GreenSquare.png");
-	m_screen.setTexture(m_screenTexture, 10, m_screenTexture.getSize());
-	m_screen.setPosition(0, 0);
-	m_screen.setSize({ 400, 400 });
-	m_screen 
-		<< selbaward::ConsoleScreen::Direct::Begin
-		<< selbaward::ConsoleScreen::Fg(selbaward::Palette::Default::Black)
-		<< selbaward::ConsoleScreen::Bg(selbaward::Palette::Default::White)
-		<< selbaward::ConsoleScreen::Location(0, 0)
-		<< "some test text?" 
-		<< selbaward::ConsoleScreen::Direct::End;
+	m_screenTexture.loadFromFile("Textures/resources/WindowsConsoleASCII.png");
+	m_screen.setTexture(m_screenTexture, 16, { 8, 12 }); // texture, number of tiles per row, tile size
+	m_screen.setSize({ 256.0f, 256.0f }); // scaled x2
+	m_screen.setShowCursor(false);
 }
 
 void PT::Terminal::LogIn()
@@ -35,6 +28,18 @@ void PT::Terminal::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 void PT::Terminal::update(sf::Int64 elapsedTime)
 {
+	//stringToPrint.at(m_screen.getCursorValue());
+	std::string stringToPrint = "Test String";
+
+	/*int value = m_screen.getCursorValue();
+	m_screen << Cs::Char(stringToPrint.at(value)) << Cs::Right();*/
+	m_screen.setMappedCursorCommandCharacter('\n', Cs::CursorCommand::Newline);
+	m_screen << Cs::Direct::Begin << Cs::Location(0,0)
+		<<
+		"TEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\n"
+		
+		<<
+		Cs::Direct::End;
 }
 
 GB::KeyboardGestureBind PT::Terminal::GeneratePasscode()

@@ -18,4 +18,8 @@ TerminalRegion::TerminalRegion() :
 
 void TerminalRegion::update(sf::Int64 elapsedTime)
 {
+	for (auto& terminal : m_terminals)
+	{
+		terminal.update(elapsedTime);
+	}
 }
