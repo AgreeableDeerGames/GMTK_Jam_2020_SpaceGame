@@ -4,17 +4,19 @@ cmake_minimum_required (VERSION 3.8)
 add_library(ProjectTemplate SHARED
   "include/ProjectTemplate.h"
   "include/ProjectTemplate/Core/EventController.h"
+  "include/ProjectTemplate/Core/InputRecorder.h"
   "include/ProjectTemplate/Core/Ship.h"
   "include/ProjectTemplate/Core/TemplateRegion.h"
   "include/ProjectTemplate/Core/Terminal.h" 
   "include/ProjectTemplate/Utils/DllUtils.h"
   
   "source/Core/EventController.cpp"
+  "source/Core/InputRecorder.cpp"
   "source/Core/Ship.cpp"
   "source/ProjectTemplate.cpp"
   "source/Core/Terminal.cpp"
   "source/Core/TerminalRegion.cpp"
-)
+  )
 set_target_properties(ProjectTemplate PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
 
 # GameBackbone has SFML as a public target. This means that it is automatically
