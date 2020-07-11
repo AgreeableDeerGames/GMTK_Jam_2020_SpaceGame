@@ -7,7 +7,7 @@ using namespace PT;
 
 double oxygenGainedFromLifeSupport = 0.1;
 double oxygenLostFromHoles = 0.05;
-double oxygenLostFromFires = 0.05;
+double oxygenLostFromFires = 0.0005;
 
 double hullLostFromDamage = 0.1;
 double hullGainedFromRepairs = 0.5;
