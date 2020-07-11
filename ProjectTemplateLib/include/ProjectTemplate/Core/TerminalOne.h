@@ -21,6 +21,7 @@ namespace PT
 
 	private:
 		bool m_isInitialized;
+		bool m_fireInitialized;
 
 	};
 }

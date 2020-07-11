@@ -48,5 +48,13 @@ namespace PT
 
         void PrintToTerminal() const;
 
+
+    private:
+
+        void UpdateWater(sf::Int64 elapsedTime);
+        void UpdateFire(sf::Int64 elapsedTime);
+        void UpdateOxygen(sf::Int64 elapsedTime);
+        void UpdateTemperature(sf::Int64 elapsedTime);
+
     };
 }

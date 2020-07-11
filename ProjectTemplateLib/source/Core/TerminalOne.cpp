@@ -5,8 +5,9 @@
 
 using namespace PT;
 
-TerminalOne::TerminalOne(sf::RenderWindow& window, std::shared_ptr<Ship> ship) : m_isInitialized(false),
-	TerminalRegion(window, ship, {Ship::Stat::water, Ship::Stat::fires})
+TerminalOne::TerminalOne(sf::RenderWindow& window, std::shared_ptr<Ship> ship) : 
+	TerminalRegion(window, ship, {Ship::Stat::water, Ship::Stat::fires}), 
+	m_isInitialized(false), m_fireInitialized(false)
 {
 	//m_terminal.AddBind()
 
@@ -77,6 +78,11 @@ void TerminalOne::update(sf::Int64 elapsedTime)
 
 					m_terminal.m_displayedTerminal->addText("\n\n");
 					m_terminal.m_displayedTerminal->addText(std::string(terminalOne_FireRequest));
+					if (!m_fireInitialized)
+					{
+						m_ship->m_stats[Ship::Stat::fires] = 10;
+						m_fireInitialized = true;
+					}
 				}
 				else
 				{

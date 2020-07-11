@@ -39,13 +39,12 @@ Ship::Ship() :
 void Ship::update(sf::Int64 elapsedTime)
 {
 	// Default Behavior
-    m_stats[Stat::oxygen] = m_stats[Stat::oxygen] + oxygenGainedFromLifeSupport - (oxygenLostFromHoles * m_stats[Stat::hullIntegrity] * m_stats[Stat::oxygen]) - (oxygenLostFromFires * m_stats[Stat::fires] * m_stats[Stat::oxygen]);
     m_stats[Stat::hullIntegrity] = m_stats[Stat::hullIntegrity] - hullLostFromDamage + ((int)m_isHullBeingRepaired * hullGainedFromRepairs);
-    m_stats[Stat::temperature] = m_stats[Stat::temperature] + (heatGainedFromFires * m_stats[Stat::fires]) - (heatLostFromHoles * m_stats[Stat::hullIntegrity]) + ((int)m_isHeatingOn * heatGainedFromHeating) - ((int)m_isCoolingOn * heatLostFromCooling);
 
-    m_stats[Stat::fires] = m_stats[Stat::fires] + (fireSpread * m_stats[Stat::fires]) - ((int)m_areSprinklersOn * firePutOutBySprinklers);
-    m_stats[Stat::water] = m_stats[Stat::water] + waterGenerated - ((int)m_areSprinklersOn * waterLostBySprinklers);
-
+    UpdateWater(elapsedTime);
+    UpdateFire(elapsedTime);
+    UpdateOxygen(elapsedTime);
+    UpdateTemperature(elapsedTime);
     //PrintToTerminal();
 }
 
@@ -56,4 +55,60 @@ void PT::Ship::PrintToTerminal() const
     std::cout << m_stats.at(Stat::temperature) << std::endl;
     std::cout << m_stats.at(Stat::fires) << std::endl;
     std::cout << m_stats.at(Stat::water) << std::endl;
+}
+
+
+void Ship::UpdateWater(sf::Int64 elapsedTime)
+{
+    const double waterGeneratedPerSecond = waterGenerated * elapsedTime * 0.000001;
+    const double waterLostPerSecond = (int)m_areSprinklersOn * waterLostBySprinklers * elapsedTime * 0.000001;
+
+
+    m_stats[Stat::water] = m_stats[Stat::water] + waterGeneratedPerSecond - waterLostPerSecond;
+    if (m_stats[Stat::water] < 0)
+    {
+        m_stats[Stat::water] = 0;
+	}
+    if (m_stats[Stat::water] > 100)
+    {
+        m_stats[Stat::water] = 100;
+	}
+}
+
+void Ship::UpdateFire(sf::Int64 elapsedTime)
+{
+    const double fireSpreadPerSecond = m_stats[Stat::fires] * fireSpread * elapsedTime * 0.000001;
+    const double firePutOutPerSecond = (int)m_areSprinklersOn * firePutOutBySprinklers * elapsedTime * 0.000001;
+
+    m_stats[Stat::fires] = m_stats[Stat::fires] + fireSpreadPerSecond - firePutOutPerSecond;
+    if (m_stats[Stat::fires] < 0)
+    {
+        m_stats[Stat::fires] = 0;
+	}
+    if (m_stats[Stat::fires] > 100)
+    {
+        m_stats[Stat::fires] = 100;
+	}
+}
+
+void Ship::UpdateOxygen(sf::Int64 elapsedTime)
+{
+    const double oxygenGainedPerSecond = oxygenGainedFromLifeSupport * elapsedTime * 0.000001;
+    const double oxygenLostPerSecond = m_stats[Stat::oxygen] * m_stats[Stat::fires] * oxygenLostFromFires * elapsedTime * 0.000001;
+
+    m_stats[Stat::oxygen] = m_stats[Stat::oxygen] + oxygenGainedPerSecond - oxygenLostPerSecond;
+    //m_stats[Stat::oxygen] = m_stats[Stat::oxygen] + oxygenGainedFromLifeSupport - (oxygenLostFromHoles * m_stats[Stat::hullIntegrity] * m_stats[Stat::oxygen]) - (oxygenLostFromFires * m_stats[Stat::fires] * m_stats[Stat::oxygen]);
+    if (m_stats[Stat::oxygen] < 0)
+    {
+        m_stats[Stat::oxygen] = 0;
+	}
+    if (m_stats[Stat::oxygen] > 100)
+    {
+        m_stats[Stat::oxygen] = 100;
+	}
+}
+
+void Ship::UpdateTemperature(sf::Int64 elapsedTime)
+{
+    m_stats[Stat::temperature] = m_stats[Stat::temperature] + (heatGainedFromFires * m_stats[Stat::fires]) - (heatLostFromHoles * m_stats[Stat::hullIntegrity]) + ((int)m_isHeatingOn * heatGainedFromHeating) - ((int)m_isCoolingOn * heatLostFromCooling);
 }
