@@ -38,6 +38,8 @@ TerminalOne::TerminalOne(sf::RenderWindow& window, std::shared_ptr<Ship> ship) :
 
 void TerminalOne::update(sf::Int64 elapsedTime)
 {
+	TerminalRegion::update(elapsedTime);
+
 	if (!m_isInitialized)
 	{
 		// Teach the user how to Log Into the first console
