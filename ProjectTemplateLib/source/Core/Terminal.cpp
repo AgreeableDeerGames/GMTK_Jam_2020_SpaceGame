@@ -46,7 +46,7 @@ void PT::Terminal::ReplaceBind(std::string name, GB::KeyboardGestureBind bind)
 	}
 }
 
-const GB::KeyboardGestureBind PT::Terminal::GetBindWithName(const std::string& name)
+const GB::KeyboardGestureBind& PT::Terminal::GetBindWithName(const std::string& name)
 {
 	auto found = std::find_if(
 		std::begin(m_bindVec),

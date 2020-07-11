@@ -39,7 +39,7 @@ namespace PT
 
 		void AddBind(GB::KeyboardGestureBind bind);
 
-		const GB::KeyboardGestureBind GetBindWithName(const std::string& name);
+		const GB::KeyboardGestureBind& GetBindWithName(const std::string& name);
 
 		void ReplaceBind(std::string name, GB::KeyboardGestureBind bind);
 
