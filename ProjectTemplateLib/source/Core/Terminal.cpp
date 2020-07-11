@@ -6,7 +6,9 @@ PT::Terminal::Terminal() :
 	m_isLoggedIn(false),
 	m_screen(),
 	m_screenTexture(),
-	m_passcode(GeneratePasscode())
+	m_passcode(GeneratePasscode()),
+	m_bindVec(),
+	m_controls()
 {
 	m_screenTexture.loadFromFile("Textures/GreenSquare.png");
 	m_screen.setTexture(m_screenTexture, 10, m_screenTexture.getSize());
