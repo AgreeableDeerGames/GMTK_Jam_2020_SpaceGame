@@ -22,30 +22,38 @@ double firePutOutBySprinklers = 0.1;
 double waterGenerated = 0.1;
 double waterLostBySprinklers = 0.5;
 
-Ship::Ship() : m_isHullBeingRepaired(false), m_isHeatingOn(false), m_isCoolingOn(false), m_areSprinklersOn(false),
-m_oxygen(100.0), m_hullIntegrity(100.0), m_temperature(50.0), m_fires(0.0), m_water(100.0)
+Ship::Ship() : 
+    m_stats({ 
+        {Stat::oxygen, 100.0},
+        {Stat::hullIntegrity, 100.0},
+        {Stat::temperature, 50.0},
+        {Stat::fires, 0.0},
+        {Stat::water, 100.0}}),
+    m_isHullBeingRepaired(false),
+    m_isHeatingOn(false),
+    m_isCoolingOn(false),
+    m_areSprinklersOn(false)
 {
-
 }
 
 void Ship::update(sf::Int64 elapsedTime)
 {
 	// Default Behavior
-    m_oxygen = m_oxygen + oxygenGainedFromLifeSupport - (oxygenLostFromHoles * m_hullIntegrity * m_oxygen) - (oxygenLostFromFires * m_fires * m_oxygen);
-    m_hullIntegrity = m_hullIntegrity - hullLostFromDamage + ((int)m_isHullBeingRepaired * hullGainedFromRepairs);
-    m_temperature = m_temperature + (heatGainedFromFires * m_fires) - (heatLostFromHoles * m_hullIntegrity) + ((int)m_isHeatingOn * heatGainedFromHeating) - ((int)m_isCoolingOn * heatLostFromCooling);
+    m_stats[Stat::oxygen] = m_stats[Stat::oxygen] + oxygenGainedFromLifeSupport - (oxygenLostFromHoles * m_stats[Stat::hullIntegrity] * m_stats[Stat::oxygen]) - (oxygenLostFromFires * m_stats[Stat::fires] * m_stats[Stat::oxygen]);
+    m_stats[Stat::hullIntegrity] = m_stats[Stat::hullIntegrity] - hullLostFromDamage + ((int)m_isHullBeingRepaired * hullGainedFromRepairs);
+    m_stats[Stat::temperature] = m_stats[Stat::temperature] + (heatGainedFromFires * m_stats[Stat::fires]) - (heatLostFromHoles * m_stats[Stat::hullIntegrity]) + ((int)m_isHeatingOn * heatGainedFromHeating) - ((int)m_isCoolingOn * heatLostFromCooling);
 
-    m_fires = m_fires + (fireSpread * m_fires) - ((int)m_areSprinklersOn * firePutOutBySprinklers);
-    m_water = m_water + waterGenerated - ((int)m_areSprinklersOn * waterLostBySprinklers);
+    m_stats[Stat::fires] = m_stats[Stat::fires] + (fireSpread * m_stats[Stat::fires]) - ((int)m_areSprinklersOn * firePutOutBySprinklers);
+    m_stats[Stat::water] = m_stats[Stat::water] + waterGenerated - ((int)m_areSprinklersOn * waterLostBySprinklers);
 
     //PrintToTerminal();
 }
 
 void PT::Ship::PrintToTerminal() const
 {
-    std::cout << m_oxygen << std::endl;
-    std::cout << m_hullIntegrity << std::endl;
-    std::cout << m_temperature << std::endl;
-    std::cout << m_fires << std::endl;
-    std::cout << m_water << std::endl;
+    std::cout << m_stats.at(Stat::oxygen) << std::endl;
+    std::cout << m_stats.at(Stat::hullIntegrity) << std::endl;
+    std::cout << m_stats.at(Stat::temperature) << std::endl;
+    std::cout << m_stats.at(Stat::fires) << std::endl;
+    std::cout << m_stats.at(Stat::water) << std::endl;
 }

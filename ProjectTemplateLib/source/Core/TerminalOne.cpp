@@ -2,7 +2,8 @@
 
 using namespace PT;
 
-TerminalOne::TerminalOne(sf::RenderWindow& window, std::shared_ptr<Ship> ship) : TerminalRegion(window, ship)
+TerminalOne::TerminalOne(sf::RenderWindow& window, std::shared_ptr<Ship> ship) : 
+	TerminalRegion(window, ship, {Ship::Stat::water, Ship::Stat::fires})
 {
 	// Add sprinkler bind to the vector of binds.
 
