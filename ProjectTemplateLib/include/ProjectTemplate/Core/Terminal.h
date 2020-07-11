@@ -1,6 +1,8 @@
 #pragma once
 
 #include <ProjectTemplate/Utils/DllUtils.h>
+#include <ProjectTemplate/Utils/GestureBindUtils.h>
+
 
 #include <GameBackbone/Core/Updatable.h>
 #include <GameBackbone/UserInput/GestureBind.h>
@@ -33,15 +35,15 @@ namespace PT
 
 		void update(sf::Int64 elapsedTime) override;
 
-		GB::KeyboardGestureBind& GetPasscode();
+		NumberGestureBind& GetPasscode();
 
 		bool handleEvent(sf::Int64 elapsedTime, const sf::Event& event) override;
 
-		void AddBind(GB::KeyboardGestureBind bind);
+		void AddBind(NumberGestureBind bind);
 
-		const GB::KeyboardGestureBind& GetBindWithName(const std::string& name);
+		const NumberGestureBind& GetBindWithName(const std::string& name);
 
-		void ReplaceBind(std::string name, GB::KeyboardGestureBind bind);
+		void ReplaceBind(std::string name, NumberGestureBind bind);
 
 		// void ReplaceBind()
 
@@ -51,17 +53,17 @@ namespace PT
 		void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 	private:
-		GB::KeyboardGestureBind GeneratePasscode();
+		NumberGestureBind GeneratePasscode();
 		void RegenerateControls();
 
 		bool m_isLoggedIn;
 		selbaward::ConsoleScreen m_screen;
 		sf::Texture m_screenTexture;
-		GB::KeyboardGestureBind m_passcode;
+		NumberGestureBind m_passcode;
 
 		// Dont use this to handle events. We just need this because 
 		// GestureHandler doesn't have a way to change a single bind yet
-		std::vector<GB::KeyboardGestureBind> m_bindVec;
-		GB::KeyboardGestureHandler m_controls;
+		std::vector<NumberGestureBind> m_bindVec;
+		NumberGestureHandler m_controls;
 	};
 }

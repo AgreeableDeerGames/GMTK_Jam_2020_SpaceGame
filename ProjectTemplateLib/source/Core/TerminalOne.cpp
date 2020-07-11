@@ -1,16 +1,13 @@
 #include <ProjectTemplate/Core/TerminalOne.h>
 
+#include <ProjectTemplate/Utils/DisplayText.h>
+#include <ProjectTemplate/Utils/GestureBindUtils.h>
+
 using namespace PT;
 
 TerminalOne::TerminalOne(sf::RenderWindow& window, std::shared_ptr<Ship> ship) : m_isInitialized(false),
 	TerminalRegion(window, ship, {Ship::Stat::water, Ship::Stat::fires})
 {
-	// Put us in a state of binding.
-	m_isInRecordState = true;
-	m_nextActionToBind = [this]() { TurnOnSprinklers(); };
-	m_nextActionNameToBind = "Sprinkler Bind";
-
-
 	// Example of how to force a particular bind.
 	// Add sprinkler bind to the vector of binds.
 	/*std::vector<sf::Event> bindKeys;
@@ -42,16 +39,36 @@ void TerminalOne::update(sf::Int64 elapsedTime)
 
 	if (!m_isInitialized)
 	{
-		// Teach the user how to Log Into the first console
-		
-		if (m_terminal.IsLoggedIn())
+		if (!m_terminal.IsLoggedIn())
 		{
-			// Tell the user about the first problem.
+			// Teach the user how to Log Into the first console
+			m_displayedTerminal->setText(std::string(terminalOne_Welcome));
+			m_displayedTerminal->addText(StringifyGesture(m_terminal.GetPasscode()));
+			m_displayedTerminal->addText("\n\n");
+			m_displayedTerminal->addText(std::string(terminalOne_LogIn));
+		}
+		else
+		{
+			// if (/*bind does not exist*/)
+			{
+				// Tell the user about the first problem.
+				m_displayedTerminal->setText(std::string(logInSuccessful));
+				m_displayedTerminal->addText("\n\n");
 
-			// Teach them how to bind a key
 
-			// Have them use their bound key to fix the problem
+				// Teach them how to bind a key
+				m_displayedTerminal->addText(std::string(terminalOne_FireBind));
 
+				// Have them use their bound key to fix the problem
+				// Put us in a state of binding.
+				m_isInRecordState = true;
+				m_nextActionToBind = [this]() { TurnOnSprinklers(); };
+				m_nextActionNameToBind = "Sprinkler Bind";
+			}
+			//else
+			{
+				m_displayedTerminal->setText(std::string(logInSuccessful));
+			}
 			//if (problem is fixed)
 			{
 				// Introduce the concept of switching terminals

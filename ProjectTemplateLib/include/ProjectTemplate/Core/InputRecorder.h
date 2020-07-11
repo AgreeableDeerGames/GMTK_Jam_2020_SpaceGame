@@ -1,6 +1,7 @@
 #pragma once
 
 #include <ProjectTemplate/Utils/DllUtils.h>
+#include <ProjectTemplate/Utils/GestureBindUtils.h>
 
 
 #include <GameBackbone/UserInput/InputHandler.h>
@@ -12,7 +13,7 @@ namespace PT
 	{
 	public:
 		bool handleEvent(sf::Int64 elapsedTime, const sf::Event& event) override;
-		GB::KeyboardGestureBind GetCompletedBind(std::string name, std::function<void()> action);
+		NumberGestureBind GetCompletedBind(std::string name, std::function<void()> action);
 
 	private:
 		std::vector<sf::Event> m_bindKeys;
