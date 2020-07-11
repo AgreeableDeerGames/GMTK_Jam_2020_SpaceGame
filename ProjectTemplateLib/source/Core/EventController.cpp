@@ -6,7 +6,9 @@ using namespace PT;
 
 #define APP_NAME "ProjectTemplate"
 
-EventController::EventController() : CoreEventController(APP_NAME), mainRegion()
+EventController::EventController() : CoreEventController(APP_NAME),
+	m_ship(std::make_shared<Ship>()),
+	mainRegion(m_ship)
 {
 	setActiveRegion(&mainRegion);
 }

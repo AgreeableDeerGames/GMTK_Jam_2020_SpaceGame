@@ -1,11 +1,13 @@
 #include <ProjectTemplate/Core/TerminalRegion.h>
+#include <ProjectTemplate/Core/Ship.h>
 
-
+#include <memory>
 #include <vector>
 
 using namespace PT;
 
-TerminalRegion::TerminalRegion() :
+TerminalRegion::TerminalRegion(std::shared_ptr<Ship> ship) :
+	m_ship(std::move(ship)),
 	m_terminals()
 {
 	m_terminals.emplace_back();
@@ -18,4 +20,5 @@ TerminalRegion::TerminalRegion() :
 
 void TerminalRegion::update(sf::Int64 elapsedTime)
 {
+	m_ship->update(elapsedTime);
 }

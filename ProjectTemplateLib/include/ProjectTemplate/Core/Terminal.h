@@ -28,14 +28,17 @@ namespace PT
 
 		void update(sf::Int64 elapsedTime) override;
 
-		GB::KeyboardGestureBind GeneratePasscode();
+		GB::KeyboardGestureBind& GetPasscode();
 
 	protected:
 		void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 	private:
+		GB::KeyboardGestureBind GeneratePasscode();
+
 		bool m_isLoggedIn;
 		selbaward::ConsoleScreen m_screen;
 		sf::Texture m_screenTexture;
+		GB::KeyboardGestureBind m_passcode;
 	};
 }

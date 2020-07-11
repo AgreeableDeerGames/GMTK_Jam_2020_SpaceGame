@@ -1,5 +1,7 @@
 #include <ProjectTemplate/Core/Ship.h>
 
+#include <iostream>
+
 using namespace PT;
 
 double oxygenGainedFromLifeSupport = 0.1;
@@ -35,4 +37,15 @@ void Ship::update(sf::Int64 elapsedTime)
 
     m_fires = m_fires + (fireSpread * m_fires) - ((int)m_areSprinklersOn * firePutOutBySprinklers);
     m_water = m_water + waterGenerated - ((int)m_areSprinklersOn * waterLostBySprinklers);
+
+    PrintToTerminal();
+}
+
+void PT::Ship::PrintToTerminal() const
+{
+    std::cout << m_oxygen << std::endl;
+    std::cout << m_hullIntegrity << std::endl;
+    std::cout << m_temperature << std::endl;
+    std::cout << m_fires << std::endl;
+    std::cout << m_water << std::endl;
 }
