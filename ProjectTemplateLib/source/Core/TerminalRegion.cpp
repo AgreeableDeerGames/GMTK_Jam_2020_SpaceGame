@@ -58,8 +58,13 @@ bool TerminalRegion::handleEvent(sf::Int64 elapsedTime, const sf::Event& event)
 void TerminalRegion::update(sf::Int64 elapsedTime)
 {
 	m_terminal.update(elapsedTime);
-
 	m_ship->update(elapsedTime);
+
+	// update gui
+	for (auto& [key, value] : m_visibleShipBars)
+	{
+		m_visibleShipBars.at(key)->setValue(m_ship->m_stats[key]);
+	}
 }
 
 void PT::TerminalRegion::InitGui(const std::vector<Ship::Stat>& trackedStats)
