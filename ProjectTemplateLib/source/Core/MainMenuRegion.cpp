@@ -108,10 +108,12 @@ void MainMenuRegion::Reset()
 {
 	m_hub = std::make_unique<TerminalHub>(m_window, std::make_shared<Ship>(), std::make_shared<DataPad>());
 	InitGui();
+	InitHub();
 }
 
 void MainMenuRegion::InitHub()
 {
+	auto ship = m_hub->m_ship;
 	m_hub->m_regions.emplace_back(
 		std::make_unique<ShipControlTerminalRegion>(
 			m_window,
@@ -126,8 +128,8 @@ void MainMenuRegion::InitHub()
 			m_hub->m_dataPad,
 			std::unordered_map<std::string, std::function<void()>>
 			{
-				{"Turn on sprinklers", []() {}},
-				{"Turn off sprinklers", []() {}},
+				{"Turn on sprinklers", [ship]() { ship->m_areSprinklersOn = true; }},
+				{"Turn off sprinklers", [ship]() { ship->m_areSprinklersOn = false; }},
 			},
 			"Engine Room"
 		)
@@ -147,8 +149,8 @@ void MainMenuRegion::InitHub()
 			m_hub->m_dataPad,
 			std::unordered_map<std::string, std::function<void()>>
 			{
-				{"Release Bacteria", []() {}},
-				{"Stop Releasing Bacteria", []() {}},
+				{"Release Bacteria", [ship]() { ship->m_isReleasingBacteria = true; }},
+				{"Stop Releasing Bacteria", [ship]() { ship->m_isReleasingBacteria = false; }},
 			},
 			"Bio Lab"
 		)
@@ -167,14 +169,13 @@ void MainMenuRegion::InitHub()
 			m_hub->m_dataPad,
 			std::unordered_map<std::string, std::function<void()>>
 			{
-				{"Release Nanites", []() {}},
-				{"Stop Releasing Nanites", []() {}},
+				{"Release Nanites", [ship]() { ship->m_isReleasingNanites = true; }},
+				{"Stop Releasing Nanites", [ship]() { ship->m_isReleasingNanites = true; }},
 			},
 			"Engineering Lab"
 		)
 	);
 }
-
 
 void MainMenuRegion::SetRandomGameState()
 {
