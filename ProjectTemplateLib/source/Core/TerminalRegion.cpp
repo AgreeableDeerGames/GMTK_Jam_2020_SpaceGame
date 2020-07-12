@@ -78,7 +78,8 @@ bool TerminalRegion::IsGameOver()
 		m_ship->m_stats[Ship::Stat::oxygen] == 0 || 
 		m_ship->m_stats[Ship::Stat::temperature] == 0 ||
 		m_ship->m_stats[Ship::Stat::temperature] == 100 ||
-		m_ship->m_stats[Ship::Stat::fires] == 100)
+		m_ship->m_stats[Ship::Stat::fires] == 100 ||
+		m_ship->m_stats[Ship::Stat::radiation] == 100)
 	{
 		return true;
 	}
