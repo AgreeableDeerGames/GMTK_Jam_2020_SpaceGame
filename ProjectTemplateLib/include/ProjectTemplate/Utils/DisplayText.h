@@ -12,7 +12,7 @@ constexpr std::string_view terminalOne_FireBound = "Sequence bound to the sprink
 constexpr std::string_view terminalOne_FireRequest = "Please use the sprinklers to put out the fires.";
 constexpr std::string_view terminalOne_FireOut = "Great! Using the sprinkler systems will use some amount of Water. "
 											"Our water accumulation systems will slowly collect more from the air within the ship. Ensure that the fires stay out, as they consume Oxygen. "
-											"You know, that stuff you breath? Do not let the ships Oxygen drop to 0%.";
+											"You know, that stuff you breathe? Do not let the ships Oxygen drop to 0%.";
 
 constexpr std::string_view logInSuccessful = "Log in successful.";
 constexpr std::string_view logInFailed = "Log in failed. Incorrect passcode sequence. Please try again.";
