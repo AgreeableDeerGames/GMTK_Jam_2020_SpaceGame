@@ -3,6 +3,7 @@
 cmake_minimum_required (VERSION 3.8)
 add_library(ProjectTemplate SHARED
   "include/ProjectTemplate.h"
+  "include/ProjectTemplate/Core/DataPad.h"
   "include/ProjectTemplate/Core/EventController.h"
   "include/ProjectTemplate/Core/GameLostRegion.h"
   "include/ProjectTemplate/Core/InputRecorder.h"
@@ -12,10 +13,12 @@ add_library(ProjectTemplate SHARED
   "include/ProjectTemplate/Core/Terminal.h" 
   "include/ProjectTemplate/Core/TerminalOne.h" 
   "include/ProjectTemplate/Core/TerminalRegion.h" 
+  "include/ProjectTemplate/Core/TerminalHub.h" 
   "include/ProjectTemplate/Utils/DisplayText.h"
   "include/ProjectTemplate/Utils/DllUtils.h"
   "include/ProjectTemplate/Utils/GestureBindUtils.h"
-  
+
+  "source/Core/DataPad.cpp"
   "source/Core/EventController.cpp"
   "source/Core/GameLostRegion.cpp"
   "source/Core/InputRecorder.cpp"
@@ -25,6 +28,7 @@ add_library(ProjectTemplate SHARED
   "source/Core/Terminal.cpp"
   "source/Core/TerminalOne.cpp"
   "source/Core/TerminalRegion.cpp"
+  "source/Core/TerminalHub.cpp"
 )
 set_target_properties(ProjectTemplate PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
 

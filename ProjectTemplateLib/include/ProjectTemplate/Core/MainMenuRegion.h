@@ -2,7 +2,7 @@
 
 #include <ProjectTemplate/Utils/DllUtils.h>
 #include <ProjectTemplate/Core/TemplateRegion.h>
-#include <ProjectTemplate/Core/TerminalOne.h>
+#include <ProjectTemplate/Core/TerminalHub.h>
 
 #include <TGUI/Gui.hpp>
 
@@ -29,6 +29,8 @@ namespace PT
 		sf::RenderWindow& m_window;
 		tgui::Gui m_gui;
 		tgui::Theme m_defaultTheme;
-		std::unique_ptr<TerminalOne> m_tutorialRegion;
+
+		//std::unique_ptr<TerminalOne> m_tutorialRegion;
+		std::unique_ptr<TerminalHub> m_hub;
 	};
 }
