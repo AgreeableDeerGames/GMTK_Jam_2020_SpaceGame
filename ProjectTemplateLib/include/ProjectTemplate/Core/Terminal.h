@@ -74,6 +74,7 @@ namespace PT
 
 		tgui::Gui m_gui;
 		std::map<Ship::Stat, tgui::ProgressBar::Ptr> m_visibleShipBars;
+		std::map<Ship::Stat, tgui::Label::Ptr> m_visibleLabels;
 		std::shared_ptr<Ship> m_ship;
 	};
 }

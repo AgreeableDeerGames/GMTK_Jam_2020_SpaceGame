@@ -64,6 +64,14 @@ void Terminal::LogIn()
 	// Print Logged In
 	std::cout << "Logged In.\n";
 
+	for (auto& [category, statusBar] : m_visibleShipBars)
+	{
+		statusBar->setVisible(true);
+	}
+	for (auto& [category, label] : m_visibleLabels)
+	{
+		label->setVisible(true);
+	}
 	m_isLoggedIn = true;
 }
 
@@ -71,6 +79,14 @@ void Terminal::LogOut()
 {
 	// Print Logged In
 	std::cout << "Logged Out.\n";
+	for (auto& [category, statusBar] : m_visibleShipBars)
+	{
+		statusBar->setVisible(false);
+	}
+	for (auto& [category, label] : m_visibleLabels)
+	{
+		label->setVisible(false);
+	}
 
 	m_isLoggedIn = false;
 }
@@ -201,17 +217,19 @@ void Terminal::InitGui(const std::vector<Ship::Stat>& trackedStats)
 		label->setSize({ progressBarWidth, progressBarHeight });
 		label->setPosition(1.25* windowWidth / 25, (progressBarHeight / 2) + progressBarHeight * (1.75 * i));
 		label->setText(m_ship->GetStatName(trackedStats[i]));
+		label->setVisible(false);
 		m_gui.add(label);
 
 
 		auto progressBar = tgui::ProgressBar::create();
 		progressBar->setRenderer(theme.getRenderer("ProgressBar"));
 		progressBar->setSize({ progressBarWidth, progressBarHeight });
-		progressBar->setValue(50);
 		progressBar->setPosition(windowWidth / 25, 2 * (progressBarHeight / 2) + progressBarHeight * (1.75 * i));
+		progressBar->setVisible(false);
 		m_gui.add(progressBar);
 
 		m_visibleShipBars[trackedStats[i]] = progressBar;
+		m_visibleLabels[trackedStats[i]] = label;
 	}
 
 	// TODO: Center this.
