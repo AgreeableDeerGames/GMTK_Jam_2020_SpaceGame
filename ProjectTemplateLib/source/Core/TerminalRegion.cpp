@@ -61,6 +61,8 @@ void TerminalRegion::update(sf::Int64 elapsedTime)
 
 	if (IsGameOver())
 	{
+		EventController::GetGlobalGameLostRegion()->SetFinalShip(m_ship);
+		EventController::GetGlobalGameLostRegion()->SetFinalDataPad(m_dataPad);
 		setNextRegion(*EventController::GetGlobalGameLostRegion());
 	}
 }

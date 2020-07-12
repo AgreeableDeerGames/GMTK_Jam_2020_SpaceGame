@@ -20,7 +20,7 @@ namespace PT
 		void ReplaceBind(std::string name, NumberGestureBind bind);
 
 
-	private:
+	public:
 
 		void RegenerateControls();
 
