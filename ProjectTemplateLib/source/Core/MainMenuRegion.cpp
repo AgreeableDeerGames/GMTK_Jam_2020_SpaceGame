@@ -150,8 +150,9 @@ void MainMenuRegion::InitHub()
 			m_hub->m_dataPad,
 			std::unordered_map<std::string, std::function<void()>>
 			{
-				{std::string(bind_BacteriaOff), [ship]() { ship->m_isReleasingBacteria = true; }},
-				{std::string(bind_BacteriaOn), [ship]() { ship->m_isReleasingBacteria = false; }},
+				{std::string(bind_BacteriaOn), [ship]() { ship->m_isReleasingBacteria = true; }},
+				{std::string(bind_BacteriaOff), [ship]() { ship->m_isReleasingBacteria = false; }},
+				{std::string(bind_AntiBioticBurst), [ship]() { ship->AnibioticBurst(); }},
 			},
 			std::string(terminals_Bio)
 		)
@@ -171,7 +172,8 @@ void MainMenuRegion::InitHub()
 			std::unordered_map<std::string, std::function<void()>>
 			{
 				{std::string(bind_NaniteOn), [ship]() { ship->m_isReleasingNanites = true; }},
-				{std::string(bind_NaniteOff), [ship]() { ship->m_isReleasingNanites = true; }},
+				{std::string(bind_NaniteOff), [ship]() { ship->m_isReleasingNanites = false; }},
+				{std::string(bind_EMP), [ship]() { ship->EMP(); }},
 			},
 			std::string(terminals_Engineering)
 		)

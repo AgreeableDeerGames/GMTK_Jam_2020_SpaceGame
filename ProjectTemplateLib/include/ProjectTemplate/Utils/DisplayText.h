@@ -44,8 +44,10 @@ constexpr std::string_view bind_SprinklersOn = "Turn On Sprinklers";
 constexpr std::string_view bind_SprinklersOff = "Turn Off Sprinklers";
 constexpr std::string_view bind_BacteriaOn = "Release Bacteria";
 constexpr std::string_view bind_BacteriaOff = "Stop Releasing Bacteria";
+constexpr std::string_view bind_AntiBioticBurst = "AntiBiotic Burst";
 constexpr std::string_view bind_NaniteOn = "Release Nanites";
 constexpr std::string_view bind_NaniteOff = "Stop Releasing Nanites";
+constexpr std::string_view bind_EMP = "Electromagnetic Pulse";
 
 // Terminals
 constexpr std::string_view terminals_Engine = "Engine Room";

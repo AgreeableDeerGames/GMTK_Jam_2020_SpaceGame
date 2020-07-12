@@ -66,6 +66,9 @@ namespace PT
 
         void PrintToTerminal() const;
 
+        void AnibioticBurst();
+        void EMP();
+
         void UpdateShipStat(Stat stat, double change);
 
     private:
@@ -82,5 +85,8 @@ namespace PT
         void UpdateHull(sf::Int64 elapsedTime);
 
         GB::RandGen m_randGen;
+
+        sf::Int64 m_antibioticCharge;
+        sf::Int64 m_empcharge;
     };
 }

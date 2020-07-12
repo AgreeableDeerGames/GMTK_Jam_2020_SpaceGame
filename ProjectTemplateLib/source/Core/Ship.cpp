@@ -38,6 +38,9 @@ namespace
     double hullEatenByBacteria = 0.1;
     double bacteriaReleased = 0.4;
     double bacteriaDeathRate = 0.1;
+
+    sf::Int64 naniteChargeTime = 10000000;
+    sf::Int64 empChargeTime = 10000000;
 }
 
 
@@ -58,7 +61,9 @@ Ship::Ship() :
     m_areSprinklersOn(false),
     m_isReleasingNanites(false),
     m_isReleasingBacteria(false),
-    m_randGen()
+    m_randGen(),
+    m_antibioticCharge(naniteChargeTime + 50),
+    m_empcharge(empChargeTime + 50)
 {
 }
 
@@ -67,6 +72,15 @@ void Ship::update(sf::Int64 elapsedTime)
     if (!m_shouldUpdate)
     {
         return;
+    }
+
+    if (m_antibioticCharge < naniteChargeTime)
+    {
+        m_antibioticCharge += elapsedTime;
+    }
+    if (m_empcharge < empChargeTime)
+    {
+        m_empcharge += elapsedTime;
     }
 
     UpdateWater(elapsedTime);
@@ -192,4 +206,24 @@ std::string Ship::GetStatName(Ship::Stat stat) const
 	};
 
     return statMapping[stat];
+}
+
+void Ship::AnibioticBurst()
+{
+    // Ten Second Charge
+    if (m_antibioticCharge > naniteChargeTime)
+    {
+        m_antibioticCharge = 0;
+        UpdateShipStat(Stat::bacteria, -10.0);
+    }
+}
+
+void Ship::EMP()
+{
+    // Ten Second Charge
+    if (m_empcharge > empChargeTime)
+    {
+        m_empcharge = 0;
+        UpdateShipStat(Stat::nanites, -10.0);
+    }
 }
