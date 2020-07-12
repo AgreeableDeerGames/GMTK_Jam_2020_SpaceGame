@@ -8,10 +8,12 @@ using namespace PT;
 
 EventController::EventController() : CoreEventController(APP_NAME),
 	m_mainMenuRegion(getWindow()),
-	m_gameLostRegion(getWindow())
+	m_gameLostRegion(getWindow()),
+	m_beatTutorialRegion(getWindow())
 {
 	s_mainMenuRegion = &m_mainMenuRegion;
 	s_gameLostRegion = &m_gameLostRegion;
+	s_beatTutorialRegion = &m_beatTutorialRegion;
 	setActiveRegion(&m_mainMenuRegion);
 }
 
@@ -34,4 +36,9 @@ MainMenuRegion* PT::EventController::GetGlobalMainMenuRegion()
 GameLostRegion* PT::EventController::GetGlobalGameLostRegion()
 {
 	return s_gameLostRegion;
+}
+
+BeatTutorialRegion* PT::EventController::GetGlobalBeatTutorialRegion()
+{
+	return s_beatTutorialRegion;
 }

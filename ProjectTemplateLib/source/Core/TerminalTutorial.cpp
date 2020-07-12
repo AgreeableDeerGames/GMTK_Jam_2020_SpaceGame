@@ -1,5 +1,6 @@
 #include <ProjectTemplate/Core/TerminalTutorial.h>
 
+#include <ProjectTemplate/Core/EventController.h>
 #include <ProjectTemplate/Utils/DisplayText.h>
 #include <ProjectTemplate/Utils/GestureBindUtils.h>
 
@@ -95,18 +96,36 @@ void TerminalTutorial::update(sf::Int64 elapsedTime)
 					m_terminal.m_displayedTerminal->addText(std::string(terminalTutorial_FireRequest));
 					if (!m_fireInitialized)
 					{
-						m_ship->m_stats[Ship::Stat::fires] = 10;
+						m_ship->m_stats[Ship::Stat::fires] = 8;
 						m_fireInitialized = true;
 					}
 				}
 				else
 				{
-					// Congratulate the user on following directions!
-					m_terminal.m_displayedTerminal->setText(std::string(terminalTutorial_FireOut));
+					if (m_ship->m_stats[Ship::Stat::fires] != 0)
+					{
+						// Congratulate the user on following directions!
+						m_terminal.m_displayedTerminal->setText(std::string(terminalTutorial_FireOut));
 
-					// Introduce the concept of switching terminals
+						m_terminal.m_displayedTerminal->addText("\n\n");
+						m_terminal.m_displayedTerminal->addText("Wait for the fire to go out.");
+					}
+					else
+					{
+						// Introduce the concept of switching terminals
+						m_terminal.m_displayedTerminal->setText("Bind the Log Out Key and use it to log out. Then Start a New Game. Enjoy!");
 
-					// Have the user bind the old and new terminals to their numpad. repeat
+						const NumberGestureBind* bind = m_dataPad->GetBindWithName("Log Out");
+						if (bind == nullptr)
+						{
+							// Have them use their bound key to fix the problem
+							// Put us in a state of binding.
+							m_isInRecordState = true;
+							m_nextActionToBind = [this]() { BackOutToMainMenu(); };
+							m_nextActionNameToBind = "Log Out";
+						}
+					}
+
 				}
 			}
 		}
@@ -119,4 +138,9 @@ void TerminalTutorial::update(sf::Int64 elapsedTime)
 void TerminalTutorial::TurnOnSprinklers()
 {
 	m_ship->m_areSprinklersOn = true;
+}
+
+void TerminalTutorial::BackOutToMainMenu()
+{
+	this->setNextRegion(*EventController::GetGlobalBeatTutorialRegion());
 }
