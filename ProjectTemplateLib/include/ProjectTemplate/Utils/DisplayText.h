@@ -24,3 +24,6 @@ constexpr std::string_view hullIntegrityAmount = "Percentage of Hull Intact: ";
 constexpr std::string_view temperatureAmount = "Temperature (C): ";
 constexpr std::string_view firesAmount = "Percentage of the room on Fire: ";
 constexpr std::string_view waterAmount = "Percentage of Water: ";
+
+
+/*Your datapad has no graphics, but can control any terminal from anywhere on the ship.*/
