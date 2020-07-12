@@ -120,6 +120,71 @@ void MainMenuRegion::InitHub()
 	auto ship = m_hub->m_ship;
 	auto& eventController = m_eventController;
 
+#if 0
+	m_hub->m_regions.emplace_back(
+		std::make_unique<ShipControlTerminalRegion>(
+			m_window,
+			m_hub->m_ship,
+			std::vector<Ship::Stat>
+			{
+				Ship::Stat::oxygen,
+				Ship::Stat::hullIntegrity,
+				Ship::Stat::temperature,
+				Ship::Stat::fires,
+				Ship::Stat::water,
+				Ship::Stat::nanites,
+				Ship::Stat::radiation,
+				Ship::Stat::bacteria
+			},
+			m_hub->m_dataPad,
+			std::unordered_map<std::string, std::function<void()>>
+			{
+				{std::string(bind_NaniteOn), [ship, &eventController]() {
+					ship->m_isReleasingNanites = true;
+					static_cast<TerminalRegion*>(eventController.getActiveRegion())
+						->m_terminal.m_lastCommand->setText(std::string(bind_NaniteOn));
+				}},
+				{std::string(bind_NaniteOff), [ship, &eventController]() {
+					ship->m_isReleasingNanites = false;
+					static_cast<TerminalRegion*>(eventController.getActiveRegion())
+						->m_terminal.m_lastCommand->setText(std::string(bind_NaniteOff));
+				}},
+				{std::string(bind_EMP), [ship, &eventController]() {
+					ship->EMP();
+					static_cast<TerminalRegion*>(eventController.getActiveRegion())
+						->m_terminal.m_lastCommand->setText(std::string(bind_EMP));
+				}},
+				{std::string(bind_SprinklersOn), [ship, &eventController]() {
+					ship->m_areSprinklersOn = true;
+					static_cast<TerminalRegion*>(eventController.getActiveRegion())
+						->m_terminal.m_lastCommand->setText(std::string(bind_SprinklersOn));
+				}},
+				{std::string(bind_SprinklersOff), [ship, &eventController]() {
+					ship->m_areSprinklersOn = false;
+					static_cast<TerminalRegion*>(eventController.getActiveRegion())
+						->m_terminal.m_lastCommand->setText(std::string(bind_SprinklersOff));
+				}},
+				{std::string(bind_BacteriaOn), [ship, &eventController]() {
+					ship->m_isReleasingBacteria = true;
+					static_cast<TerminalRegion*>(eventController.getActiveRegion())
+						->m_terminal.m_lastCommand->setText(std::string(bind_BacteriaOn));
+				}},
+				{std::string(bind_BacteriaOff), [ship, &eventController]() {
+					ship->m_isReleasingBacteria = false;
+					static_cast<TerminalRegion*>(eventController.getActiveRegion())
+						->m_terminal.m_lastCommand->setText(std::string(bind_BacteriaOff));
+				}},
+				{std::string(bind_AntiBioticBurst), [ship, &eventController]() {
+					ship->AnibioticBurst();
+					static_cast<TerminalRegion*>(eventController.getActiveRegion())
+						->m_terminal.m_lastCommand->setText(std::string(bind_AntiBioticBurst));
+				}},
+			},
+			std::string("DEVELOPER")
+		)
+	);
+#endif
+
 	m_hub->m_regions.emplace_back(
 		std::make_unique<ShipControlTerminalRegion>(
 			m_window,
