@@ -8,6 +8,8 @@
 
 #include <SFML/Graphics/RenderWindow.hpp>
 
+#include <memory>
+
 namespace PT
 {
 	class MainMenuRegion : public TemplateRegion
@@ -19,11 +21,14 @@ namespace PT
 
 		tgui::Gui& GetGui() override;
 
+		void Reset();
+
 	private:
 		void InitGui();
 
+		sf::RenderWindow& m_window;
 		tgui::Gui m_gui;
 		tgui::Theme m_defaultTheme;
-		TerminalOne m_tutorialRegion;
+		std::unique_ptr<TerminalOne> m_tutorialRegion;
 	};
 }

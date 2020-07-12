@@ -1,42 +1,29 @@
-#include <ProjectTemplate/Core/MainMenuRegion.h>
-#include <ProjectTemplate/Core/Ship.h>
+#include <ProjectTemplate/Core/GameLostRegion.h>
+#include <ProjectTemplate/Core/EventController.h>
 
 #include <TGUI/TGUI.hpp>
 
-#include <memory>
-
 using namespace PT;
 
-MainMenuRegion::MainMenuRegion(sf::RenderWindow& window) : 
-	m_window(window),
-	m_gui(window),
-	m_defaultTheme(),
-	m_tutorialRegion(std::make_unique<TerminalOne> (window, std::make_shared<Ship>()))
+GameLostRegion::GameLostRegion(sf::RenderWindow& window) :
+	m_gui(window)
 {
 	InitGui();
 }
 
-bool MainMenuRegion::handleEvent(sf::Int64 elapsedTime, const sf::Event& event)
+bool GameLostRegion::handleEvent(sf::Int64 elapsedTime, const sf::Event& event)
 {
 	return m_gui.handleEvent(event);
 }
 
-tgui::Gui& MainMenuRegion::GetGui()
+tgui::Gui& GameLostRegion::GetGui()
 {
 	return m_gui;
 }
 
-void MainMenuRegion::InitGui()
+void GameLostRegion::InitGui()
 {
 	m_gui.removeAllWidgets();
-
-	// Load the black theme
-	m_defaultTheme.load("TGUI_Widgets/Black.txt");
-
-	// By setting this as the default theme all widgets created after this point will be created with this theme.
-	// After defaultTheme deconstructs all widgets that are using the default theme will be reset to white theme.
-	// This is ok for this use case because defaultTheme wont be destructed until the end of the program.
-	tgui::Theme::setDefault(&m_defaultTheme);
 
 	// Get a bound version of the window size
 	// Passing this to setPosition or setSize will make the widget automatically update when the view of the gui changes
@@ -44,14 +31,15 @@ void MainMenuRegion::InitGui()
 	tgui::Layout windowHeight = tgui::bindHeight(m_gui);
 
 	// Add buttons for each game mode
-	std::vector<tgui::Button::Ptr> gameModeButtons;
+	std::vector<tgui::Widget::Ptr> gameModeButtons;
 
 	// Create Scale and Rotation Demo button
 	tgui::Button::Ptr tutorialButton = tgui::Button::create();
-	tutorialButton->setText("Tutorial");
+	tutorialButton->setText("Main Menu");
 	tutorialButton->connect("pressed", [this]()
 	{
-		this->setNextRegion(*m_tutorialRegion.get());
+		EventController::GetGlobalMainMenuRegion()->Reset();
+		this->setNextRegion(*EventController::GetGlobalMainMenuRegion());
 	});
 	gameModeButtons.push_back(tutorialButton);
 
@@ -78,8 +66,8 @@ void MainMenuRegion::InitGui()
 	}
 }
 
-void MainMenuRegion::Reset()
+void GameLostRegion::SetFinalShip(std::shared_ptr<Ship> finalShip)
 {
-	m_tutorialRegion = std::make_unique<TerminalOne>(m_window, std::make_shared<Ship>());
 	InitGui();
+	m_ship = std::move(finalShip);
 }

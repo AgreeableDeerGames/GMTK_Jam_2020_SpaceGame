@@ -4,6 +4,7 @@ cmake_minimum_required (VERSION 3.8)
 add_library(ProjectTemplate SHARED
   "include/ProjectTemplate.h"
   "include/ProjectTemplate/Core/EventController.h"
+  "include/ProjectTemplate/Core/GameLostRegion.h"
   "include/ProjectTemplate/Core/InputRecorder.h"
   "include/ProjectTemplate/Core/MainMenuRegion.h"
   "include/ProjectTemplate/Core/Ship.h"
@@ -16,6 +17,7 @@ add_library(ProjectTemplate SHARED
   "include/ProjectTemplate/Utils/GestureBindUtils.h"
   
   "source/Core/EventController.cpp"
+  "source/Core/GameLostRegion.cpp"
   "source/Core/InputRecorder.cpp"
   "source/Core/MainMenuRegion.cpp"
   "source/Core/Ship.cpp"

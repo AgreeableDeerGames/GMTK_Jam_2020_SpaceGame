@@ -27,12 +27,16 @@ namespace PT
         TerminalRegion(sf::RenderWindow& window, std::shared_ptr<Ship> ship, std::vector<Ship::Stat> trackedStats);
         TerminalRegion(const TerminalRegion&) = delete;
         TerminalRegion& operator=(const TerminalRegion&) = delete;
+        TerminalRegion(TerminalRegion&&) noexcept = delete;
+        TerminalRegion& operator=(TerminalRegion&&) noexcept = delete;
 
         tgui::Gui& GetGui() override;
 
         bool handleEvent(sf::Int64 elapsedTime, const sf::Event& event) override;
 
         void update(sf::Int64 elapsedTime) override;
+
+        bool IsGameOver();
 
     protected:
 

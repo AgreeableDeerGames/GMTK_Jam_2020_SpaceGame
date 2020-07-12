@@ -1,3 +1,4 @@
+#include <ProjectTemplate/Core/EventController.h>
 #include <ProjectTemplate/Core/TerminalRegion.h>
 #include <ProjectTemplate/Core/Ship.h>
 
@@ -55,11 +56,29 @@ void TerminalRegion::update(sf::Int64 elapsedTime)
 {
 	m_terminal.update(elapsedTime);
 	m_ship->update(elapsedTime);
-}
 
+	if (IsGameOver())
+	{
+		setNextRegion(*EventController::GetGlobalGameLostRegion());
+	}
+}
 
 
 tgui::Gui& PT::TerminalRegion::GetGui()
 {
 	return m_terminal.GetGui();
+}
+
+
+bool TerminalRegion::IsGameOver()
+{
+	if (m_ship->m_stats[Ship::Stat::hullIntegrity] == 0 ||
+		m_ship->m_stats[Ship::Stat::oxygen] == 0 || 
+		m_ship->m_stats[Ship::Stat::temperature] == 0 ||
+		m_ship->m_stats[Ship::Stat::temperature] == 100 ||
+		m_ship->m_stats[Ship::Stat::fires] == 100)
+	{
+		return true;
+	}
+	return false;
 }

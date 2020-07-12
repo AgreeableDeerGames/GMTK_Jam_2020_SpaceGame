@@ -12,6 +12,8 @@ namespace PT
 		TerminalOne(sf::RenderWindow& window, std::shared_ptr<Ship> ship);
 		TerminalOne(const TerminalOne&) = delete;
 		TerminalOne& operator=(const TerminalOne&) = delete;
+		TerminalOne(TerminalOne&&) noexcept = default;
+		TerminalOne& operator=(TerminalOne&&) noexcept = default;
 
 		void update(sf::Int64 elapsedTime) override;
 
