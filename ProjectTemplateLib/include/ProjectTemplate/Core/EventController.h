@@ -5,7 +5,6 @@
 #include <ProjectTemplate/Core/MainMenuRegion.h>
 #include <ProjectTemplate/Core/Ship.h>
 #include <ProjectTemplate/Core/TemplateRegion.h>
-#include <ProjectTemplate/Core/TerminalOne.h>
 #include <ProjectTemplate/Core/TerminalRegion.h>
 #include <ProjectTemplate/Utils/DllUtils.h>
 

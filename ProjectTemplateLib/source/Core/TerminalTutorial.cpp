@@ -1,11 +1,11 @@
-#include <ProjectTemplate/Core/TerminalOne.h>
+#include <ProjectTemplate/Core/TerminalTutorial.h>
 
 #include <ProjectTemplate/Utils/DisplayText.h>
 #include <ProjectTemplate/Utils/GestureBindUtils.h>
 
 using namespace PT;
 
-TerminalOne::TerminalOne(sf::RenderWindow & window, std::shared_ptr<Ship> ship, std::shared_ptr<DataPad> dataPad) :
+TerminalTutorial::TerminalTutorial(sf::RenderWindow & window, std::shared_ptr<Ship> ship, std::shared_ptr<DataPad> dataPad) :
 	TerminalRegion(
 		window,
 		ship,
@@ -51,7 +51,7 @@ TerminalOne::TerminalOne(sf::RenderWindow & window, std::shared_ptr<Ship> ship, 
 	m_terminal.AddBind(returnBind);*/
 }
 
-void TerminalOne::update(sf::Int64 elapsedTime)
+void TerminalTutorial::update(sf::Int64 elapsedTime)
 {
 	TerminalRegion::update(elapsedTime);
 
@@ -60,10 +60,10 @@ void TerminalOne::update(sf::Int64 elapsedTime)
 		if (!m_terminal.IsLoggedIn())
 		{
 			// Teach the user how to Log Into the first console
-			m_terminal.m_displayedTerminal->setText(std::string(terminalOne_Welcome));
+			m_terminal.m_displayedTerminal->setText(std::string(terminalTutorial_Welcome));
 			m_terminal.m_displayedTerminal->addText(StringifyGesture(m_terminal.GetPasscode()));
 			m_terminal.m_displayedTerminal->addText("\n\n");
-			m_terminal.m_displayedTerminal->addText(std::string(terminalOne_LogIn));
+			m_terminal.m_displayedTerminal->addText(std::string(terminalTutorial_LogIn));
 		}
 		else
 		{
@@ -76,7 +76,7 @@ void TerminalOne::update(sf::Int64 elapsedTime)
 
 
 				// Teach them how to bind a key
-				m_terminal.m_displayedTerminal->addText(std::string(terminalOne_FireBind));
+				m_terminal.m_displayedTerminal->addText(std::string(terminalTutorial_FireBind));
 
 				// Have them use their bound key to fix the problem
 				// Put us in a state of binding.
@@ -88,11 +88,11 @@ void TerminalOne::update(sf::Int64 elapsedTime)
 			{
 				if (!m_ship->m_areSprinklersOn)
 				{
-					m_terminal.m_displayedTerminal->setText(std::string(terminalOne_FireBound));
+					m_terminal.m_displayedTerminal->setText(std::string(terminalTutorial_FireBound));
 					m_terminal.m_displayedTerminal->addText(StringifyGesture(*bind));
 
 					m_terminal.m_displayedTerminal->addText("\n\n");
-					m_terminal.m_displayedTerminal->addText(std::string(terminalOne_FireRequest));
+					m_terminal.m_displayedTerminal->addText(std::string(terminalTutorial_FireRequest));
 					if (!m_fireInitialized)
 					{
 						m_ship->m_stats[Ship::Stat::fires] = 10;
@@ -102,7 +102,7 @@ void TerminalOne::update(sf::Int64 elapsedTime)
 				else
 				{
 					// Congratulate the user on following directions!
-					m_terminal.m_displayedTerminal->setText(std::string(terminalOne_FireOut));
+					m_terminal.m_displayedTerminal->setText(std::string(terminalTutorial_FireOut));
 
 					// Introduce the concept of switching terminals
 
@@ -116,7 +116,7 @@ void TerminalOne::update(sf::Int64 elapsedTime)
 }
 
 
-void TerminalOne::TurnOnSprinklers()
+void TerminalTutorial::TurnOnSprinklers()
 {
 	m_ship->m_areSprinklersOn = true;
 }

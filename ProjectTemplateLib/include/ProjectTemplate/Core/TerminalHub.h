@@ -19,11 +19,15 @@ namespace PT
 
 		tgui::Gui& GetGui() override;
 
+		bool handleEvent(sf::Int64 elapsedTime, const sf::Event& event) override;
+
 		// void update(sf::Int64 elapsedTime) override;
 
 		// Functions to switch regions.
 		void SwapToTerminalHub();
 		void SwapToTerminalOne();
+		void SwapToTerminalTwo();
+		void SwapToTerminalThree();
 
 		std::vector<std::unique_ptr<TerminalRegion>> m_regions;
 
