@@ -5,8 +5,8 @@
 
 using namespace PT;
 
-TerminalOne::TerminalOne(sf::RenderWindow& window, std::shared_ptr<Ship> ship) : 
-	TerminalRegion(window, ship, {Ship::Stat::water, Ship::Stat::fires, Ship::Stat::oxygen}), 
+TerminalOne::TerminalOne(sf::RenderWindow& window, std::shared_ptr<Ship> ship, std::shared_ptr<DataPad> dataPad) :
+	TerminalRegion(window, ship, {Ship::Stat::water, Ship::Stat::fires, Ship::Stat::oxygen}, dataPad),
 	m_isInitialized(false), m_fireInitialized(false)
 {
 	//m_terminal.AddBind()
@@ -52,7 +52,7 @@ void TerminalOne::update(sf::Int64 elapsedTime)
 		}
 		else
 		{
-			const NumberGestureBind* bind = m_terminal.GetBindWithName("Sprinkler Bind");
+			const NumberGestureBind* bind = m_dataPad->GetBindWithName("Sprinkler Bind");
 			if (bind == nullptr)
 			{
 				// Tell the user about the first problem.

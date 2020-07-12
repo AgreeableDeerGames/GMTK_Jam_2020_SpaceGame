@@ -1,5 +1,6 @@
 #include <ProjectTemplate/Core/MainMenuRegion.h>
 #include <ProjectTemplate/Core/Ship.h>
+#include <ProjectTemplate/Core/DataPad.h>
 
 #include <TGUI/TGUI.hpp>
 
@@ -11,7 +12,7 @@ MainMenuRegion::MainMenuRegion(sf::RenderWindow& window) :
 	m_window(window),
 	m_gui(window),
 	m_defaultTheme(),
-	m_tutorialRegion(std::make_unique<TerminalOne> (window, std::make_shared<Ship>()))
+	m_tutorialRegion(std::make_unique<TerminalOne>(window, std::make_shared<Ship>(), std::make_shared<DataPad>()))
 {
 	InitGui();
 }
@@ -80,6 +81,6 @@ void MainMenuRegion::InitGui()
 
 void MainMenuRegion::Reset()
 {
-	m_tutorialRegion = std::make_unique<TerminalOne>(m_window, std::make_shared<Ship>());
+	m_tutorialRegion = std::make_unique<TerminalOne>(m_window, std::make_shared<Ship>(), std::make_shared<DataPad>());
 	InitGui();
 }

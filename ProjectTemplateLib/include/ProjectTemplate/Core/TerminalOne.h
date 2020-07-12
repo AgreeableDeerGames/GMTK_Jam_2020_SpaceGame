@@ -9,7 +9,7 @@ namespace PT
 	class libProjectTemplate TerminalOne : public TerminalRegion
 	{
 	public:
-		TerminalOne(sf::RenderWindow& window, std::shared_ptr<Ship> ship);
+		TerminalOne(sf::RenderWindow& window, std::shared_ptr<Ship> ship, std::shared_ptr<DataPad> dataPad);
 		TerminalOne(const TerminalOne&) = delete;
 		TerminalOne& operator=(const TerminalOne&) = delete;
 		TerminalOne(TerminalOne&&) noexcept = default;

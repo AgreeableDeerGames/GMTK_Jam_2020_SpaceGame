@@ -8,55 +8,16 @@
 
 using namespace PT;
 
-Terminal::Terminal(sf::RenderWindow& window, const std::vector<Ship::Stat>& trackedSats, std::shared_ptr<Ship> ship) :
+Terminal::Terminal(sf::RenderWindow& window, std::shared_ptr<Ship> ship, const std::vector<Ship::Stat>& trackedSats, std::shared_ptr<DataPad> dataPad) :
 	m_displayedTerminal(),
 	m_isLoggedIn(false),
 	m_passcode(GeneratePasscode()),
-	m_bindVec(),
-	m_controls(),
 	m_gui(window),
 	m_visibleShipBars(),
-	m_ship(std::move(ship))
+	m_ship(std::move(ship)),
+	m_dataPad(std::move(dataPad))
 {
 	InitGui(trackedSats);
-}
-
-void Terminal::AddBind(NumberGestureBind bind)
-{
-	m_bindVec.emplace_back(std::move(bind));
-	RegenerateControls();
-}
-
-void Terminal::ReplaceBind(std::string name, NumberGestureBind bind)
-{
-	bind.setName(name);
-	auto found = std::find_if(
-		std::begin(m_bindVec),
-		std::end(m_bindVec),
-		[&](const NumberGestureBind& value) {return value.getName() == name; });
-
-	if (found != std::end(m_bindVec))
-	{
-		*found = bind;
-		RegenerateControls();
-	}
-	else
-	{
-		throw std::runtime_error("could not find bind to replace");
-	}
-}
-
-const NumberGestureBind* Terminal::GetBindWithName(const std::string& name)
-{
-	auto found = std::find_if(
-		std::begin(m_bindVec),
-		std::end(m_bindVec),
-		[&](const NumberGestureBind& value) {return value.getName() == name; });
-	if (found == std::end(m_bindVec))
-	{
-		return nullptr;
-	}
-	return &(*found);
 }
 
 void Terminal::LogIn()
@@ -158,32 +119,23 @@ bool Terminal::handleEvent(sf::Int64 elapsedTime, const sf::Event& event)
 
 	if (m_isLoggedIn)
 	{
-		return m_controls.handleEvent(elapsedTime, event);
+		return m_dataPad->handleEvent(elapsedTime, event);
 	}
-
-	if (event.type == sf::Event::KeyPressed)
+	else
 	{
-		auto result = m_passcode.processEvent(elapsedTime, event);
-		if (!result.readyForInput)
+		if (event.type == sf::Event::KeyPressed)
 		{
-			std::cout << "Loggin Failed. Resetting Passcode.\n";
-			m_passcode.reset();
+			auto result = m_passcode.processEvent(elapsedTime, event);
+			if (!result.readyForInput)
+			{
+				std::cout << "Loggin Failed. Resetting Passcode.\n";
+				m_passcode.reset();
+			}
+
+			return result.inputConsumed;
 		}
-
-		return result.inputConsumed;
+		return false;
 	}
-	return false;
-}
-
-
-void Terminal::RegenerateControls()
-{
-	NumberGestureHandler newControls;
-	for (const auto& bind : m_bindVec)
-	{
-		newControls.addGesture(bind);
-	}
-	m_controls = std::move(newControls);
 }
 
 bool Terminal::IsLoggedIn()
