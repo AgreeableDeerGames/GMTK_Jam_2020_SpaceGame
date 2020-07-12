@@ -29,3 +29,4 @@ add_subdirectory("ProjectTemplateLib")
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/Resources/Textures DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/Resources/TGUI_Widgets DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 
+include("CMake/install.cmake")
