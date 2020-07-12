@@ -136,7 +136,6 @@ bool TopDownRegion::handleEvent(sf::Int64 elapsedTime, const sf::Event& event)
 			break;
 		}
 		}
-		return true;
 	}
 	return true;
 }

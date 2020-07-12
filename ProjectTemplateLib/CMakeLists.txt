@@ -19,6 +19,9 @@ add_library(ProjectTemplate SHARED
 
   "include/ProjectTemplate/TopDown/TopDownRegion.h"
   "include/ProjectTemplate/TopDown/GameObject.h"
+  "include/ProjectTemplate/TopDown/Player.h"
+  "include/ProjectTemplate/TopDown/Terminal.h"
+  "include/ProjectTemplate/TopDown/TopDownShip.h"
 
   "include/ProjectTemplate/Utils/DisplayText.h"
   "include/ProjectTemplate/Utils/DllUtils.h"
@@ -41,6 +44,9 @@ add_library(ProjectTemplate SHARED
 
   "source/TopDown/TopDownRegion.cpp"
   "source/TopDown/GameObject.cpp"
+  "source/TopDown/Player.cpp"
+  "source/TopDown/Terminal.cpp"
+  "source/TopDown/TopDownShip.cpp"
 )
 set_target_properties(ProjectTemplate PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
 
