@@ -51,7 +51,7 @@ Ship::Ship() :
         {Stat::nanites, 0.0},
         {Stat::radiation, 0.0}}),
 
-    m_shouldUpdate(true),
+    m_shouldUpdate(false),
     m_isHullBeingRepaired(false),
     m_isHeatingOn(false),
     m_isCoolingOn(false),

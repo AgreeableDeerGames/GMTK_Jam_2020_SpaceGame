@@ -2,6 +2,7 @@
 #include <ProjectTemplate/Core/Ship.h>
 #include <ProjectTemplate/Core/ShipControlTerminalRegion.h>
 #include <ProjectTemplate/Core/DataPad.h>
+#include <ProjectTemplate/Utils/DisplayText.h>
 
 #include <GameBackbone/Util/RandGen.h>
 
@@ -77,7 +78,7 @@ void MainMenuRegion::InitGui()
 			m_hub->SwapToTerminalOne();
 			static_cast<ShipControlTerminalRegion&>(m_hub->getNextRegion()).m_shouldBindLogOff = true;
 			static_cast<ShipControlTerminalRegion&>(m_hub->getNextRegion()).m_nextActionToBind = [this]() {m_hub->SwapToTerminalHub(); };
-			static_cast<ShipControlTerminalRegion&>(m_hub->getNextRegion()).m_nextActionNameToBind = "Log Off";
+			static_cast<ShipControlTerminalRegion&>(m_hub->getNextRegion()).m_nextActionNameToBind = bind_LogOut;
 		});
 	gameModeButtons.push_back(newGameButton);
 
@@ -128,10 +129,10 @@ void MainMenuRegion::InitHub()
 			m_hub->m_dataPad,
 			std::unordered_map<std::string, std::function<void()>>
 			{
-				{"Turn on sprinklers", [ship]() { ship->m_areSprinklersOn = true; }},
-				{"Turn off sprinklers", [ship]() { ship->m_areSprinklersOn = false; }},
+				{std::string(bind_SprinklersOn), [ship]() { ship->m_areSprinklersOn = true; }},
+				{std::string(bind_SprinklersOff), [ship]() { ship->m_areSprinklersOn = false; }},
 			},
-			"Engine Room"
+			std::string(terminals_Engine)
 		)
 	);
 
@@ -149,10 +150,10 @@ void MainMenuRegion::InitHub()
 			m_hub->m_dataPad,
 			std::unordered_map<std::string, std::function<void()>>
 			{
-				{"Release Bacteria", [ship]() { ship->m_isReleasingBacteria = true; }},
-				{"Stop Releasing Bacteria", [ship]() { ship->m_isReleasingBacteria = false; }},
+				{std::string(bind_BacteriaOff), [ship]() { ship->m_isReleasingBacteria = true; }},
+				{std::string(bind_BacteriaOn), [ship]() { ship->m_isReleasingBacteria = false; }},
 			},
-			"Bio Lab"
+			std::string(terminals_Bio)
 		)
 	);
 
@@ -169,10 +170,10 @@ void MainMenuRegion::InitHub()
 			m_hub->m_dataPad,
 			std::unordered_map<std::string, std::function<void()>>
 			{
-				{"Release Nanites", [ship]() { ship->m_isReleasingNanites = true; }},
-				{"Stop Releasing Nanites", [ship]() { ship->m_isReleasingNanites = true; }},
+				{std::string(bind_NaniteOn), [ship]() { ship->m_isReleasingNanites = true; }},
+				{std::string(bind_NaniteOff), [ship]() { ship->m_isReleasingNanites = true; }},
 			},
-			"Engineering Lab"
+			std::string(terminals_Engineering)
 		)
 	);
 }

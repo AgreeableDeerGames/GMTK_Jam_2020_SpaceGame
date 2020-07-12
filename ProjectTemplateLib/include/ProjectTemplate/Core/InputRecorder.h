@@ -15,7 +15,6 @@ namespace PT
 		bool handleEvent(sf::Int64 elapsedTime, const sf::Event& event) override;
 		NumberGestureBind GetCompletedBind(std::string name, std::function<void()> action);
 
-	private:
 		std::vector<sf::Event> m_bindKeys;
 	};
 }

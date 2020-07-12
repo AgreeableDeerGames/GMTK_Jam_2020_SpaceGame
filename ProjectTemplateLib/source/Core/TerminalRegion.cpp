@@ -32,10 +32,16 @@ bool TerminalRegion::handleEvent(sf::Int64 elapsedTime, const sf::Event& event)
 		{
 			if (m_isInRecordState)
 			{
-				//m_terminal.AddBind(m_recorder.GetCompletedBind(m_nextActionNameToBind, m_nextActionToBind));
-				m_dataPad->AddBind(m_recorder.GetCompletedBind(m_nextActionNameToBind, m_nextActionToBind));
-				m_isInRecordState = false;
-				return true;
+				if (!m_recorder.m_bindKeys.empty())
+				{
+					m_dataPad->AddBind(m_recorder.GetCompletedBind(m_nextActionNameToBind, m_nextActionToBind));
+					m_isInRecordState = false;
+					return true;
+				}
+				else
+				{
+					return false;
+				}
 			}
 		}
 

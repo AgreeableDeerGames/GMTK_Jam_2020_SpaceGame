@@ -61,7 +61,7 @@ void TerminalTutorial::update(sf::Int64 elapsedTime)
 		if (!m_terminal.IsLoggedIn())
 		{
 			// Teach the user how to Log Into the first console
-			m_terminal.m_displayedTerminal->setText(std::string(terminalTutorial_Welcome));
+			m_terminal.m_displayedTerminal->setText(std::string(welcome_NewPasscode));
 			m_terminal.m_displayedTerminal->addText(StringifyGesture(m_terminal.GetPasscode()));
 			m_terminal.m_displayedTerminal->addText("\n\n");
 			m_terminal.m_displayedTerminal->addText(std::string(logIn_Request));
@@ -69,7 +69,7 @@ void TerminalTutorial::update(sf::Int64 elapsedTime)
 		}
 		else
 		{
-			const NumberGestureBind* bind = m_dataPad->GetBindWithName(std::string(bind_Sprinklers));
+			const NumberGestureBind* bind = m_dataPad->GetBindWithName(std::string(bind_SprinklersOn));
 			if (bind == nullptr)
 			{
 				// Tell the user about the first problem.
@@ -85,7 +85,7 @@ void TerminalTutorial::update(sf::Int64 elapsedTime)
 				// Put us in a state of binding.
 				m_isInRecordState = true;
 				m_nextActionToBind = [this]() { TurnOnSprinklers(); };
-				m_nextActionNameToBind = bind_Sprinklers;
+				m_nextActionNameToBind = bind_SprinklersOn;
 			}
 			else
 			{
@@ -100,6 +100,9 @@ void TerminalTutorial::update(sf::Int64 elapsedTime)
 					{
 						m_ship->m_stats[Ship::Stat::fires] = 8;
 						m_fireInitialized = true;
+
+						// Allow the ship to update.
+						m_ship->m_shouldUpdate = true;
 					}
 				}
 				else
@@ -120,6 +123,9 @@ void TerminalTutorial::update(sf::Int64 elapsedTime)
 						// Introduce the concept of switching terminals
 						m_terminal.m_displayedTerminal->setText(std::string(binding_Request));
 						m_terminal.m_displayedTerminal->addText(std::string(bind_LogOut));
+
+						m_terminal.m_displayedTerminal->addText("\n\n");
+						m_terminal.m_displayedTerminal->addText(std::string(binding_RecordState));
 
 						const NumberGestureBind* bind = m_dataPad->GetBindWithName(std::string(bind_LogOut));
 						if (bind == nullptr)

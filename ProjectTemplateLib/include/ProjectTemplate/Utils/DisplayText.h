@@ -3,7 +3,6 @@
 #include <string_view>
 
 // Introductory Tutorial
-constexpr std::string_view terminalTutorial_Welcome = "Welcome to Terminal One. User log in required. No user passcode found. Generating passcode. New user passcode is: ";
 constexpr std::string_view terminalTutorial_FireBind = "It appears that the room housing Terminal One is on fire. Please put out the fires. "
 												"To do so, please bind the sprinkler subsystem to a sequence on your datapad (Numpad). ";
 constexpr std::string_view terminalTutorial_FireBound = "Sequence bound to the sprinklers successfully. The following sequence will control the sprinklers: ";
@@ -13,14 +12,20 @@ constexpr std::string_view terminalTutorial_SprinklersOn = "Great! Using the spr
 											"Our water accumulation systems will slowly collect more from the air within the ship. Ensure that the fires stay out, as they consume Oxygen. "
 											"You know, that stuff you breathe? Do not let the ships Oxygen drop to 0%. ";
 
+// Welcome
+constexpr std::string_view welcome_NewPasscode = "Welcome. User log in required. No user passcode found. Generating passcode. \n\n New user passcode is: ";
+constexpr std::string_view welcome_Back = "Welcome back! ";
+
+
 // Binding Process
 constexpr std::string_view binding_RecordState = "Placing your datapad in record mode now. Please hit Enter when finished. ";
 constexpr std::string_view binding_Request = "Please bind the following subsystem to a sequence on your datapad (Numpad): ";
+constexpr std::string_view binding_BindingComplete = "All available controls have already been bound to your data pad! ";
 
 // Log In/Log Out
 constexpr std::string_view logIn_Request = "Please log into the terminal. ";
 constexpr std::string_view logOut_Request = "Please log out of the terminal. ";
-constexpr std::string_view logIn_DontForget = "And remember not to forget your passcode, you will not be provided another.";
+constexpr std::string_view logIn_DontForget = "And remember not to forget your passcode! You will not be provided another!";
 
 constexpr std::string_view logIn_Successful = "Log in successful. ";
 constexpr std::string_view logIn_Failed = "Log in failed. Incorrect passcode sequence. Please try again. ";
@@ -35,7 +40,18 @@ constexpr std::string_view stats_WaterAmount = "Percentage of Water: ";
 
 // Binds
 constexpr std::string_view bind_LogOut = "Log Out";
-constexpr std::string_view bind_Sprinklers = "Sprinklers";
+constexpr std::string_view bind_SprinklersOn = "Turn On Sprinklers";
+constexpr std::string_view bind_SprinklersOff = "Turn Off Sprinklers";
+constexpr std::string_view bind_BacteriaOn = "Release Bacteria";
+constexpr std::string_view bind_BacteriaOff = "Stop Releasing Bacteria";
+constexpr std::string_view bind_NaniteOn = "Release Nanites";
+constexpr std::string_view bind_NaniteOff = "Stop Releasing Nanites";
+
+// Terminals
+constexpr std::string_view terminals_Engine = "Engine Room";
+constexpr std::string_view terminals_Bio = "Bio Lab";
+constexpr std::string_view terminals_Engineering = "Manufacturing";
+
 
 
 
