@@ -3,7 +3,10 @@
 #include <ProjectTemplate/Core/ShipControlTerminalRegion.h>
 #include <ProjectTemplate/Core/DataPad.h>
 
+#include <GameBackbone/Util/RandGen.h>
+
 #include <TGUI/TGUI.hpp>
+
 
 #include <memory>
 
@@ -66,6 +69,9 @@ void MainMenuRegion::InitGui()
 		{
 			// remove tutorial
 			m_hub->m_regions.erase(m_hub->m_regions.begin());
+
+			// Randomize ship state
+			SetRandomGameState();
 
 			this->setNextRegion(*m_hub);
 			m_hub->SwapToTerminalOne();
@@ -172,4 +178,12 @@ void MainMenuRegion::InitHub()
 
 void MainMenuRegion::SetRandomGameState()
 {
+	auto ship = m_hub->m_ship;
+
+	GB::RandGen rand;
+	ship->m_stats[Ship::Stat::bacteria] = rand.uniDist(0.0, 20.0);
+	ship->m_stats[Ship::Stat::radiation] = rand.uniDist(0.0, 20.0);
+	ship->m_stats[Ship::Stat::fires] = rand.uniDist(0.0, 10.0);
+	ship->m_stats[Ship::Stat::temperature] = rand.uniDist(25.0, 75.0);
+	ship->m_stats[Ship::Stat::water] = rand.uniDist(25.0, 75.0);
 }
