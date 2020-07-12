@@ -12,6 +12,20 @@ constexpr std::string_view terminalTutorial_SprinklersOn = "Great! Using the spr
 											"Our water accumulation systems will slowly collect more from the air within the ship. Ensure that the fires stay out, as they consume Oxygen. "
 											"You know, that stuff you breathe? Do not let the ships Oxygen drop to 0%. ";
 
+constexpr std::string_view terminalTutorial_BeatIt = "You beat the tutorial. ";
+constexpr std::string_view terminalTutorial_FullInstructions = "The full game is much more complicated. "
+											"It includes three different consoles that show a subset of the ship state and control different subsystems."
+											"The Engine Room shows Oxygen, Fire, Hull Integrity, and Water Reserves. And it controls the sprinklers. "
+											"The Biology Lab shows Oxygen, Temperature, Bacteria, and Radiation, and controls the Bateria Population. "
+											"Manufacturing shows Temperature, Nanites, and Hull Integrity, and controls the Nanite Population. "
+											"These different states also all interact with each other."
+											"Fire consumes Oxygen, raising the temperature. Water is from the reactor, irradiating the ship."
+											"Bacteria will cleanse the radiation, but also each through the Hull of the ship"
+											"Holes in the Hull will allow Oxygen to escape and lower the Temperature."
+											"Finally, Nanites will repair the Hull, but often will catch fire."
+											"Try your best to manage the remnants of your ship, while it spirals further and further out of control.";
+
+
 // Welcome
 constexpr std::string_view welcome_NewPasscode = "Welcome. User log in required. No user passcode found. Generating passcode. \n\n New user passcode is: ";
 constexpr std::string_view welcome_Back = "Welcome back! ";

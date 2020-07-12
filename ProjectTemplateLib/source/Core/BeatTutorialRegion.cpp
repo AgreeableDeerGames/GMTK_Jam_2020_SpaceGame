@@ -1,5 +1,6 @@
 #include <ProjectTemplate/Core/BeatTutorialRegion.h>
 #include <ProjectTemplate/Core/EventController.h>
+#include <ProjectTemplate/Utils/DisplayText.h>
 
 #include <TGUI/TGUI.hpp>
 
@@ -35,9 +36,12 @@ void BeatTutorialRegion::InitGui()
 
 
 	// Tell them that they lost
-	tgui::Label::Ptr gameOverLabel = tgui::Label::create();
-	gameOverLabel->setText("You beat the tutorial.");
-	gameLostWidgets.push_back(gameOverLabel);
+	tgui::TextBox::Ptr victoryLabel = tgui::TextBox::create();
+	victoryLabel->setEnabled(false);
+	victoryLabel->setSize(windowWidth * 0.9, windowHeight * 0.25);
+	victoryLabel->setText(std::string(terminalTutorial_BeatIt));
+	victoryLabel->addText(std::string(terminalTutorial_FullInstructions));
+	m_gui.add(victoryLabel);
 
 	// Back to main menu
 	tgui::Button::Ptr mainMenuButton = tgui::Button::create();
