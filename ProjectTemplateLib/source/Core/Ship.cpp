@@ -51,6 +51,7 @@ Ship::Ship() :
         {Stat::nanites, 0.0},
         {Stat::radiation, 0.0}}),
 
+    m_shouldUpdate(true),
     m_isHullBeingRepaired(false),
     m_isHeatingOn(false),
     m_isCoolingOn(false),
@@ -62,7 +63,12 @@ Ship::Ship() :
 }
 
 void Ship::update(sf::Int64 elapsedTime)
-{
+{   
+    if (!m_shouldUpdate)
+    {
+        return;
+    }
+
     UpdateWater(elapsedTime);
     UpdateFire(elapsedTime);
     UpdateOxygen(elapsedTime);

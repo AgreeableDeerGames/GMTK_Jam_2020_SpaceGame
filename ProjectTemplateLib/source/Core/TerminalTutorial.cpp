@@ -64,26 +64,28 @@ void TerminalTutorial::update(sf::Int64 elapsedTime)
 			m_terminal.m_displayedTerminal->setText(std::string(terminalTutorial_Welcome));
 			m_terminal.m_displayedTerminal->addText(StringifyGesture(m_terminal.GetPasscode()));
 			m_terminal.m_displayedTerminal->addText("\n\n");
-			m_terminal.m_displayedTerminal->addText(std::string(terminalTutorial_LogIn));
+			m_terminal.m_displayedTerminal->addText(std::string(logIn_Request));
+			m_terminal.m_displayedTerminal->addText(std::string(logIn_DontForget));
 		}
 		else
 		{
-			const NumberGestureBind* bind = m_dataPad->GetBindWithName("Sprinkler Bind");
+			const NumberGestureBind* bind = m_dataPad->GetBindWithName(std::string(bind_Sprinklers));
 			if (bind == nullptr)
 			{
 				// Tell the user about the first problem.
-				m_terminal.m_displayedTerminal->setText(std::string(logInSuccessful));
+				m_terminal.m_displayedTerminal->setText(std::string(logIn_Successful));
 				m_terminal.m_displayedTerminal->addText("\n\n");
 
 
 				// Teach them how to bind a key
 				m_terminal.m_displayedTerminal->addText(std::string(terminalTutorial_FireBind));
+				m_terminal.m_displayedTerminal->addText(std::string(binding_RecordState));
 
 				// Have them use their bound key to fix the problem
 				// Put us in a state of binding.
 				m_isInRecordState = true;
 				m_nextActionToBind = [this]() { TurnOnSprinklers(); };
-				m_nextActionNameToBind = "Sprinkler Bind";
+				m_nextActionNameToBind = bind_Sprinklers;
 			}
 			else
 			{
@@ -105,24 +107,32 @@ void TerminalTutorial::update(sf::Int64 elapsedTime)
 					if (m_ship->m_stats[Ship::Stat::fires] != 0)
 					{
 						// Congratulate the user on following directions!
-						m_terminal.m_displayedTerminal->setText(std::string(terminalTutorial_FireOut));
+						m_terminal.m_displayedTerminal->setText(std::string(terminalTutorial_SprinklersOn));
 
 						m_terminal.m_displayedTerminal->addText("\n\n");
-						m_terminal.m_displayedTerminal->addText("Wait for the fire to go out.");
+						m_terminal.m_displayedTerminal->addText(std::string(terminalTutorial_FireWait));
 					}
 					else
 					{
-						// Introduce the concept of switching terminals
-						m_terminal.m_displayedTerminal->setText("Bind the Log Out Key and use it to log out. Then Start a New Game. Enjoy!");
+						// Stop the ship from updating, forcing a loss.
+						m_ship->m_shouldUpdate = false;
 
-						const NumberGestureBind* bind = m_dataPad->GetBindWithName("Log Out");
+						// Introduce the concept of switching terminals
+						m_terminal.m_displayedTerminal->setText(std::string(binding_Request));
+						m_terminal.m_displayedTerminal->addText(std::string(bind_LogOut));
+
+						const NumberGestureBind* bind = m_dataPad->GetBindWithName(std::string(bind_LogOut));
 						if (bind == nullptr)
 						{
 							// Have them use their bound key to fix the problem
 							// Put us in a state of binding.
 							m_isInRecordState = true;
 							m_nextActionToBind = [this]() { BackOutToMainMenu(); };
-							m_nextActionNameToBind = "Log Out";
+							m_nextActionNameToBind = bind_LogOut;
+						}
+						else
+						{
+							m_terminal.m_displayedTerminal->setText(std::string(logOut_Request));
 						}
 					}
 

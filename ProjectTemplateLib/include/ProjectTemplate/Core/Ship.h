@@ -56,6 +56,7 @@ namespace PT
         void update(sf::Int64 elapsedTime) override;
         std::string GetStatName(Ship::Stat) const;
 
+        bool m_shouldUpdate;
         bool m_isHullBeingRepaired;
         bool m_isHeatingOn;
         bool m_isCoolingOn;
