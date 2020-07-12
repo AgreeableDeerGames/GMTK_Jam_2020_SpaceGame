@@ -30,6 +30,7 @@ namespace PT
         TerminalRegion& operator=(const TerminalRegion&) = delete;
         TerminalRegion(TerminalRegion&&) noexcept = delete;
         TerminalRegion& operator=(TerminalRegion&&) noexcept = delete;
+        virtual ~TerminalRegion() = default;
 
         tgui::Gui& GetGui() override;
 

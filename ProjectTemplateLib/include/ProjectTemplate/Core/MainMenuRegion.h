@@ -26,6 +26,10 @@ namespace PT
 	private:
 		void InitGui();
 
+		void InitHub();
+
+		void SetRandomGameState();
+
 		sf::RenderWindow& m_window;
 		tgui::Gui m_gui;
 		tgui::Theme m_defaultTheme;

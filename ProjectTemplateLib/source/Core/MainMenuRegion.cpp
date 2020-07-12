@@ -1,5 +1,6 @@
 #include <ProjectTemplate/Core/MainMenuRegion.h>
 #include <ProjectTemplate/Core/Ship.h>
+#include <ProjectTemplate/Core/ShipControlTerminalRegion.h>
 #include <ProjectTemplate/Core/DataPad.h>
 
 #include <TGUI/TGUI.hpp>
@@ -15,6 +16,7 @@ MainMenuRegion::MainMenuRegion(sf::RenderWindow& window) :
 	m_hub(std::make_unique<TerminalHub>(window, std::make_shared<Ship>(), std::make_shared<DataPad>()))
 {
 	InitGui();
+	InitHub();
 }
 
 bool MainMenuRegion::handleEvent(sf::Int64 elapsedTime, const sf::Event& event)
@@ -47,16 +49,28 @@ void MainMenuRegion::InitGui()
 	// Add buttons for each game mode
 	std::vector<tgui::Button::Ptr> gameModeButtons;
 
-	// Create Scale and Rotation Demo button
+	// Create tutorial
 	tgui::Button::Ptr tutorialButton = tgui::Button::create();
 	tutorialButton->setText("Tutorial");
 	tutorialButton->connect("pressed", [this]()
 	{
-		// this->setNextRegion(*m_tutorialRegion.get());
 		this->setNextRegion(*m_hub);
 		m_hub->SwapToTerminalOne();
 	});
 	gameModeButtons.push_back(tutorialButton);
+
+	// Create main game
+	tgui::Button::Ptr newGameButton = tgui::Button::create();
+	newGameButton->setText("New Game");
+	newGameButton->connect("pressed", [this]()
+		{
+			// remove tutorial
+			m_hub->m_regions.erase(m_hub->m_regions.begin());
+
+			this->setNextRegion(*m_hub);
+			m_hub->SwapToTerminalOne();
+		});
+	gameModeButtons.push_back(newGameButton);
 
 	// Size and place buttons
 	// The number of buttons will be needed a few times. Calculate it once.
@@ -85,4 +99,74 @@ void MainMenuRegion::Reset()
 {
 	m_hub = std::make_unique<TerminalHub>(m_window, std::make_shared<Ship>(), std::make_shared<DataPad>());
 	InitGui();
+}
+
+void MainMenuRegion::InitHub()
+{
+	m_hub->m_regions.emplace_back(
+		std::make_unique<ShipControlTerminalRegion>(
+			m_window,
+			m_hub->m_ship,
+			std::vector<Ship::Stat>
+			{
+				Ship::Stat::oxygen,
+				Ship::Stat::fires,
+				Ship::Stat::hullIntegrity,
+				Ship::Stat::water
+			},
+			m_hub->m_dataPad,
+			std::unordered_map<std::string, std::function<void()>>
+			{
+				{"Turn on sprinklers", []() {}},
+				{"Turn off sprinklers", []() {}},
+			},
+			"Engine Room"
+		)
+	);
+
+	m_hub->m_regions.emplace_back(
+		std::make_unique<ShipControlTerminalRegion>(
+			m_window,
+			m_hub->m_ship,
+			std::vector<Ship::Stat>
+			{
+				Ship::Stat::oxygen,
+				Ship::Stat::temperature,
+				Ship::Stat::bacteria,
+				Ship::Stat::radiation,
+			},
+			m_hub->m_dataPad,
+			std::unordered_map<std::string, std::function<void()>>
+			{
+				{"Release Bacteria", []() {}},
+				{"Stop Releasing Bacteria", []() {}},
+			},
+			"Bio Lab"
+		)
+	);
+
+	m_hub->m_regions.emplace_back(
+		std::make_unique<ShipControlTerminalRegion>(
+			m_window,
+			m_hub->m_ship,
+			std::vector<Ship::Stat>
+			{
+				Ship::Stat::temperature,
+				Ship::Stat::nanites,
+				Ship::Stat::hullIntegrity
+			},
+			m_hub->m_dataPad,
+			std::unordered_map<std::string, std::function<void()>>
+			{
+				{"Release Nanites", []() {}},
+				{"Stop Releasing Nanites", []() {}},
+			},
+			"Engineering Lab"
+		)
+	);
+}
+
+
+void MainMenuRegion::SetRandomGameState()
+{
 }

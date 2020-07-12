@@ -12,6 +12,7 @@ namespace PT
     {
     public:
         using GB::GameRegion::GameRegion;
+        virtual ~TemplateRegion() = default;
 
         virtual tgui::Gui& GetGui() = 0;
     };

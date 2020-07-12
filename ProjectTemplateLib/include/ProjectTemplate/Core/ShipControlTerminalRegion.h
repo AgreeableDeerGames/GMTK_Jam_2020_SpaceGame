@@ -13,7 +13,7 @@ namespace PT
 {
 	class libProjectTemplate ShipControlTerminalRegion : public PT::TerminalRegion
 	{
-	private:
+	public:
 		ShipControlTerminalRegion(
 			sf::RenderWindow& window,
 			std::shared_ptr<Ship> ship,
@@ -24,7 +24,9 @@ namespace PT
 
 		void update(sf::Int64 elapsedTime) override;
 
-	public:
+		virtual ~ShipControlTerminalRegion() = default;
+
+	private:
 		const std::unordered_map<std::string, std::function<void()>> m_availableFunctions;
 		std::unordered_map<std::string, std::function<void()>>::const_iterator m_recordFunctionIterator;
 		std::string m_name;

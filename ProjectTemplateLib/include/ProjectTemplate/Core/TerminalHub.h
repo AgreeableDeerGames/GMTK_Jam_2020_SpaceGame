@@ -24,12 +24,12 @@ namespace PT
 		// Functions to switch regions.
 		void SwapToTerminalOne();
 
-	private:
 		std::vector<std::unique_ptr<TerminalRegion>> m_regions;
 
 		std::shared_ptr<DataPad> m_dataPad;
 		// Set of binds to functions to switch regions. on the datapad
 
+		std::shared_ptr<Ship> m_ship;
 
 		tgui::Gui m_gui;
 	};
