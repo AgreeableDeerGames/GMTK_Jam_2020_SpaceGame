@@ -14,10 +14,11 @@ namespace
     double hullLostFromDamage = 0.1;
     double hullGainedFromRepairs = 0.5;
 
-    double heatGainedFromFires = 0.05;
+    double heatGainedFromFires = 0.005;
     double heatLostFromHoles = 0.05;
     double heatGainedFromHeating = 0.5;
     double heatLostFromCooling = 0.5;
+    double heatNormalizationRate = 0.001;
 
     double fireSpread = 0.1;
     double firePutOutBySprinklers = 0.5;
@@ -62,14 +63,14 @@ Ship::Ship() :
 
 void Ship::update(sf::Int64 elapsedTime)
 {
-	// Default Behavior
-    m_stats[Stat::hullIntegrity] = m_stats[Stat::hullIntegrity] - hullLostFromDamage + ((int)m_isHullBeingRepaired * hullGainedFromRepairs);
-
     UpdateWater(elapsedTime);
     UpdateFire(elapsedTime);
     UpdateOxygen(elapsedTime);
     UpdateTemperature(elapsedTime);
-    //PrintToTerminal();
+    UpdateNanites(elapsedTime);
+    UpdateRadiation(elapsedTime);
+    UpdateBacteria(elapsedTime);
+    UpdateHull(elapsedTime);
 }
 
 void Ship::PrintToTerminal() const
@@ -121,9 +122,10 @@ void Ship::UpdateOxygen(sf::Int64 elapsedTime)
 
 void Ship::UpdateTemperature(sf::Int64 elapsedTime)
 {
-
-    const double gain = (heatGainedFromFires * m_stats[Stat::fires]);
-    const double loss = (heatLostFromHoles * m_stats[Stat::hullIntegrity]) + ((int)m_isHeatingOn * heatGainedFromHeating) - ((int)m_isCoolingOn * heatLostFromCooling);
+    bool overHalf = m_stats[Stat::temperature] > 50;
+    bool underHalf = m_stats[Stat::temperature] < 50;
+    const double gain = (heatGainedFromFires * m_stats[Stat::fires]) + ((int)m_isHeatingOn * heatGainedFromHeating) + (int)underHalf * heatNormalizationRate;
+    const double loss = (heatLostFromHoles * (100.0 / m_stats[Stat::hullIntegrity])) + ((int)m_isCoolingOn * heatLostFromCooling) + (int)overHalf * heatNormalizationRate;
     UpdateShipStat(elapsedTime, Stat::temperature, gain - loss);
 }
 
@@ -131,9 +133,14 @@ void Ship::UpdateNanites(sf::Int64 elapsedTime)
 {
     // TODO: MAKE THIS WORK
     const double gain = (int)m_releasingNanites * nanitesReleased;
-
-    bool deadNanite = m_randGen.uniDist(0.0, 1.0) > naniteDeathChance * elapsedTime * 0.000001;
-    bool explodedNanite = m_randGen.uniDist(0.0, 1.0) > naniteFireChance * elapsedTime * 0.000001;
+    bool deadNanite = false;
+    bool explodedNanite = false;
+    if (this->m_stats[Stat::nanites] >= 0)
+    {
+        deadNanite = m_randGen.uniDist(0.0, 1.0) < naniteDeathChance * elapsedTime * 0.000001;
+        explodedNanite = m_randGen.uniDist(0.0, 1.0) < naniteFireChance * elapsedTime * 0.000001;
+    }
+     
     const double loss = (int)deadNanite * nanitesDestroyedPerDeath + int(explodedNanite) * nanitesDestroyedPerDeath;
     UpdateShipStat(elapsedTime, Stat::nanites, gain - loss);
 
