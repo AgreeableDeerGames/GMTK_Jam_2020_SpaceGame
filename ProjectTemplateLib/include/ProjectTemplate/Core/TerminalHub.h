@@ -36,6 +36,6 @@ namespace PT
 
 		std::shared_ptr<Ship> m_ship;
 
-		tgui::Gui m_gui;
+		Terminal m_terminal;
 	};
 }

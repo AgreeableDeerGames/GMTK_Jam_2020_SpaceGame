@@ -11,14 +11,15 @@ TerminalHub::TerminalHub(sf::RenderWindow& window, std::shared_ptr<Ship> ship, s
 	m_regions(),
 	m_dataPad(std::make_shared<DataPad>()),
 	m_ship(std::make_shared<Ship>()),
-	m_gui(window)
+	m_terminal(window, ship, {}, m_dataPad)
 {
 	m_regions.emplace_back(std::make_unique<TerminalTutorial>(window, m_ship, m_dataPad));
+	m_terminal.LogIn();
 }
 
 tgui::Gui& TerminalHub::GetGui()
 {
-	return m_gui;
+	return m_terminal.GetGui();
 }
 
 bool TerminalHub::handleEvent(sf::Int64 elapsedTime, const sf::Event& event)
@@ -59,8 +60,6 @@ bool TerminalHub::handleEvent(sf::Int64 elapsedTime, const sf::Event& event)
 	}
 	}
 }
-
-
 
 void TerminalHub::SwapToTerminalHub()
 {
