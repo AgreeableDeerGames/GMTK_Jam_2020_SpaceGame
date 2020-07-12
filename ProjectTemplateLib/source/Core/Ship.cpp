@@ -5,39 +5,41 @@
 
 using namespace PT;
 
+#define RATE_MOD 1.0
+
 namespace 
 {
-    double oxygenGainedFromLifeSupport = 0.1;
-    double oxygenLostFromHoles = 0.05;
-    double oxygenLostFromFires = 0.0005;
+    double oxygenGainedFromLifeSupport = 0.1 * RATE_MOD;
+    double oxygenLostFromHoles = 0.05 * RATE_MOD;
+    double oxygenLostFromFires = 0.0005 * RATE_MOD;
 
-    double hullLostFromDamage = 0.1;
-    double hullGainedFromRepairs = 0.5;
+    double hullLostFromDamage = 0.1 * RATE_MOD;
+    double hullGainedFromRepairs = 0.5 * RATE_MOD;
 
-    double heatGainedFromFires = 0.005;
-    double heatLostFromHoles = 0.05;
-    double heatGainedFromHeating = 0.5;
-    double heatLostFromCooling = 0.5;
-    double heatNormalizationRate = 0.001;
+    double heatGainedFromFires = 0.009 * RATE_MOD;
+    double heatLostFromHoles = 0.05 * RATE_MOD;
+    double heatGainedFromHeating = 0.5 * RATE_MOD;
+    double heatLostFromCooling = 0.5 * RATE_MOD;
+    double heatNormalizationRate = 0.001 * RATE_MOD;
 
-    double fireSpread = 0.1;
-    double firePutOutBySprinklers = 0.5;
+    double fireSpread = 0.1 * RATE_MOD;
+    double firePutOutBySprinklers = 0.5 * RATE_MOD;
 
-    double waterGenerated = 0.1;
-    double waterLostBySprinklers = 0.5;
-    double radiationGainedFromSprinklers = 0.2;
+    double waterGenerated = 0.3 * RATE_MOD;
+    double waterLostBySprinklers = 1.0 * RATE_MOD;
+    double radiationGainedFromSprinklers = 0.9 * RATE_MOD;
 
-    double hullRepairedByNanites = 0.01;
-    double naniteFireChance = 0.0001;
-    double naniteDeathChance = 0.001;
-    double nanitesReleased = 0.7;
-    double nanitesDestroyedPerDeath = 0.1;
-    double fireFromNaniteExplosion = 0.1;
+    double hullRepairedByNanites = 0.01 * RATE_MOD;
+    double naniteFireChance = 0.001 * RATE_MOD;
+    double naniteDeathChance = 0.001 * RATE_MOD;
+    double nanitesReleased = 0.7 * RATE_MOD;
+    double nanitesDestroyedPerDeath = 0.1 * RATE_MOD;
+    double fireFromNaniteExplosion = 0.1 * RATE_MOD;
 
-    double radiationEatenByBacteria = 0.5;
-    double hullEatenByBacteria = 0.1;
-    double bacteriaReleased = 0.4;
-    double bacteriaDeathRate = 0.1;
+    double radiationEatenByBacteria = 0.1 * RATE_MOD;
+    double hullEatenByBacteria = 0.05 * RATE_MOD;
+    double bacteriaReleased = 0.4 * RATE_MOD;
+    double bacteriaDeathRate = 0.1 * RATE_MOD;
 
     sf::Int64 naniteChargeTime = 10000000;
     sf::Int64 empChargeTime = 10000000;
@@ -91,6 +93,19 @@ void Ship::update(sf::Int64 elapsedTime)
     UpdateRadiation(elapsedTime);
     UpdateBacteria(elapsedTime);
     UpdateHull(elapsedTime);
+
+    if (m_stats[Stat::water] == 0)
+    {
+        m_areSprinklersOn = false;
+    }
+    if (m_stats[Stat::nanites] == 100)
+    {
+        m_isReleasingNanites = false;
+    }
+    if (m_stats[Stat::bacteria] == 100)
+    {
+        m_isReleasingBacteria = false;
+    }
 }
 
 void Ship::PrintToTerminal() const
