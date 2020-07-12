@@ -61,7 +61,7 @@ namespace PT
         bool m_isHeatingOn;
         bool m_isCoolingOn;
         bool m_areSprinklersOn;
-        bool m_releasingNanites;
+        bool m_isReleasingNanites;
         bool m_isReleasingBacteria;
 
         void PrintToTerminal() const;

@@ -56,7 +56,7 @@ Ship::Ship() :
     m_isHeatingOn(false),
     m_isCoolingOn(false),
     m_areSprinklersOn(false),
-    m_releasingNanites(false),
+    m_isReleasingNanites(false),
     m_isReleasingBacteria(false),
     m_randGen()
 {
@@ -138,7 +138,7 @@ void Ship::UpdateTemperature(sf::Int64 elapsedTime)
 void Ship::UpdateNanites(sf::Int64 elapsedTime)
 {
     // TODO: MAKE THIS WORK
-    const double gain = (int)m_releasingNanites * nanitesReleased;
+    const double gain = (int)m_isReleasingNanites * nanitesReleased;
     bool deadNanite = false;
     bool explodedNanite = false;
     if (this->m_stats[Stat::nanites] >= 0)
