@@ -2,6 +2,8 @@
 #include <ProjectTemplate/Core/Ship.h>
 #include <ProjectTemplate/Core/ShipControlTerminalRegion.h>
 #include <ProjectTemplate/Core/DataPad.h>
+#include <ProjectTemplate/Core/EventController.h>
+#include <ProjectTemplate/Core/TerminalRegion.h>
 #include <ProjectTemplate/Utils/DisplayText.h>
 
 #include <GameBackbone/Util/RandGen.h>
@@ -13,7 +15,8 @@
 
 using namespace PT;
 
-MainMenuRegion::MainMenuRegion(sf::RenderWindow& window) : 
+MainMenuRegion::MainMenuRegion(EventController& eventController, sf::RenderWindow& window) :
+	m_eventController(eventController),
 	m_window(window),
 	m_gui(window),
 	m_defaultTheme(),
@@ -115,6 +118,8 @@ void MainMenuRegion::Reset()
 void MainMenuRegion::InitHub()
 {
 	auto ship = m_hub->m_ship;
+	auto& eventController = m_eventController;
+
 	m_hub->m_regions.emplace_back(
 		std::make_unique<ShipControlTerminalRegion>(
 			m_window,
@@ -129,8 +134,16 @@ void MainMenuRegion::InitHub()
 			m_hub->m_dataPad,
 			std::unordered_map<std::string, std::function<void()>>
 			{
-				{std::string(bind_SprinklersOn), [ship]() { ship->m_areSprinklersOn = true; }},
-				{std::string(bind_SprinklersOff), [ship]() { ship->m_areSprinklersOn = false; }},
+				{std::string(bind_SprinklersOn), [ship, &eventController]() {
+					ship->m_areSprinklersOn = true;
+					static_cast<TerminalRegion*>(eventController.getActiveRegion())
+						->m_terminal.m_lastCommand->setText(std::string(bind_SprinklersOn));
+				}},
+				{std::string(bind_SprinklersOff), [ship, &eventController]() {
+					ship->m_areSprinklersOn = false; 
+					static_cast<TerminalRegion*>(eventController.getActiveRegion())
+						->m_terminal.m_lastCommand->setText(std::string(bind_SprinklersOff));
+				}},
 			},
 			std::string(terminals_Engine)
 		)
@@ -150,9 +163,21 @@ void MainMenuRegion::InitHub()
 			m_hub->m_dataPad,
 			std::unordered_map<std::string, std::function<void()>>
 			{
-				{std::string(bind_BacteriaOn), [ship]() { ship->m_isReleasingBacteria = true; }},
-				{std::string(bind_BacteriaOff), [ship]() { ship->m_isReleasingBacteria = false; }},
-				{std::string(bind_AntiBioticBurst), [ship]() { ship->AnibioticBurst(); }},
+				{std::string(bind_BacteriaOn), [ship, &eventController]() {
+					ship->m_isReleasingBacteria = true; 
+					static_cast<TerminalRegion*>(eventController.getActiveRegion())
+						->m_terminal.m_lastCommand->setText(std::string(bind_BacteriaOn));
+				}},
+				{std::string(bind_BacteriaOff), [ship, &eventController]() { 
+					ship->m_isReleasingBacteria = false;
+					static_cast<TerminalRegion*>(eventController.getActiveRegion())
+						->m_terminal.m_lastCommand->setText(std::string(bind_BacteriaOff));
+				}},
+				{std::string(bind_AntiBioticBurst), [ship, &eventController]() { 
+					ship->AnibioticBurst();
+					static_cast<TerminalRegion*>(eventController.getActiveRegion())
+						->m_terminal.m_lastCommand->setText(std::string(bind_AntiBioticBurst));
+				}},
 			},
 			std::string(terminals_Bio)
 		)
@@ -171,9 +196,21 @@ void MainMenuRegion::InitHub()
 			m_hub->m_dataPad,
 			std::unordered_map<std::string, std::function<void()>>
 			{
-				{std::string(bind_NaniteOn), [ship]() { ship->m_isReleasingNanites = true; }},
-				{std::string(bind_NaniteOff), [ship]() { ship->m_isReleasingNanites = false; }},
-				{std::string(bind_EMP), [ship]() { ship->EMP(); }},
+				{std::string(bind_NaniteOn), [ship, &eventController]() { 
+					ship->m_isReleasingNanites = true;
+					static_cast<TerminalRegion*>(eventController.getActiveRegion())
+						->m_terminal.m_lastCommand->setText(std::string(bind_NaniteOn));
+				}},
+				{std::string(bind_NaniteOff), [ship, &eventController]() { 
+					ship->m_isReleasingNanites = false;
+					static_cast<TerminalRegion*>(eventController.getActiveRegion())
+						->m_terminal.m_lastCommand->setText(std::string(bind_NaniteOff));
+				}},
+				{std::string(bind_EMP), [ship, &eventController]() { 
+					ship->EMP();
+					static_cast<TerminalRegion*>(eventController.getActiveRegion())
+						->m_terminal.m_lastCommand->setText(std::string(bind_EMP));
+				}},
 			},
 			std::string(terminals_Engineering)
 		)

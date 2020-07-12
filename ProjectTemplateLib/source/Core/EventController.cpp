@@ -1,5 +1,7 @@
 #include <ProjectTemplate/Core/EventController.h>
 
+#include <ProjectTemplate/Core/MainMenuRegion.h>
+
 #include <string>
 
 using namespace PT;
@@ -7,7 +9,7 @@ using namespace PT;
 #define APP_NAME "ProjectTemplate"
 
 EventController::EventController() : CoreEventController(APP_NAME),
-	m_mainMenuRegion(getWindow()),
+	m_mainMenuRegion(*this, getWindow()),
 	m_gameLostRegion(getWindow()),
 	m_beatTutorialRegion(getWindow())
 {

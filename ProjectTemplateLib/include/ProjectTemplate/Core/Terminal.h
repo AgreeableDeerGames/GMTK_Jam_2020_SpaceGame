@@ -49,6 +49,7 @@ namespace PT
 		tgui::Gui& GetGui();
 
 		tgui::TextBox::Ptr m_displayedTerminal;
+		tgui::TextBox::Ptr m_lastCommand;
 
 
 	protected:
@@ -66,5 +67,6 @@ namespace PT
 		std::map<Ship::Stat, tgui::Label::Ptr> m_visibleLabels;
 		std::shared_ptr<Ship> m_ship;
 		std::shared_ptr<DataPad> m_dataPad;
+		tgui::Theme m_defaultTheme;
 	};
 }

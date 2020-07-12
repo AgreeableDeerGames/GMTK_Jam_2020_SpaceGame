@@ -10,12 +10,14 @@ using namespace PT;
 
 Terminal::Terminal(sf::RenderWindow& window, std::shared_ptr<Ship> ship, const std::vector<Ship::Stat>& trackedSats, std::shared_ptr<DataPad> dataPad) :
 	m_displayedTerminal(),
+	m_lastCommand(),
 	m_isLoggedIn(false),
 	m_passcode(GeneratePasscode()),
 	m_gui(window),
 	m_visibleShipBars(),
 	m_ship(std::move(ship)),
-	m_dataPad(std::move(dataPad))
+	m_dataPad(std::move(dataPad)),
+	m_defaultTheme()
 {
 	InitGui(trackedSats);
 }
@@ -155,20 +157,21 @@ void Terminal::InitGui(const std::vector<Ship::Stat>& trackedStats)
 {
 	m_gui.removeAllWidgets();
 
-	tgui::Theme theme("TGUI_Widgets/Black.txt");
+	tgui::Theme m_defaultTheme("TGUI_Widgets/Black.txt");
+
 	// Get a bound version of the window size
 	// Passing this to setPosition or setSize will make the widget automatically update when the view of the gui changes
 	tgui::Layout windowWidth = tgui::bindWidth(this->m_gui);
 	tgui::Layout windowHeight = tgui::bindHeight(this->m_gui);
 
+	tgui::Layout progressBarWidth = windowWidth / 3;
+	tgui::Layout progressBarHeight = windowHeight / 25;
 	// Add progress bars for stats
 	for (std::size_t i = 0; i < trackedStats.size(); ++i)
 	{
-		tgui::Layout progressBarWidth = windowWidth / 3;
-		tgui::Layout progressBarHeight = windowHeight / 25;
 
 		auto label =  tgui::Label::create();
-		label->setRenderer(theme.getRenderer("Label"));
+		label->setRenderer(m_defaultTheme.getRenderer("Label"));
 		label->setSize({ progressBarWidth, progressBarHeight });
 		label->setPosition(1.25* windowWidth / 25, (progressBarHeight / 2) + progressBarHeight * (1.75 * i));
 		label->setText(m_ship->GetStatName(trackedStats[i]));
@@ -177,7 +180,7 @@ void Terminal::InitGui(const std::vector<Ship::Stat>& trackedStats)
 
 
 		auto progressBar = tgui::ProgressBar::create();
-		progressBar->setRenderer(theme.getRenderer("ProgressBar"));
+		progressBar->setRenderer(m_defaultTheme.getRenderer("ProgressBar"));
 		progressBar->setSize({ progressBarWidth, progressBarHeight });
 		progressBar->setPosition(windowWidth / 25, 2 * (progressBarHeight / 2) + progressBarHeight * (1.75 * i));
 		progressBar->setVisible(false);
@@ -189,11 +192,21 @@ void Terminal::InitGui(const std::vector<Ship::Stat>& trackedStats)
 
 	// TODO: Center this.
 	m_displayedTerminal = tgui::TextBox::create();
+	m_displayedTerminal->setRenderer(m_defaultTheme.getRenderer("TextBox"));
 	m_displayedTerminal->setEnabled(false);
 	m_displayedTerminal->setSize(windowWidth * 0.9, windowHeight * 0.25);
 	m_displayedTerminal->setPosition(25, 500);
 	m_displayedTerminal->setText("SOME TEXT");
 	m_gui.add(m_displayedTerminal);
+	
+
+	m_lastCommand = tgui::TextBox::create();
+	m_lastCommand->setRenderer(m_defaultTheme.getRenderer("TextBox"));
+	m_lastCommand->setEnabled(false);
+	m_lastCommand->setSize(windowWidth / 3, windowHeight / 25);
+	m_lastCommand->setPosition(1.5 * windowWidth / 3, (progressBarHeight / 2) + progressBarHeight);
+	m_lastCommand->setText("");
+	m_gui.add(m_lastCommand);
 }
 
 NumberGestureBind& Terminal::GetPasscode()

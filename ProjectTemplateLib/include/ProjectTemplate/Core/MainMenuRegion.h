@@ -12,10 +12,12 @@
 
 namespace PT
 {
+	class EventController;
+
 	class MainMenuRegion : public TemplateRegion
 	{
 	public:
-		MainMenuRegion(sf::RenderWindow& window);
+		MainMenuRegion(EventController& eventController, sf::RenderWindow& window);
 
 		bool handleEvent(sf::Int64 elapsedTime, const sf::Event& event) override;
 
@@ -29,6 +31,8 @@ namespace PT
 		void InitHub();
 
 		void SetRandomGameState();
+
+		EventController& m_eventController;
 
 		sf::RenderWindow& m_window;
 		tgui::Gui m_gui;
