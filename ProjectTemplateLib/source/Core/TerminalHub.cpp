@@ -22,6 +22,18 @@ tgui::Gui& TerminalHub::GetGui()
 }
 
 
+void TerminalHub::SwapToTerminalHub()
+{
+	for (auto& region : m_regions)
+	{
+		if (region->m_terminal.IsLoggedIn())
+		{
+			region->m_terminal.LogOut();
+			region->setNextRegion(*this);
+		}
+	}
+}
+
 void TerminalHub::SwapToTerminalOne()
 {
 	this->setNextRegion(*m_regions[0]);

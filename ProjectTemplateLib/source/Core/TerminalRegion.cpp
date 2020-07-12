@@ -13,11 +13,11 @@ using namespace PT;
 
 TerminalRegion::TerminalRegion(sf::RenderWindow& window, std::shared_ptr<Ship> ship, std::vector<Ship::Stat> trackedStats, std::shared_ptr<DataPad> dataPad) :
 	TemplateRegion(),
+	m_terminal(window, ship, trackedStats, dataPad),
 	m_isInRecordState(),
 	m_nextActionToBind(),
     m_nextActionNameToBind(),
 	m_recorder(),
-	m_terminal(window, ship, trackedStats, dataPad),
 	m_ship(std::move(ship)),
 	m_dataPad(std::move(dataPad))
 {

@@ -69,6 +69,9 @@ void MainMenuRegion::InitGui()
 
 			this->setNextRegion(*m_hub);
 			m_hub->SwapToTerminalOne();
+			static_cast<ShipControlTerminalRegion&>(m_hub->getNextRegion()).m_shouldBindLogOff = true;
+			static_cast<ShipControlTerminalRegion&>(m_hub->getNextRegion()).m_nextActionToBind = [this]() {m_hub->SwapToTerminalHub(); };
+			static_cast<ShipControlTerminalRegion&>(m_hub->getNextRegion()).m_nextActionNameToBind = "Log Off";
 		});
 	gameModeButtons.push_back(newGameButton);
 

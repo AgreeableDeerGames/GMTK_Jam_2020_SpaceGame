@@ -38,18 +38,21 @@ void Terminal::LogIn()
 
 void Terminal::LogOut()
 {
-	// Print Logged In
-	std::cout << "Logged Out.\n";
-	for (auto& [category, statusBar] : m_visibleShipBars)
+	if (IsLoggedIn())
 	{
-		statusBar->setVisible(false);
-	}
-	for (auto& [category, label] : m_visibleLabels)
-	{
-		label->setVisible(false);
-	}
+		std::cout << "Logged Out.\n";
 
-	m_isLoggedIn = false;
+		for (auto& [category, statusBar] : m_visibleShipBars)
+		{
+			statusBar->setVisible(false);
+		}
+		for (auto& [category, label] : m_visibleLabels)
+		{
+			label->setVisible(false);
+		}
+
+		m_isLoggedIn = false;
+	}
 }
 
 void Terminal::draw(sf::RenderTarget& target, sf::RenderStates states) const

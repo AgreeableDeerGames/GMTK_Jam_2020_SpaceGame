@@ -40,14 +40,14 @@ namespace PT
 
         bool IsGameOver();
 
-    protected:
+        Terminal m_terminal;
 
         bool m_isInRecordState;
         std::function<void()> m_nextActionToBind;
         std::string m_nextActionNameToBind;
         InputRecorder m_recorder;
 
-        Terminal m_terminal;
+        
         std::shared_ptr<Ship> m_ship;
         std::shared_ptr<DataPad> m_dataPad;
     };

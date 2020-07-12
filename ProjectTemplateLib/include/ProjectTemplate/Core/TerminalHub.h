@@ -22,6 +22,7 @@ namespace PT
 		// void update(sf::Int64 elapsedTime) override;
 
 		// Functions to switch regions.
+		void SwapToTerminalHub();
 		void SwapToTerminalOne();
 
 		std::vector<std::unique_ptr<TerminalRegion>> m_regions;

@@ -26,6 +26,8 @@ namespace PT
 
 		virtual ~ShipControlTerminalRegion() = default;
 
+		bool m_shouldBindLogOff;
+
 	private:
 		const std::unordered_map<std::string, std::function<void()>> m_availableFunctions;
 		std::unordered_map<std::string, std::function<void()>>::const_iterator m_recordFunctionIterator;
