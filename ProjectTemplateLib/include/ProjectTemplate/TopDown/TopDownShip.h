@@ -7,7 +7,7 @@
 
 namespace PT
 {
-	class libProjectTemplate TopDownShip : TopDownRegion
+	class libProjectTemplate TopDownShip : public TopDownRegion
 	{
 	public:
 		TopDownShip(sf::RenderWindow& window);

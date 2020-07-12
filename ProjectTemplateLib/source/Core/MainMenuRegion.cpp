@@ -20,10 +20,12 @@ MainMenuRegion::MainMenuRegion(EventController& eventController, sf::RenderWindo
 	m_window(window),
 	m_gui(window),
 	m_defaultTheme(),
-	m_hub(std::make_unique<TerminalHub>(window, std::make_shared<Ship>(), std::make_shared<DataPad>()))
+	m_hub(std::make_unique<TerminalHub>(window, std::make_shared<Ship>(), std::make_shared<DataPad>())),
+	m_topDownShip(window)
 {
-	InitGui();
-	InitHub();
+	setNextRegion(m_topDownShip);
+	// InitGui();
+	// InitHub();
 }
 
 bool MainMenuRegion::handleEvent(sf::Int64 elapsedTime, const sf::Event& event)

@@ -26,6 +26,7 @@ TopDownRegion::TopDownRegion(sf::RenderWindow& window) :
 	TemplateRegion(),
 	m_gui(window)
 {
+	Init();
 }
 
 tgui::Gui& TopDownRegion::GetGui()

@@ -3,6 +3,7 @@
 #include <ProjectTemplate/Utils/DllUtils.h>
 #include <ProjectTemplate/Core/TemplateRegion.h>
 #include <ProjectTemplate/Core/TerminalHub.h>
+#include <ProjectTemplate/TopDown/TopDownShip.h>
 
 #include <TGUI/Gui.hpp>
 
@@ -40,5 +41,6 @@ namespace PT
 
 		//std::unique_ptr<TerminalOne> m_tutorialRegion;
 		std::unique_ptr<TerminalHub> m_hub;
+		TopDownShip m_topDownShip;
 	};
 }
