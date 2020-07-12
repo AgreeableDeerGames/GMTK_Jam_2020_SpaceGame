@@ -6,7 +6,7 @@
 
 using namespace PT;
 
-#define APP_NAME "ProjectTemplate"
+#define APP_NAME "Controlled Chaos"
 
 EventController::EventController() : CoreEventController(APP_NAME),
 	m_mainMenuRegion(*this, getWindow()),

@@ -10,3 +10,5 @@ target_link_libraries(ProjectTemplateExe PRIVATE ProjectTemplate)
 
 # Include own header files
 target_include_directories(ProjectTemplateExe PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+
+set_target_properties(ProjectTemplateExe PROPERTIES OUTPUT_NAME "ControlledChaos")
