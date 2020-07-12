@@ -2,7 +2,7 @@
 
 cmake_minimum_required (VERSION 3.8)
 
-add_executable(ProjectTemplateExe 
+add_executable(ProjectTemplateExe WIN32 
   "source/main.cpp"
 )
 
