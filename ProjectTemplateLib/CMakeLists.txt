@@ -16,9 +16,14 @@ add_library(ProjectTemplate SHARED
   "include/ProjectTemplate/Core/TerminalRegion.h" 
   "include/ProjectTemplate/Core/TerminalHub.h" 
   "include/ProjectTemplate/Core/TerminalTutorial.h" 
+
+  "include/ProjectTemplate/TopDown/TopDownRegion.h"
+  "include/ProjectTemplate/TopDown/GameObject.h"
+
   "include/ProjectTemplate/Utils/DisplayText.h"
   "include/ProjectTemplate/Utils/DllUtils.h"
   "include/ProjectTemplate/Utils/GestureBindUtils.h"
+
  
   "source/Core/BeatTutorialRegion.cpp" 
   "source/Core/DataPad.cpp"
@@ -33,6 +38,9 @@ add_library(ProjectTemplate SHARED
   "source/Core/TerminalRegion.cpp"
   "source/Core/TerminalHub.cpp"
   "source/Core/TerminalTutorial.cpp"
+
+  "source/TopDown/TopDownRegion.cpp"
+  "source/TopDown/GameObject.cpp"
 )
 set_target_properties(ProjectTemplate PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
 
@@ -48,6 +56,8 @@ target_link_libraries(ProjectTemplate PUBLIC SelbaWard)
 find_package(TGUI 0.8.2 REQUIRED)
 target_link_libraries(ProjectTemplate PUBLIC tgui)
 
-message("current source dir: ${CMAKE_CURRENT_SOURCE_DIR}")
+find_package(unofficial-box2d CONFIG REQUIRED)
+target_link_libraries(ProjectTemplate PUBLIC unofficial::box2d::box2d)
+
 
 target_include_directories(ProjectTemplate PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
