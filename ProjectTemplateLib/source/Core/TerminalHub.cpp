@@ -1,8 +1,10 @@
 #include <ProjectTemplate/Core/TerminalHub.h>
 
 #include <ProjectTemplate/Core/TerminalTutorial.h>
+#include <ProjectTemplate/Core/ShipControlTerminalRegion.h>
 
-
+#include <string>
+#include <sstream>
 
 using namespace PT;
 
@@ -58,6 +60,22 @@ bool TerminalHub::handleEvent(sf::Int64 elapsedTime, const sf::Event& event)
 	{
 		break;
 	}
+	}
+}
+
+void TerminalHub::update(sf::Int64 elpsedTime)
+{
+	m_terminal.m_displayedTerminal->setText("Remote Log In: \n");
+	m_terminal.m_displayedTerminal->addText("Please select a terminal\n\n");
+	for (std::size_t i = 0; i < m_regions.size(); ++i)
+	{
+		if (auto controlRegion = dynamic_cast<ShipControlTerminalRegion*>(m_regions[i].get());
+			controlRegion != nullptr)
+		{
+			std::stringstream messageBuilder;
+			messageBuilder << "[" << i + 1 << "] " << controlRegion->m_name << "\n";
+			m_terminal.m_displayedTerminal->addText(messageBuilder.str());
+		}
 	}
 }
 

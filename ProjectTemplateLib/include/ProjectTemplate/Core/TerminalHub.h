@@ -21,6 +21,8 @@ namespace PT
 
 		bool handleEvent(sf::Int64 elapsedTime, const sf::Event& event) override;
 
+		void update(sf::Int64 elpsedTime) override;
+
 		// void update(sf::Int64 elapsedTime) override;
 
 		// Functions to switch regions.

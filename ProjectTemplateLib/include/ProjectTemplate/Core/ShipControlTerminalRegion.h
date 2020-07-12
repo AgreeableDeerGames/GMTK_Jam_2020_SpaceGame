@@ -28,12 +28,10 @@ namespace PT
 
 		bool m_shouldBindLogOff;
 
-	private:
 		const std::unordered_map<std::string, std::function<void()>> m_availableFunctions;
 		std::unordered_map<std::string, std::function<void()>>::const_iterator m_recordFunctionIterator;
 		std::string m_name;
 		bool m_isInitialized;
 		bool m_hasLoggedIn;
-
 	};
 }
