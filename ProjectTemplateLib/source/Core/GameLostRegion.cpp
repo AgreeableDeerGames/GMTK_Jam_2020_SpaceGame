@@ -31,21 +31,27 @@ void GameLostRegion::InitGui()
 	tgui::Layout windowHeight = tgui::bindHeight(m_gui);
 
 	// Add buttons for each game mode
-	std::vector<tgui::Widget::Ptr> gameModeButtons;
+	std::vector<tgui::Widget::Ptr> gameLostWidgets;
 
-	// Create Scale and Rotation Demo button
-	tgui::Button::Ptr tutorialButton = tgui::Button::create();
-	tutorialButton->setText("Main Menu");
-	tutorialButton->connect("pressed", [this]()
+
+	// Tell them that they lost
+	tgui::Label::Ptr gameOverLabel = tgui::Label::create();
+	gameOverLabel->setText("Game Over");
+	gameLostWidgets.push_back(gameOverLabel);
+
+	// Back to main menu
+	tgui::Button::Ptr mainMenuButton = tgui::Button::create();
+	mainMenuButton->setText("Main Menu");
+	mainMenuButton->connect("pressed", [this]()
 	{
 		EventController::GetGlobalMainMenuRegion()->Reset();
 		this->setNextRegion(*EventController::GetGlobalMainMenuRegion());
 	});
-	gameModeButtons.push_back(tutorialButton);
+	gameLostWidgets.push_back(mainMenuButton);
 
 	// Size and place buttons
 	// The number of buttons will be needed a few times. Calculate it once.
-	const std::size_t demoRegionButtonCount = gameModeButtons.size();
+	const std::size_t demoRegionButtonCount = gameLostWidgets.size();
 	// The buttons should be 1/4 the width of the screen
 	tgui::Layout buttonWidth = windowWidth / 4.0f;
 	// Adjust the height of the buttons so that they can all fit on screen
@@ -53,7 +59,7 @@ void GameLostRegion::InitGui()
 	for (std::size_t i = 0; i < demoRegionButtonCount; ++i)
 	{
 		// Save some repetitive typing
-		auto& currentButton = gameModeButtons.at(i);
+		auto& currentButton = gameLostWidgets.at(i);
 		// Set the size of the button
 		currentButton->setSize(buttonWidth, buttonHeight);
 		// Place the button in the middle of the screen
