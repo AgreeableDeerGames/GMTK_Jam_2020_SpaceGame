@@ -39,6 +39,14 @@ install(
         ${CMAKE_INSTALL_PREFIX}/bin/TGUI_Widgets
 )
 
+file(GLOB LICENSE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/LicenseFolder/*.txt)
+install(
+    FILES
+        ${LICENSE_FILES}
+    DESTINATION
+        ${CMAKE_INSTALL_PREFIX}/3rdPartyLicense/
+)
+
 set (CPACK_PACKAGE_NAME "Project Template")
 set (CPACK_PACKAGE_VENDOR "AgreeableDeerGames")
 set (CPACK_PACKAGE_DESCRIPTION_SUMMARY "Game from GMTK 2020 Game Jam")
