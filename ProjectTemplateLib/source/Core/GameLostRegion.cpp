@@ -1,5 +1,6 @@
 #include <ProjectTemplate/Core/GameLostRegion.h>
 #include <ProjectTemplate/Core/EventController.h>
+#include <ProjectTemplate/Utils/GestureBindUtils.h>
 
 #include <TGUI/TGUI.hpp>
 
@@ -33,6 +34,56 @@ void GameLostRegion::InitGui()
 	// Add buttons for each game mode
 	std::vector<tgui::Widget::Ptr> gameLostWidgets;
 
+	if (m_ship != nullptr)
+	{
+		std::vector<Ship::Stat> trackedStats{
+			Ship::Stat::water,
+			Ship::Stat::fires,
+			Ship::Stat::oxygen,
+			Ship::Stat::hullIntegrity,
+			Ship::Stat::temperature,
+			Ship::Stat::nanites,
+			Ship::Stat::radiation,
+			Ship::Stat::bacteria
+		};
+		// Add progress bars for stats
+		for (std::size_t i = 0; i < trackedStats.size(); ++i)
+		{
+			tgui::Layout progressBarWidth = windowWidth / 3;
+			tgui::Layout progressBarHeight = windowHeight / 25;
+
+			auto label = tgui::Label::create();
+			label->setSize({ progressBarWidth, progressBarHeight });
+			label->setPosition(1.25 * windowWidth / 25, (progressBarHeight / 2) + progressBarHeight * (1.75 * i));
+			label->setText(m_ship->GetStatName(trackedStats[i]));
+			m_gui.add(label);
+
+
+			auto progressBar = tgui::ProgressBar::create();
+			progressBar->setSize({ progressBarWidth, progressBarHeight });
+			progressBar->setPosition(windowWidth / 25, 2 * (progressBarHeight / 2) + progressBarHeight * (1.75 * i));
+			progressBar->setValue(m_ship->m_stats[trackedStats[i]]);
+			m_gui.add(progressBar);
+		}
+	}
+
+	if (m_dataPad != nullptr)
+	{
+		std::stringstream bindsDisplayBuilder;
+		for (const auto& gesture : m_dataPad->m_bindVec)
+		{
+			std::string name = gesture.getName();
+			std::string bind = StringifyGesture(gesture);
+			bindsDisplayBuilder << name << ": " << bind << std::endl;
+		}
+
+		auto bindsDisplayTextBox = tgui::TextBox::create();
+		bindsDisplayTextBox->setEnabled(false);
+		bindsDisplayTextBox->setSize(windowWidth * 0.5, windowHeight * 0.50);
+		bindsDisplayTextBox->setPosition(windowWidth / 2, 0);
+		bindsDisplayTextBox->setText(bindsDisplayBuilder.str());
+		m_gui.add(bindsDisplayTextBox);
+	}
 
 	// Tell them that they lost
 	tgui::Label::Ptr gameOverLabel = tgui::Label::create();
@@ -74,6 +125,12 @@ void GameLostRegion::InitGui()
 
 void GameLostRegion::SetFinalShip(std::shared_ptr<Ship> finalShip)
 {
-	InitGui();
 	m_ship = std::move(finalShip);
+	InitGui();
+}
+
+void GameLostRegion::SetFinalDataPad(std::shared_ptr<DataPad> finalDataPad)
+{
+	m_dataPad = std::move(finalDataPad);
+	InitGui();
 }
