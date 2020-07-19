@@ -17,7 +17,8 @@ install (
     FILES
         ${DEPENDENT_DLL_FILES}
     DESTINATION
-        ${CMAKE_INSTALL_PREFIX}/bin
+        # ${CMAKE_INSTALL_PREFIX}/bin
+        bin
 )
 
 set(PROJECT_RESOURCE_TEXTUERS_DIR "" CACHE PATH "Directory resource")
@@ -26,7 +27,8 @@ install(
     FILES
         ${RESOURCE_TEXTURE_FILES}
     DESTINATION
-        ${CMAKE_INSTALL_PREFIX}/bin/Textures
+        # ${CMAKE_INSTALL_PREFIX}/bin/Textures
+        bin/Textures
 )
 
 file(GLOB RESOURCE_WIDGET_FILES_PNG ${CMAKE_CURRENT_SOURCE_DIR}/Resources/TGUI_Widgets/*.png)
@@ -36,7 +38,8 @@ install(
         ${RESOURCE_WIDGET_FILES_PNG}
         ${RESOURCE_WIDGET_FILES_TXT}
     DESTINATION
-        ${CMAKE_INSTALL_PREFIX}/bin/TGUI_Widgets
+        # ${CMAKE_INSTALL_PREFIX}/bin/TGUI_Widgets
+        bin/TGUI_Widgets
 )
 
 file(GLOB LICENSE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/LicenseFolder/*.txt)
@@ -44,7 +47,8 @@ install(
     FILES
         ${LICENSE_FILES}
     DESTINATION
-        ${CMAKE_INSTALL_PREFIX}/3rdPartyLicense/
+        # ${CMAKE_INSTALL_PREFIX}/3rdPartyLicense/
+        3rdPartyLicense/
 )
 
 set (CPACK_PACKAGE_NAME "Project Template")
@@ -56,4 +60,6 @@ set (CPACK_PACKAGE_INSTALL_DIRECTORY "GMTK2020")
 # Define NSIS installation types
 set(CPACK_ALL_INSTALL_TYPES Full)
 set(CPACK_COMPONENT_APPLICATIONS_INSTALL_TYPES Full)
+
+message("include CPack")
 include(CPack)
